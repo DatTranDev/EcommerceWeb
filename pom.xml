@@ -23,10 +23,10 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/javax.servlet/jsp-api -->
 		<dependency>
-		    <groupId>javax.servlet</groupId>
-		    <artifactId>jsp-api</artifactId>
-		    <version>2.0</version>
-		    <scope>provided</scope>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.0</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
@@ -45,11 +45,16 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/opensymphony/sitemesh -->
 		<dependency>
-		    <groupId>opensymphony</groupId>
-		    <artifactId>sitemesh</artifactId>
-		    <version>2.4.2</version>
+			<groupId>opensymphony</groupId>
+			<artifactId>sitemesh</artifactId>
+			<version>2.4.2</version>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.28</version>
+		</dependency>
 
 	</dependencies>
 
