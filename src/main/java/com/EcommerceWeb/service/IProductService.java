@@ -7,8 +7,8 @@ import com.EcommerceWeb.model.Product;
 public interface IProductService {
 	List<Product> getAll();
 	List<Product> getProductByCategory(int id);
-	int add(Product product);
-	void update(Product product);
+	Product add(Product product);
+	Product update(Product product);
 	void delete(int id);
 	Product findOne(int id);
 	int getTotalItem();

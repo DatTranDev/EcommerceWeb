@@ -13,18 +13,22 @@ public class ProductService implements IProductService{
 	
 	@Override
 	public List<Product> getAll(){
-		return productDAO.getAll();
+		List<Product> rs = productDAO.getAll();
+		return rs;
 	}
 	@Override
 	public List<Product> getProductByCategory(int id){
 		return productDAO.getProductByCategory(id);
 	}
 	@Override
-	public int add(Product product) {
-		return productDAO.add(product);
+	public Product add(Product product) {
+		int productId = productDAO.add(product);
+		return productDAO.findOne(productId);
 	}
-	public void update(Product product) {
+	public Product update(Product product) {
+		int id = product.getID();
 		productDAO.update(product);
+		return productDAO.findOne(id);		
 	}
 	
 	public void delete(int id) {

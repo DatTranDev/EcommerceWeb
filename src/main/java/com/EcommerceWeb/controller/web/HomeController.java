@@ -24,14 +24,7 @@ public class HomeController extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Product prd = new Product();
-		prd.setID(3);
-		prd.setDisplayName("Lót sneaker mới");
-		prd.setCategoryID(6);
-		prd.setDescription("Dành cho sneaker");
-		prd.setProductImage("Lotgiay_sneaker.png");
-		productService.update(prd);
-		
+
 		request.setAttribute("Product", productService.getAll());	
 		//request.setAttribute("ProductByCategory", productService.getProductByCategory(1));
 		RequestDispatcher rd =request.getRequestDispatcher("/views/web/home.jsp");

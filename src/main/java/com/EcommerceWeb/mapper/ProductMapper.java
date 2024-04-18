@@ -15,7 +15,7 @@ public class ProductMapper implements RowMapper<Product>{
 			product.setDisplayName(resultSet.getString("DisplayName"));
 			product.setDescription(resultSet.getString("Description"));
 			product.setProductImage(resultSet.getString("ProductImage"));
-			product.setDeleted(resultSet.getBoolean("IsDeleted"));	
+			product.setIsDeleted(resultSet.getBoolean("IsDeleted"));	
 			return product;
 		} catch (SQLException e) {
 			return null;
