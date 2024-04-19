@@ -78,28 +78,30 @@
 
 	<!-- Bootstrap core JavaScript-->
 	<script
-		src="<c:url value='/template/admin/vendor/jquery/jquery.min.js" type="text/javascript' />"></script>
+		src="<c:url value='/template/admin/vendor/jquery/jquery.min.js' />"
+		type="text/javascript" ></script>
 	<script
-		src="<c:url value='/template/admin/vendor/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript' />"></script>
+		src="<c:url value='/template/admin/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"
+		type="text/javascript" ></script>
 
 	<!-- Core plugin JavaScript-->
 	<script
-		src="<c:url value='/template/admin/vendor/jquery-easing/jquery.easing.min.js" type="text/javascript' />"></script>
+		src="<c:url value='/template/admin/vendor/jquery-easing/jquery.easing.min.js'/>" type="text/javascript" ></script>
 
 	<!-- Custom scripts for all pages-->
 	<script
-		src="<c:url value='/template/admin/js/sb-admin-2.min.js" type="text/javascript' />"></script>
+		src="<c:url value='/template/admin/js/sb-admin-2.min.js' />" type="text/javascript"></script>
 	<script
-		src="<c:url value='/template/admin/js/main.js" type="text/javascript' />"></script>
+		src="<c:url value='/template/admin/js/main.js'/>" type="text/javascript"></script>
 
 	<!-- Page level plugins -->
 	<script
-		src="<c:url value='/template/admin/vendor/chart.js/Chart.min.js" type="text/javascript' />"></script>
+		src="<c:url value='/template/admin/vendor/chart.js/Chart.min.js'/>" type="text/javascript"></script>
 
 	<!-- Page level custom scripts -->
 	<script
-		src="<c:url value='/template/admin/js/demo/chart-area-demo.js" type="text/javascript' />"></script>
+		src="<c:url value='/template/admin/js/demo/chart-area-demo.js'/>" type="text/javascript"></script>
 	<script
-		src="<c:url value='/template/admin/js/demo/chart-pie-demo.js" type="text/javascript' />"></script>
+		src="<c:url value='/template/admin/js/demo/chart-pie-demo.js'/>" type="text/javascript"></script>
 </body>
 </html>
