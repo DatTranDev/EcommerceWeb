@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.EcommerceWeb.model.Product;
+import com.EcommerceWeb.service.IProductCategoryService;
 import com.EcommerceWeb.service.IProductService;
+import com.EcommerceWeb.utils.Helper;
 
 
 @WebServlet(urlPatterns = {"/trang-chu"})
@@ -19,13 +21,16 @@ public class HomeController extends HttpServlet{
 	
 	@Inject
 	private IProductService productService;
-
+	@Inject
+	private IProductCategoryService productCategoryService;
 	private static final long serialVersionUID = 1L;
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		request.setAttribute("Product", productService.getAll());	
+		request.setAttribute("ProductCategory", productCategoryService.getAll());
+		request.setAttribute("Product", productService.getAll());
+
 		//request.setAttribute("ProductByCategory", productService.getProductByCategory(1));
 		RequestDispatcher rd =request.getRequestDispatcher("/views/web/home.jsp");
 		rd.forward(request, response);

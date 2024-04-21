@@ -18,6 +18,7 @@ public class ProductService implements IProductService{
 	}
 	@Override
 	public List<Product> getProductByCategory(int id){
+
 		return productDAO.getProductByCategory(id);
 	}
 	@Override
