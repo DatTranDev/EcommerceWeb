@@ -16,7 +16,7 @@ import com.EcommerceWeb.service.IProductService;
 import com.EcommerceWeb.utils.Helper;
 
 
-@WebServlet(urlPatterns = {"/trang-chu"})
+@WebServlet(urlPatterns = {"/trang-chu", "/dang-nhap"})
 public class HomeController extends HttpServlet{
 	
 	@Inject
@@ -27,13 +27,19 @@ public class HomeController extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String action = request.getParameter("action");
+		if(action!=null&& action.equals("login")) {
+			RequestDispatcher rd = request.getRequestDispatcher("/views/login.jsp");
+			rd.forward(request, response);
+			return;
+		} else if (action!=null&& action.equals("logout")) {
 
-		request.setAttribute("ProductCategory", productCategoryService.getAll());
-		request.setAttribute("Product", productService.getAll());
-
-		//request.setAttribute("ProductByCategory", productService.getProductByCategory(1));
-		RequestDispatcher rd =request.getRequestDispatcher("/views/web/home.jsp");
-		rd.forward(request, response);
+		} else {
+			request.setAttribute("ProductCategory", productCategoryService.getAll());
+			request.setAttribute("Product", productService.getAll());
+			RequestDispatcher rd =request.getRequestDispatcher("/views/web/home.jsp");
+			rd.forward(request, response);
+		}
 	}
 
 	@Override

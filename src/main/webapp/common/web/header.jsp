@@ -23,7 +23,7 @@
 						class="text-white">appservice.uit.se@gmail.com</a></small>
 				</div>
 				<div class="top-link pe-2">
-					<a href="#" class="text-white"><small class="text-white mx-2">chính sách bảo mật</small>/</a> <a href="#" class="text-white"><small
+					<a href="#" class="text-white"><small class="text-white mx-2">Chính sách bảo mật</small>/</a> <a href="#" class="text-white"><small
 						class="text-white mx-2">Điều khoản sử dụng</small>/</a> <a href="#"
 						class="text-white"><small class="text-white ms-2">Chính sách hoàn tiền</small></a>
 				</div>
@@ -40,8 +40,8 @@
 				</button>
 				<div class="collapse navbar-collapse bg-white" id="navbarCollapse">
 					<div class="navbar-nav mx-auto">
-						<a href="#" class="nav-item nav-link active">Home</a>
-						<a href="shop.html" class="nav-item nav-link">Shop</a>
+						<a href="#" class="nav-item nav-link active">Trang chủ</a>
+						<a href="shop.html" class="nav-item nav-link">Sản phẩm</a>
 						<a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a>
 						<div class="nav-item dropdown">
 							<a href="#" class="nav-link dropdown-toggle"
@@ -61,11 +61,13 @@
 							data-bs-toggle="modal" data-bs-target="#searchModal">
 							<i class="fas fa-search text-primary"></i>
 						</button>
-						<a href="#" class="position-relative me-4 my-auto"> <i
-							class="fa fa-shopping-bag fa-2x"></i> <span
-							class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
+						<a href="#" class="position-relative me-4 my-auto">
+							<i class="fa fa-shopping-bag fa-2x"></i>
+							<span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
 							style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
-						</a> <a href="#" class="my-auto"> <i class="fas fa-user fa-2x"></i>
+						</a>
+						<a href="${pageContext.request.contextPath}/dang-nhap?action=login" class="my-auto">
+							<i class="fas fa-user fa-2x"></i>
 						</a>
 					</div>
 				</div>
