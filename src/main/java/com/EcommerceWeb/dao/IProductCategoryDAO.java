@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface IProductCategoryDAO extends GenericDAO<ProductCategory> {
     List<ProductCategory> getAll();
+    List<ProductCategory> getByParentCategoryID(int parentCategoryID);
     int add(ProductCategory product);
     void update(ProductCategory product);
     void delete(int id);

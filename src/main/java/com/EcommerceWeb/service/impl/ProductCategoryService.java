@@ -16,7 +16,10 @@ public class ProductCategoryService implements IProductCategoryService {
         List<ProductCategory> rs = productCategoryDAO.getAll();
         return rs;
     }
-
+    public  List<ProductCategory> getByParentCategoryID(int parentCategoryID){
+        List<ProductCategory> rs = productCategoryDAO.getByParentCategoryID(parentCategoryID);
+        return rs;
+    }
     @Override
     public ProductCategory add(ProductCategory productCategory) {
         int productCategoryId = productCategoryDAO.add(productCategory);

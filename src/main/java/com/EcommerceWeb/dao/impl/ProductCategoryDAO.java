@@ -7,10 +7,13 @@ public class ProductCategoryDAO extends AbstractDAO<ProductCategory> implements 
 
     @Override
     public List<ProductCategory> getAll(){
-        String sql = "SELECT * FROM ProductCategory WHERE IsDeleted = 0";
+        String sql = "SELECT * FROM productcategory WHERE IsDeleted = 0 and ParentCategoryID is not null";
         return query(sql, new ProductCategoryMapper());
     }
-
+    public List<ProductCategory> getByParentCategoryID(int parentCategoryID){
+        String sql = "SELECT * FROM ProductCategory WHERE IsDeleted = 0 and ParentCategoryID = ?";
+        return query(sql, new ProductCategoryMapper(), parentCategoryID);
+    }
     @Override
     public int add(ProductCategory productCategory) {
         String sql = "INSERT INTO ProductCategory (ParentCategoryID, CategoryName) \r\n"

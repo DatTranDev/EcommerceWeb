@@ -46,23 +46,21 @@
 							<a href="#" class="nav-link dropdown-toggle"
 							   data-bs-toggle="dropdown">Giày dép</a>
 							<div class="dropdown-menu m-0 bg-secondary rounded-0">
-								<a href="#" class="dropdown-item">Cart</a>
-								<a href="#" class="dropdown-item">Chackout</a>
-								<a href="#" class="dropdown-item">Testimonial</a>
-								<a href="#" class="dropdown-item">404 Page</a>
+								<c:forEach var="item" items="${ShoesCategory}">
+									<a href="#" class="dropdown-item">${item.categoryName}</a>
+								</c:forEach>
 							</div>
 						</div>
 						<div class="nav-item dropdown">
 							<a href="#" class="nav-link dropdown-toggle"
 								data-bs-toggle="dropdown">Phụ kiện</a>
 							<div class="dropdown-menu m-0 bg-secondary rounded-0">
-								<a href="#" class="dropdown-item">Cart</a>
-								<a href="#" class="dropdown-item">Chackout</a>
-								<a href="#" class="dropdown-item">Testimonial</a>
-								<a href="#" class="dropdown-item">404 Page</a>
+								<c:forEach var="item" items="${AccessoriesCategory}">
+									<a href="#" class="dropdown-item">${item.categoryName}</a>
+								</c:forEach>
 							</div>
 						</div>
-						<a href="contact.html" class="nav-item nav-link">Liên hệ</a>
+						<a href="#" class="nav-item nav-link">Liên hệ</a>
 					</div>
 					<div class="d-flex m-3 me-0">
 						<button
@@ -75,9 +73,32 @@
 							<span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
 							style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
 						</a>
-						<a href="${pageContext.request.contextPath}/dang-nhap?action=login" class="my-auto">
-							<i class="fas fa-user fa-2x"></i>
-						</a>
+						<c:if test="${empty SITEUSER}">
+							<a href="${pageContext.request.contextPath}/dang-nhap?action=login" class="my-auto">
+								<i class="bi bi-box-arrow-in-left fa-2x"></i>
+							</a>
+						</c:if>
+						<c:if test="${not empty SITEUSER}">
+							<div class="nav-item dropdown">
+								<a href="#" class="my-auto nav-link dropdown-toggle" data-bs-toggle="dropdown">
+									<i class="fas fa-user fa-2x"></i>
+								</a>
+								<div class="dropdown-menu m-0 bg-secondary rounded-0">
+									<div class="dropdown-item">
+										<i class="bi bi-person" style = "color: var(--bs-primary);"></i>
+										<a href="#" class="">Tài khoản</a>
+									</div>
+									<div class="dropdown-item">
+										<i class="bi bi-clock-history" style = "color: var(--bs-primary);"></i>
+										<a href="#" class="">Lịch sử</a>
+									</div>
+									<div class="dropdown-item">
+										<i class="bi bi-box-arrow-left" style = "color: var(--bs-primary);"></i>
+										<a href="<c:url value="/thoat?action=logout"/>" class="">Đăng xuất</a>
+									</div>
+								</div>
+							</div>
+						</c:if>
 					</div>
 				</div>
 			</nav>

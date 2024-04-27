@@ -6,6 +6,14 @@ import java.security.MessageDigest;
 import java.util.Properties;
 
 public class Helper {
+
+    private static Helper helper = null;
+    public static Helper getInstance() {
+        if (helper == null) {
+            helper = new Helper();
+        }
+        return helper;
+    }
     public static String toMd5(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -71,5 +79,13 @@ public class Helper {
         }
 
         return code;
+    }
+    public static boolean checkEmail(String email) {
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        return email.matches(regex);
+    }
+    public static boolean checkPhone(String phone) {
+        String regex = "^0\\d{9}$";
+        return phone.matches(regex);
     }
 }

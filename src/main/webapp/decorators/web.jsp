@@ -17,7 +17,6 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
 	rel="stylesheet">
-
 <!-- Icon Font Stylesheet -->
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"

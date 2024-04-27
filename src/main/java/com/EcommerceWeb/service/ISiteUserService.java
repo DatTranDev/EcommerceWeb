@@ -1,8 +1,8 @@
-package com.EcommerceWeb.dao;
+package com.EcommerceWeb.service;
 
 import com.EcommerceWeb.model.SiteUser;
 
-public interface ISiteUserDAO extends GenericDAO<SiteUser>{
+public interface ISiteUserService {
     SiteUser findByUserNameAndPassword(String userName, String passWord);
     SiteUser findByEmail(String email);
     int register(SiteUser siteUser);

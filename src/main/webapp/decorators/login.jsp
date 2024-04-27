@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Đăng nhập</title>
+    <title>Đăng nhập - Đăng ký</title>
 
     <!-- Custom fonts for this template-->
     <link
