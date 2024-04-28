@@ -34,7 +34,14 @@ public class HomeController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
+
 		if(action!=null&& action.equals("login")) {
+			String message = request.getParameter("message");
+			String alert = request.getParameter("alert");
+			if(message!=null && alert!=null) {
+				request.setAttribute("message", message);
+				request.setAttribute("alert", alert);
+			}
 			RequestDispatcher rd = request.getRequestDispatcher("/views/login.jsp");
 			rd.forward(request, response);
 			return;
@@ -71,9 +78,7 @@ public class HomeController extends HttpServlet{
 					response.sendRedirect(request.getContextPath()+"/trang-chu");
 				}
 			} else {
-				request.setAttribute("message", "Login fail");
-				RequestDispatcher rd = request.getRequestDispatcher("/views/login.jsp");
-				rd.forward(request, response);
+				response.sendRedirect(request.getContextPath()+"/dang-nhap?action=login&message=Tài khoản hoặc mật khẩu không đúng&alert=danger");
 			}
 		} else if (action!=null&& action.equals("register")) {
 			String username = request.getParameter("username");

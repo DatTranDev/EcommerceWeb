@@ -53,11 +53,6 @@
                                 <div class="text-center">
                                     <a class="small" href="register.html">Tạo tài khoản !</a>
                                 </div>
-                                <c:if test="${not empty message}">
-                                    <div class="alert alert-danger" role="alert">
-                                        ${message}
-                                    </div>
-                                </c:if>
                             </div>
                         </div>
                     </div>

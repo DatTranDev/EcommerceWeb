@@ -30,6 +30,11 @@
 </head>
 
 <body class="bg-gradient-primary">
+    <c:if test="${not empty message}">
+        <div class="alert alert-${alert}" role="alert">
+                ${message}
+        </div>
+    </c:if>
     <dec:body/>
 <!-- Bootstrap core JavaScript-->
 <script
