@@ -24,12 +24,13 @@ public class AuthorizationFilter implements Filter {
         if(uri.startsWith("/admin")) {
             SiteUser siteUser = (SiteUser) SessionUtil.getInstance().getValue(req, "SITEUSER");
             if(siteUser == null) {
-                res.sendRedirect(req.getContextPath() + "/dang-nhap?action=login&message=Vui lòng đăng nhập tài khoản admin&alert=danger");
+                res.sendRedirect(req.getContextPath() + "/dang-nhap?action=login&message=login%20admin%20first&alert=danger");
             } else {
                 if(siteUser.getRole().equals(SystemConstant.ADMIN))
                     chain.doFilter(request, response);
-                else if(siteUser.getRole().equals(SystemConstant.USER))
-                    res.sendRedirect(req.getContextPath() + "/dang-nhap?action=login&message=Vui lòng đăng nhập tài khoản admin&alert=danger");
+                else if(siteUser.getRole().equals(SystemConstant.USER)){
+                    res.sendRedirect(req.getContextPath() + "/dang-nhap?action=login&message=login%20admin%20first&alert=danger");
+                }
             }
         } else {
             chain.doFilter(request, response);

@@ -48,10 +48,10 @@
                                 </form>
                                 <hr>
                                 <div class="text-center">
-                                    <a class="small" href="#">Quên Mật khẩu </a>
+                                    <a class="small" href="${pageContext.request.contextPath}/dang-nhap?action=forgotpassword">Quên Mật khẩu </a>
                                 </div>
                                 <div class="text-center">
-                                    <a class="small" href="register.html">Tạo tài khoản !</a>
+                                    <a class="small" href="${pageContext.request.contextPath}/dang-nhap?action=register">Tạo tài khoản !</a>
                                 </div>
                             </div>
                         </div>

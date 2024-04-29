@@ -48,11 +48,12 @@ public class HomeController extends HttpServlet{
 		} else if (action!=null&& action.equals("logout")) {
 			SessionUtil.getInstance().removeValue(request, "SITEUSER");
 			response.sendRedirect(request.getContextPath()+"/trang-chu");
-			return;
 		} else if (action!=null&& action.equals("register")) {
 			RequestDispatcher rd = request.getRequestDispatcher("/views/register.jsp");
 			rd.forward(request, response);
-			return;
+		} else if (action!=null && action.equals("forgotpassword")){
+			RequestDispatcher rd = request.getRequestDispatcher("/views/forgotPassword.jsp");
+			rd.forward(request, response);
 		}
 		else {
 			request.setAttribute("ProductCategory", productCategoryService.getAll());
