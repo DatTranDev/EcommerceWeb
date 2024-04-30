@@ -9,8 +9,8 @@ CREATE TABLE SiteUser (
                           UserName VARCHAR(255),
                           PassWord VARCHAR(255),
                           BirthDay DATE,
-                          Gender ENUM('Male', 'Female', 'Other'),siteuser
-                              Role VARCHAR(100) DEFAULT 'Khách hàng',
+                          Gender ENUM('Male', 'Female', 'Other'),
+                          Role VARCHAR(100) DEFAULT 'Khách hàng',
                           IsDeleted BIT DEFAULT 0
 );
 
