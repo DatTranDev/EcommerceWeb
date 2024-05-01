@@ -1,6 +1,7 @@
 package com.EcommerceWeb.controller.web;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.EcommerceWeb.model.Product;
+import com.EcommerceWeb.model.ProductCategory;
 import com.EcommerceWeb.model.SiteUser;
 import com.EcommerceWeb.service.IProductCategoryService;
 import com.EcommerceWeb.service.IProductService;
@@ -56,10 +58,19 @@ public class HomeController extends HttpServlet{
 			rd.forward(request, response);
 		}
 		else {
-			request.setAttribute("ProductCategory", productCategoryService.getAll());
-			request.setAttribute("ShoesCategory", productCategoryService.getByParentCategoryID(1));
-			request.setAttribute("AccessoriesCategory", productCategoryService.getByParentCategoryID(2));
-			request.setAttribute("Product", productService.getAll());
+			List<ProductCategory> productCategory = productCategoryService.getAll();
+			List<Product> product = productService.getAll();
+			List<ProductCategory> shoesCategory = productCategoryService.getByParentCategoryID(1);
+			List<ProductCategory> accessoriesCategory = productCategoryService.getByParentCategoryID(2);
+			request.setAttribute("ProductCategory", productCategory);
+			request.setAttribute("ShoesCategory", shoesCategory);
+			request.setAttribute("AccessoriesCategory", accessoriesCategory);
+			request.setAttribute("Product", product);
+			SessionUtil.getInstance().putValue(request, "ProductCategory", productCategory);
+			SessionUtil.getInstance().putValue(request, "Product", product);
+			SessionUtil.getInstance().putValue(request, "ShoesCategory", shoesCategory);
+			SessionUtil.getInstance().putValue(request, "AccessoriesCategory", accessoriesCategory);
+
 			RequestDispatcher rd =request.getRequestDispatcher("/views/web/home.jsp");
 			rd.forward(request, response);
 		}

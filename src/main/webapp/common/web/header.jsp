@@ -41,7 +41,7 @@
 				<div class="collapse navbar-collapse bg-white" id="navbarCollapse">
 					<div class="navbar-nav mx-auto">
 						<a href="#" class="nav-item nav-link active">Trang chủ</a>
-						<a href="#" class="nav-item nav-link">Sản phẩm</a>
+						<a href="${pageContext.request.contextPath}/product-collections" class="nav-item nav-link">Sản phẩm</a>
 						<div class="nav-item dropdown">
 							<a href="#" class="nav-link dropdown-toggle"
 							   data-bs-toggle="dropdown">Giày dép</a>

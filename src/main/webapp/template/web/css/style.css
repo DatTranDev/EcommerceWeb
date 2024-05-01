@@ -216,7 +216,7 @@
 
 .page-header {
     position: relative;
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../img/cart-page-header-img.jpg);
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../img/cart-page-header-img.png);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -492,3 +492,24 @@
 }
 /*** Footer End ***/
 
+/*** Product start ***/
+
+.description {
+    height: calc(1.5em * 3); /* 1.2em is roughly the height of one line of text */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+
+.product-name {
+    height: calc(1.2em * 2); /* 1.2em is roughly the height of one line of text */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+
+/*** Product end ***/

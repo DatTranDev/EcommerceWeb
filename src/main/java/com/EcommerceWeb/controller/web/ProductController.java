@@ -1,7 +1,9 @@
 package com.EcommerceWeb.controller.web;
 
+import com.EcommerceWeb.model.ProductCategory;
 import com.EcommerceWeb.service.IProductCategoryService;
 import com.EcommerceWeb.service.IProductService;
+import com.EcommerceWeb.utils.SessionUtil;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(urlPatterns = {"/product-collections"})
 public class ProductController extends HttpServlet {
@@ -23,9 +26,13 @@ public class ProductController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
+        SessionUtil.getInstance().getValue(request, "ProductCategory");
+        SessionUtil.getInstance().getValue(request, "Product");
         request.setAttribute("ProductCategory", productCategoryService.getAll());
         request.setAttribute("Product", productService.getAll());
-        RequestDispatcher rd = request.getRequestDispatcher("/views/web/product-collections.jsp");
+        request.setAttribute("ShoesCategory", SessionUtil.getInstance().getValue(request, "ShoesCategory"));
+        request.setAttribute("AccessoriesCategory", SessionUtil.getInstance().getValue(request, "AccessoriesCategory"));
+        RequestDispatcher rd = request.getRequestDispatcher("/views/web/productCollections.jsp");
         rd.forward(request, response);
     }
 
