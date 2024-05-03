@@ -40,7 +40,7 @@
 				</button>
 				<div class="collapse navbar-collapse bg-white" id="navbarCollapse">
 					<div class="navbar-nav mx-auto">
-						<a href="#" class="nav-item nav-link active">Trang chủ</a>
+						<a href="${pageContext.request.contextPath}/trang-chu" class="nav-item nav-link active">Trang chủ</a>
 						<a href="${pageContext.request.contextPath}/product-collections" class="nav-item nav-link">Sản phẩm</a>
 						<div class="nav-item dropdown">
 							<a href="#" class="nav-link dropdown-toggle"
@@ -68,7 +68,7 @@
 							data-bs-toggle="modal" data-bs-target="#searchModal">
 							<i class="fas fa-search text-primary"></i>
 						</button>
-						<a href="#" class="position-relative me-4 my-auto">
+						<a href="${pageContext.request.contextPath}/cart" class="position-relative me-4 my-auto">
 							<i class="fa fa-shopping-bag fa-2x"></i>
 							<span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
 							style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
@@ -80,7 +80,9 @@
 						</c:if>
 						<c:if test="${not empty SITEUSER}">
 							<div class="nav-item dropdown">
-								<a href="#" class="my-auto nav-link dropdown-toggle" data-bs-toggle="dropdown">
+								<a href="#" class="my-auto nav-link dropdown-toggle"
+								   style="color:var(--bs-primary) !important; "
+								   data-bs-toggle="dropdown">
 									<i class="fas fa-user fa-2x"></i>
 								</a>
 								<div class="dropdown-menu m-0 bg-secondary rounded-0">

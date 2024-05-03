@@ -1,12 +1,35 @@
 package com.EcommerceWeb.model;
 
+import java.util.Locale;
+
 public class Product {
     private int ID;
     private int categoryID;
     private String displayName;
     private String description;
     private String productImage;
+    private double minPrice;
+    private double maxPrice;
     private boolean isDeleted;
+    private ProductCategory category;
+    public ProductCategory getCategory() {
+        return category;
+    }
+    public void setCategory(ProductCategory category) {
+        this.category = category;
+    }
+    public double getMinPrice() {
+        return minPrice;
+    }
+    public void setMinPrice(double minPrice) {
+        this.minPrice = minPrice;
+    }
+    public double getMaxPrice() {
+        return maxPrice;
+    }
+    public void setMaxPrice(double maxPrice) {
+        this.maxPrice = maxPrice;
+    }
 
     public int getID() {
         return ID;

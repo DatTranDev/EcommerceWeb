@@ -197,6 +197,15 @@ VALUES (3, 'Nike Air Max', 'Experience comfort and style with Nike Air Max, idea
 INSERT INTO Product (CategoryID, DisplayName, Description, ProductImage)
 VALUES (3, 'Adidas Ultraboost', 'Boost your running with Adidas Ultraboost, designed for ultimate comfort.', 'adidas_ultraboost.jpg');
 
+INSERT INTO Product (CategoryID, DisplayName, Description, ProductImage)
+VALUES (6, 'Lót Đế Giày Biti\'s Hunter Street', 'Dành cho sneaker bitis', 'https://product.hstatic.net/1000230642/product/lot-de-giay-biti-s-hunter-street-aiuh00500den-den-e2dac-color-den_81063266f3754668a79293900ee51997.jpg');
+
+INSERT INTO Product (CategoryID, DisplayName, Description, ProductImage)
+VALUES (4, 'Dincox E06HI', 'Dòng cao cổ vintage.', 'https://product.hstatic.net/1000365025/product/dincox40_3af9e6f6d64646aabcb4e4859543c1be_master.jpg');
+
+INSERT INTO Product (CategoryID, DisplayName, Description, ProductImage)
+VALUES (4, 'Biti\'s Hunter Street ZX Collection', 'Một đôi giày thể thao chất lượng là một “người bạn đồng hành” không thể thiếu của những dân chơi thể thao chuyên nghiệp. Theo đó, nếu chưa biết lựa chọn mẫu giày nào phù hợp, bạn hãy cân nhắc sản phẩm “quốc dân” vừa được Biti’s trình làng: Giày Thể Thao Nam Biti\'s Hunter Street ZX Collection. Cùng tìm hiểu chi tiết nhé!', 'https://product.hstatic.net/1000230642/product/dswh06200trg39_4__07be906bc1bc4d3ba9ee1294da6f9bb5.jpg');
+
 -- Size, màu
 -- Creating 'Size' variation
 INSERT INTO Variation (CategoryID, DisplayName) VALUES (1, 'Size');  -- Assume this gets ID 1
@@ -219,6 +228,7 @@ INSERT INTO VariationOption (VariationID, Value) VALUES (2, 'Đen');
 INSERT INTO VariationOption (VariationID, Value) VALUES (2, 'Trắng');
 INSERT INTO VariationOption (VariationID, Value) VALUES (2, 'Hồng');
 INSERT INTO VariationOption (VariationID, Value) VALUES (2, 'Xanh dương');
+INSERT INTO VariationOption (VariationID, Value) VALUES (2, 'Nâu');
 
 -- For Nike Air Max
 INSERT INTO ProductItem (ProductID, SKU, QuantityInStock, ProductImage, Price)
@@ -265,3 +275,40 @@ insert into SiteUser(DisplayName, Email, PhoneNumber, PassWord, Gender, Role)
 insert into SiteUser(DisplayName, Email, PhoneNumber, PassWord, Gender)
     value ("Nhan Tran", "user@gmail.com", "0123456789", "user", "Male");
 update Siteuser set password = "ee11cbb19052e40b07aac0ca060c23ee" where id = 2;
+update Siteuser set password = "21232f297a57a5a743894a0e4a801fc3" where id = 1;
+UPDATE `product` SET `DisplayName` = 'Dincox E06HI',`ProductImage` ='https://product.hstatic.net/1000365025/product/dincox40_3af9e6f6d64646aabcb4e4859543c1be_master.jpg', `Description` = 'Dòng cao cổ vintage' WHERE (`ID` = '4');
+UPDATE `product` SET `DisplayName` = 'Biti\'s Hunter Street Bloomin\' Central 12',`ProductImage` = 'https://product.hstatic.net/1000230642/product/08500den__12__a72c6a17dd844182b888f9e0f0fff7b7.jpg', `Description` = 'Giày Thể Thao Nữ Biti\'s Hunter Street Bloomin\' Central DSWH08500 mang thiết kế trẻ trung, sang trọng và gai góc, phù hợp với những cô nàng cá tính. Với họa tiết tinh tế, bụi bặm, sản phẩm chắc chắn sẽ là sự lựa chọn không thể tuyệt vời hơn đối với các tín đồ thời trang theo đuổi phong cách hiện đại có chút đường phố này. Để biết thêm về sản phẩm, bạn hãy tham khảo nội dung ở dưới đây.' WHERE (`ID` = '1');
+UPDATE `product` SET `DisplayName` = 'Giày Đi Bộ Nữ Biti\'s Hunter Jogging',`ProductImage` = 'https://product.hstatic.net/1000230642/product/dswh05300ked9_a3ef2e3602714439bbe024e568bfa3f8.jpg', `Description` = 'Nếu như bạn muốn mua một đôi giày đi bộ êm chân lại có khả năng tôn dáng người của mình thì giày đi bộ Biti\'s Hunter Jogging DSWH05300 chính là dòng sản phẩm tốt nhất dành cho bạn. Với thiết kế kiểu dáng thể thao đẹp mắt, chất liệu vải mềm mại sẽ giúp bạn di chuyển vừa thoải mái vừa êm chân trong thời gian dài. Để hiểu hơn về sản phẩm, cùng theo dõi ngay sau đây' WHERE (`ID` = '2');
+UPDATE `product` SET `DisplayName` = 'Lót Đế Giày Biti\'s Hunter Street', `ProductImage` = 'https://product.hstatic.net/1000230642/product/lot-de-giay-biti-s-hunter-street-aiuh00500den-den-e2dac-color-den_81063266f3754668a79293900ee51997.jpg',`Description` = 'Dành cho sneaker bitis' WHERE (`ID` = '3');
+UPDATE `product` SET `DisplayName` = 'Biti\'s Hunter Street ZX Collection', `ProductImage` = 'https://product.hstatic.net/1000230642/product/dswh06200trg39_4__07be906bc1bc4d3ba9ee1294da6f9bb5.jpg',`Description` = 'Một đôi giày thể thao chất lượng là một “người bạn đồng hành” không thể thiếu của những dân chơi thể thao chuyên nghiệp. Theo đó, nếu chưa biết lựa chọn mẫu giày nào phù hợp, bạn hãy cân nhắc sản phẩm “quốc dân” vừa được Biti’s trình làng: Giày Thể Thao Nam Biti\'s Hunter Street ZX Collection. Cùng tìm hiểu chi tiết nhé!' WHERE (`ID` = '5');
+
+INSERT INTO `productitem` (`ProductID`, `SKU`, `QuantityInStock`, `ProductImage`, `Price`) VALUES ( '3', 'LOTGIAY-SNK-41', '200', 'https://product.hstatic.net/1000230642/product/lot-de-giay-biti-s-hunter-street-aiuh00500den-den-e2dac-color-den_81063266f3754668a79293900ee51997.jpg', '90000');
+INSERT INTO `productitem` (`ProductID`, `SKU`, `QuantityInStock`, `ProductImage`, `Price`) VALUES ( '3', 'LOTGIAY-SNK-42', '200', 'https://product.hstatic.net/1000230642/product/lot-de-giay-biti-s-hunter-street-aiuh00500den-den-e2dac-color-den_81063266f3754668a79293900ee51997.jpg', '90000');
+
+INSERT INTO `productitem` (`ProductID`, `SKU`, `QuantityInStock`, `ProductImage`, `Price`) VALUES ( '4', 'DINCOX-COCAO', '100', 'https://product.hstatic.net/1000365025/product/dincox40_3af9e6f6d64646aabcb4e4859543c1be_master.jpg', '400000');
+INSERT INTO `productitem` (`ProductID`, `SKU`, `QuantityInStock`, `ProductImage`, `Price`) VALUES ( '5', 'ZX-STREET', '200', 'https://product.hstatic.net/1000230642/product/dswh06200trg39_4__07be906bc1bc4d3ba9ee1294da6f9bb5.jpg', '350000');
+UPDATE `productitem` SET `ProductImage` = 'https://product.hstatic.net/1000230642/product/08500den__12__a72c6a17dd844182b888f9e0f0fff7b7.jpg', price = 300000 WHERE (`ID` = '1');
+UPDATE `productitem` SET `ProductImage` = 'https://product.hstatic.net/1000230642/product/08500den__12__a72c6a17dd844182b888f9e0f0fff7b7.jpg', price = 320000 WHERE (`ID` = '2');
+UPDATE `productitem` SET `ProductImage` = 'https://product.hstatic.net/1000230642/product/dswh05300ked9_a3ef2e3602714439bbe024e568bfa3f8.jpg', price = 260000 WHERE (`ID` = '3');
+UPDATE `productitem` SET `ProductImage` = 'https://product.hstatic.net/1000230642/product/dswh05300ked9_a3ef2e3602714439bbe024e568bfa3f8.jpg', price = 280000 WHERE (`ID` = '4');
+
+-- Lot giay
+INSERT INTO ProductConfig (ProductItemID, VariationID) VALUES
+    ((SELECT ID FROM ProductItem WHERE SKU = 'LOTGIAY-SNK-41'), (SELECT ID FROM VariationOption WHERE VariationID = 1 AND Value = '41'));
+INSERT INTO ProductConfig (ProductItemID, VariationID) VALUES
+    ((SELECT ID FROM ProductItem WHERE SKU = 'LOTGIAY-SNK-42'), (SELECT ID FROM VariationOption WHERE VariationID = 1 AND Value = '42'));
+    
+-- Dincox co cao nau
+INSERT INTO ProductConfig (ProductItemID, VariationID) VALUES
+    ((SELECT ID FROM ProductItem WHERE SKU = 'DINCOX-COCAO'), (SELECT ID FROM VariationOption WHERE VariationID = 1 AND Value = '41'));
+INSERT INTO ProductConfig (ProductItemID, VariationID) VALUES
+    ((SELECT ID FROM ProductItem WHERE SKU = 'DINCOX-COCAO'), (SELECT ID FROM VariationOption WHERE VariationID = 2 AND Value = 'Nâu'));
+    
+-- Dincox co cao nau
+INSERT INTO ProductConfig (ProductItemID, VariationID) VALUES
+    ((SELECT ID FROM ProductItem WHERE SKU = 'ZX-STREET'), (SELECT ID FROM VariationOption WHERE VariationID = 1 AND Value = '41'));
+INSERT INTO ProductConfig (ProductItemID, VariationID) VALUES
+    ((SELECT ID FROM ProductItem WHERE SKU = 'ZX-STREET'), (SELECT ID FROM VariationOption WHERE VariationID = 2 AND Value = 'Trắng'));
+    
+    
+    

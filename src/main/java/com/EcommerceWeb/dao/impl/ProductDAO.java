@@ -3,8 +3,10 @@ package com.EcommerceWeb.dao.impl;
 import java.util.List;
 
 import com.EcommerceWeb.dao.IProductDAO;
+import com.EcommerceWeb.mapper.ProductItemMapper;
 import com.EcommerceWeb.mapper.ProductMapper;
 import com.EcommerceWeb.model.Product;
+import com.EcommerceWeb.model.ProductItem;
 
 public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 	
@@ -66,4 +68,14 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 		return count(sql);
 	}
 
+	public double getMinPrice(int id) {
+		String sql = "SELECT * FROM productitem WHERE productid = ? ORDER BY price ASC LIMIT 1;";
+		List<ProductItem> productItems = query(sql, new ProductItemMapper(), id);
+		return productItems.get(0).getPrice();
+	}
+	public double getMaxPrice(int id) {
+		String sql = "SELECT * FROM productitem WHERE productid = ? ORDER BY price DESC LIMIT 1;";
+		List<ProductItem> productItems = query(sql, new ProductItemMapper(), id);
+		return productItems.get(0).getPrice();
+	}
 }

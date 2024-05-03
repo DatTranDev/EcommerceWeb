@@ -12,4 +12,6 @@ public interface IProductService {
 	void delete(int id);
 	Product findOne(int id);
 	int getTotalItem();
+	double getMinPrice(int id);
+	double getMaxPrice(int id);
 }

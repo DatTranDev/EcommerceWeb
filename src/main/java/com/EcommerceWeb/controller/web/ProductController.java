@@ -1,9 +1,9 @@
 package com.EcommerceWeb.controller.web;
 
+import com.EcommerceWeb.model.Product;
 import com.EcommerceWeb.model.ProductCategory;
 import com.EcommerceWeb.service.IProductCategoryService;
 import com.EcommerceWeb.service.IProductService;
-import com.EcommerceWeb.utils.SessionUtil;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
@@ -15,28 +15,53 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/product-collections"})
+@WebServlet (urlPatterns = {"/products/*"})
 public class ProductController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-
     @Inject
     private IProductService productService;
     @Inject
     private IProductCategoryService productCategoryService;
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-        SessionUtil.getInstance().getValue(request, "ProductCategory");
-        SessionUtil.getInstance().getValue(request, "Product");
-        request.setAttribute("ProductCategory", productCategoryService.getAll());
-        request.setAttribute("Product", productService.getAll());
-        request.setAttribute("ShoesCategory", SessionUtil.getInstance().getValue(request, "ShoesCategory"));
-        request.setAttribute("AccessoriesCategory", SessionUtil.getInstance().getValue(request, "AccessoriesCategory"));
-        RequestDispatcher rd = request.getRequestDispatcher("/views/web/productCollections.jsp");
-        rd.forward(request, response);
-    }
+        String pathInfo = request.getPathInfo();
+        String productId = null;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+        if (pathInfo != null) {
+            String[] pathParts = pathInfo.split("/");
+            if (pathParts.length > 1) {
+                productId = pathParts[1];
+                try{
+                    int id = Integer.parseInt(productId);
+                    Product product = productService.findOne(id);
+                    if(product != null){
+                        product.setCategory(productCategoryService.findOne(product.getCategoryID()));
+                        product.setMinPrice(productService.getMinPrice(id));
+                        product.setMaxPrice(productService.getMaxPrice(id));
+                        request.setAttribute("Product", product);
+
+                        List<ProductCategory> productCategories = productCategoryService.getAll();
+                        request.setAttribute("ProductCategory", productCategories);
+
+                        List<Product> productList = productService.getProductByCategory(product.getCategory().getParentCategoryID());
+                        for(Product product1 : productList){
+                            product1.setMinPrice(productService.getMinPrice(product1.getID()));
+                        }
+                        request.setAttribute("ProductList", productList);
+
+                        RequestDispatcher rd = request.getRequestDispatcher("/views/web/productDetail.jsp");
+                        rd.forward(request, response);
+                    }
+                    else{
+                        response.sendRedirect(request.getContextPath() + "/error");
+                    }
+                }
+                catch (Exception e) {
+                    response.sendRedirect(request.getContextPath() + "/error");
+                }
+            }
+        }
+        else{
+            response.sendRedirect(request.getContextPath() + "/product-collections");
+        }
     }
 }

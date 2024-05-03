@@ -1,6 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="/common/tagLib.jsp"%>
+<%@ include file="/common/tagLib.jsp"%>
 <!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách sản phẩm</title>
+</head>
 <!-- Single Page Header start -->
 <div class="container-fluid page-header py-5">
     <h1 class="text-center text-white display-6">Shop</h1>
@@ -60,19 +64,22 @@
                         <div class="row g-4">
                             <c:forEach var="item" items="${Product}">
                                 <div class="col-md-6 col-lg-6 col-xl-4">
-                                    <div class="rounded position-relative fruite-item">
-                                        <div class="fruite-img">
-                                            <img src="${item.productImage}" class="img-fluid w-100 rounded-top" alt="">
-                                        </div>
-                                        <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                            <h4 class="product-name">${item.displayName}</h4>
-                                            <p class="description">${item.description}</p>
-                                            <div class="d-flex justify-content-between flex-lg-wrap">
-                                                <p class="text-dark fs-5 fw-bold mb-0">100,000đ</p>
-                                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-cart-plus text-primary"></i></a>
+                                    <a href="${pageContext.request.contextPath}/products/${item.ID}" class="text-decoration-none text-dark">
+                                        <div class="rounded position-relative fruite-item">
+                                            <div class="fruite-img">
+                                                <img src="${item.productImage}" class="img-fluid w-100 rounded-top" alt="">
+                                            </div>
+                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                <h4 class="product-name">${item.displayName}</h4>
+                                                <p class="description">${item.description}</p>
+                                                <div class="d-flex justify-content-between flex-lg-wrap">
+                                                    <fmt:formatNumber value="${item.minPrice}" pattern="#,##0" var="formattedPrice" />
+                                                    <p class="text-dark fs-5 fw-bold mb-0">${formattedPrice}đ</p>
+    <%--                                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-cart-plus text-primary"></i></a>--%>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </div>
                             </c:forEach>
                             <div class="col-12">
