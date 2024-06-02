@@ -176,6 +176,17 @@ CREATE TABLE ShoppingCartItem (
                                   FOREIGN KEY (CartID) REFERENCES ShoppingCart(ID),
                                   FOREIGN KEY (ProductItemID) REFERENCES ProductItem(ID)
 );
+CREATE TABLE TriggerLog (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Message VARCHAR(255),
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Order Status
+INSERT INTO OrderStatus (Status, IsDeleted) VALUES ('Đang chuẩn bị', 0);
+INSERT INTO OrderStatus (Status, IsDeleted) VALUES ('Đang vận chuyển', 0);
+INSERT INTO OrderStatus (Status, IsDeleted) VALUES ('Giao hàng thành công', 0); 
+INSERT INTO OrderStatus (Status, IsDeleted) VALUES ('Giao hàng thất bại', 0); 
 -- Category
 INSERT INTO ProductCategory (ParentCategoryID, CategoryName) VALUES (NULL, 'Giày dép');
 -- Giày dép ID 1
@@ -189,22 +200,6 @@ INSERT INTO ProductCategory (ParentCategoryID, CategoryName) VALUES (1, 'Giày l
 -- Giày lười ID 5
 INSERT INTO ProductCategory (ParentCategoryID, CategoryName) VALUES (2, 'Lót giày');
 -- Lót giày ID 6
-
--- Product
-INSERT INTO Product (CategoryID, DisplayName, Description, ProductImage)
-VALUES (3, 'Nike Air Max', 'Experience comfort and style with Nike Air Max, ideal for daily wear.', 'nike_air_max.jpg');
-
-INSERT INTO Product (CategoryID, DisplayName, Description, ProductImage)
-VALUES (3, 'Adidas Ultraboost', 'Boost your running with Adidas Ultraboost, designed for ultimate comfort.', 'adidas_ultraboost.jpg');
-
-INSERT INTO Product (CategoryID, DisplayName, Description, ProductImage)
-VALUES (6, 'Lót Đế Giày Biti\'s Hunter Street', 'Dành cho sneaker bitis', 'https://product.hstatic.net/1000230642/product/lot-de-giay-biti-s-hunter-street-aiuh00500den-den-e2dac-color-den_81063266f3754668a79293900ee51997.jpg');
-
-INSERT INTO Product (CategoryID, DisplayName, Description, ProductImage)
-VALUES (4, 'Dincox E06HI', 'Dòng cao cổ vintage.', 'https://product.hstatic.net/1000365025/product/dincox40_3af9e6f6d64646aabcb4e4859543c1be_master.jpg');
-
-INSERT INTO Product (CategoryID, DisplayName, Description, ProductImage)
-VALUES (4, 'Biti\'s Hunter Street ZX Collection', 'Một đôi giày thể thao chất lượng là một “người bạn đồng hành” không thể thiếu của những dân chơi thể thao chuyên nghiệp. Theo đó, nếu chưa biết lựa chọn mẫu giày nào phù hợp, bạn hãy cân nhắc sản phẩm “quốc dân” vừa được Biti’s trình làng: Giày Thể Thao Nam Biti\'s Hunter Street ZX Collection. Cùng tìm hiểu chi tiết nhé!', 'https://product.hstatic.net/1000230642/product/dswh06200trg39_4__07be906bc1bc4d3ba9ee1294da6f9bb5.jpg');
 
 -- Size, màu
 -- Creating 'Size' variation
@@ -229,6 +224,22 @@ INSERT INTO VariationOption (VariationID, Value) VALUES (2, 'Trắng');
 INSERT INTO VariationOption (VariationID, Value) VALUES (2, 'Hồng');
 INSERT INTO VariationOption (VariationID, Value) VALUES (2, 'Xanh dương');
 INSERT INTO VariationOption (VariationID, Value) VALUES (2, 'Nâu');
+-- Product
+INSERT INTO Product (CategoryID, DisplayName, Description, ProductImage)
+VALUES (3, 'Nike Air Max', 'Experience comfort and style with Nike Air Max, ideal for daily wear.', 'nike_air_max.jpg');
+
+INSERT INTO Product (CategoryID, DisplayName, Description, ProductImage)
+VALUES (3, 'Adidas Ultraboost', 'Boost your running with Adidas Ultraboost, designed for ultimate comfort.', 'adidas_ultraboost.jpg');
+
+INSERT INTO Product (CategoryID, DisplayName, Description, ProductImage)
+VALUES (6, 'Lót Đế Giày Biti\'s Hunter Street', 'Dành cho sneaker bitis', 'https://product.hstatic.net/1000230642/product/lot-de-giay-biti-s-hunter-street-aiuh00500den-den-e2dac-color-den_81063266f3754668a79293900ee51997.jpg');
+
+INSERT INTO Product (CategoryID, DisplayName, Description, ProductImage)
+VALUES (4, 'Dincox E06HI', 'Dòng cao cổ vintage.', 'https://product.hstatic.net/1000365025/product/dincox40_3af9e6f6d64646aabcb4e4859543c1be_master.jpg');
+
+INSERT INTO Product (CategoryID, DisplayName, Description, ProductImage)
+VALUES (4, 'Biti\'s Hunter Street ZX Collection', 'Một đôi giày thể thao chất lượng là một “người bạn đồng hành” không thể thiếu của những dân chơi thể thao chuyên nghiệp. Theo đó, nếu chưa biết lựa chọn mẫu giày nào phù hợp, bạn hãy cân nhắc sản phẩm “quốc dân” vừa được Biti’s trình làng: Giày Thể Thao Nam Biti\'s Hunter Street ZX Collection. Cùng tìm hiểu chi tiết nhé!', 'https://product.hstatic.net/1000230642/product/dswh06200trg39_4__07be906bc1bc4d3ba9ee1294da6f9bb5.jpg');
+
 
 -- For Nike Air Max
 INSERT INTO ProductItem (ProductID, SKU, QuantityInStock, ProductImage, Price)
@@ -310,5 +321,257 @@ INSERT INTO ProductConfig (ProductItemID, VariationID) VALUES
 INSERT INTO ProductConfig (ProductItemID, VariationID) VALUES
     ((SELECT ID FROM ProductItem WHERE SKU = 'ZX-STREET'), (SELECT ID FROM VariationOption WHERE VariationID = 2 AND Value = 'Trắng'));
     
+-- Triger
+DELIMITER $$
+
+CREATE TRIGGER after_insert_orderline
+AFTER INSERT ON OrderLine
+FOR EACH ROW
+BEGIN
+    -- Update OrderTotal of ShopOrder
+    UPDATE ShopOrder
+    SET OrderTotal = OrderTotal + (NEW.Quantity * NEW.Price)
+    WHERE ID = NEW.OrderID;
+
+    -- Update QuantityInStock of ProductItem
+    UPDATE ProductItem
+    SET QuantityInStock = QuantityInStock - NEW.Quantity
+    WHERE ID = NEW.ProductItemID;
+END$$
+
+DELIMITER ;
+DELIMITER $$
+
+CREATE TRIGGER after_update_orderline
+AFTER UPDATE ON OrderLine
+FOR EACH ROW
+BEGIN
+    -- Update OrderTotal of ShopOrder
+    UPDATE ShopOrder
+    SET OrderTotal = OrderTotal - (OLD.Quantity * OLD.Price) + (NEW.Quantity * NEW.Price)
+    WHERE ID = NEW.OrderID;
+
+    -- Update QuantityInStock of ProductItem
+    UPDATE ProductItem
+    SET QuantityInStock = QuantityInStock + OLD.Quantity - NEW.Quantity
+    WHERE ID = NEW.ProductItemID;
+END$$
+
+DELIMITER ;
+DELIMITER $$
+
+CREATE TRIGGER after_delete_orderline
+AFTER DELETE ON OrderLine
+FOR EACH ROW
+BEGIN
+    -- Update OrderTotal of ShopOrder
+    UPDATE ShopOrder
+    SET OrderTotal = OrderTotal - (OLD.Quantity * OLD.Price)
+    WHERE ID = OLD.OrderID;
+
+    -- Update QuantityInStock of ProductItem
+    UPDATE ProductItem
+    SET QuantityInStock = QuantityInStock + OLD.Quantity
+    WHERE ID = OLD.ProductItemID;
+END$$
+
+DELIMITER ;
+DELIMITER $$
+
+CREATE TRIGGER before_update_shoporder
+BEFORE UPDATE ON ShopOrder
+FOR EACH ROW
+BEGIN
+    DECLARE status_id INT;
+
+    -- Retrieve the status ID of the order
+    SELECT OrderStatusID INTO status_id
+    FROM ShopOrder
+    WHERE ID = OLD.ID;
+
+    -- Check if the status is "Đang chuẩn bị"
+    IF status_id <> 1 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Chỉ được chỉnh sửa khi ở trạng thái "Đang chuẩn bị"';
+    END IF;
+END$$
+
+DELIMITER ;
+DELIMITER $$
+
+CREATE TRIGGER before_delete_shoporder
+BEFORE DELETE ON ShopOrder
+FOR EACH ROW
+BEGIN
+    DECLARE status_id INT;
+
+    -- Retrieve the status ID of the order
+    SELECT OrderStatusID INTO status_id
+    FROM ShopOrder
+    WHERE ID = OLD.ID;
+
+    -- Check if the status is "Đang chuẩn bị"
+    IF status_id <> 1 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Chỉ được xóa khi ở trạng thái "Đang chuẩn bị"';
+    END IF;
+END$$
+
+DELIMITER ;
+DELIMITER $$
+
+CREATE FUNCTION ConvertToNonDiacritic(input_string VARCHAR(255))
+RETURNS VARCHAR(255)
+DETERMINISTIC
+BEGIN
+    DECLARE safe_display_name VARCHAR(255);
     
+    -- Function to create a URL-safe from the display name
+    SET safe_display_name = REPLACE(LOWER(REPLACE(input_string, ' ', '-')), 'đ', 'd');
+    SET safe_display_name = REPLACE(safe_display_name, 'á', 'a');
+    SET safe_display_name = REPLACE(safe_display_name, 'à', 'a');
+    SET safe_display_name = REPLACE(safe_display_name, 'ả', 'a');
+    SET safe_display_name = REPLACE(safe_display_name, 'ã', 'a');
+    SET safe_display_name = REPLACE(safe_display_name, 'ạ', 'a');
+    SET safe_display_name = REPLACE(safe_display_name, 'â', 'a');
+    SET safe_display_name = REPLACE(safe_display_name, 'ấ', 'a');
+    SET safe_display_name = REPLACE(safe_display_name, 'ầ', 'a');
+    SET safe_display_name = REPLACE(safe_display_name, 'ẩ', 'a');
+    SET safe_display_name = REPLACE(safe_display_name, 'ẫ', 'a');
+    SET safe_display_name = REPLACE(safe_display_name, 'ậ', 'a');
+    SET safe_display_name = REPLACE(safe_display_name, 'ă', 'a');
+    SET safe_display_name = REPLACE(safe_display_name, 'ắ', 'a');
+    SET safe_display_name = REPLACE(safe_display_name, 'ằ', 'a');
+    SET safe_display_name = REPLACE(safe_display_name, 'ẳ', 'a');
+    SET safe_display_name = REPLACE(safe_display_name, 'ẵ', 'a');
+    SET safe_display_name = REPLACE(safe_display_name, 'ặ', 'a');
+    SET safe_display_name = REPLACE(safe_display_name, 'é', 'e');
+    SET safe_display_name = REPLACE(safe_display_name, 'è', 'e');
+    SET safe_display_name = REPLACE(safe_display_name, 'ẻ', 'e');
+    SET safe_display_name = REPLACE(safe_display_name, 'ẽ', 'e');
+    SET safe_display_name = REPLACE(safe_display_name, 'ẹ', 'e');
+    SET safe_display_name = REPLACE(safe_display_name, 'ê', 'e');
+    SET safe_display_name = REPLACE(safe_display_name, 'ế', 'e');
+    SET safe_display_name = REPLACE(safe_display_name, 'ề', 'e');
+    SET safe_display_name = REPLACE(safe_display_name, 'ể', 'e');
+    SET safe_display_name = REPLACE(safe_display_name, 'ễ', 'e');
+    SET safe_display_name = REPLACE(safe_display_name, 'ệ', 'e');
+    SET safe_display_name = REPLACE(safe_display_name, 'í', 'i');
+    SET safe_display_name = REPLACE(safe_display_name, 'ì', 'i');
+    SET safe_display_name = REPLACE(safe_display_name, 'ỉ', 'i');
+    SET safe_display_name = REPLACE(safe_display_name, 'ĩ', 'i');
+    SET safe_display_name = REPLACE(safe_display_name, 'ị', 'i');
+    SET safe_display_name = REPLACE(safe_display_name, 'ó', 'o');
+    SET safe_display_name = REPLACE(safe_display_name, 'ò', 'o');
+    SET safe_display_name = REPLACE(safe_display_name, 'ỏ', 'o');
+    SET safe_display_name = REPLACE(safe_display_name, 'õ', 'o');
+    SET safe_display_name = REPLACE(safe_display_name, 'ọ', 'o');
+    SET safe_display_name = REPLACE(safe_display_name, 'ô', 'o');
+    SET safe_display_name = REPLACE(safe_display_name, 'ố', 'o');
+    SET safe_display_name = REPLACE(safe_display_name, 'ồ', 'o');
+    SET safe_display_name = REPLACE(safe_display_name, 'ổ', 'o');
+    SET safe_display_name = REPLACE(safe_display_name, 'ỗ', 'o');
+    SET safe_display_name = REPLACE(safe_display_name, 'ộ', 'o');
+    SET safe_display_name = REPLACE(safe_display_name, 'ơ', 'o');
+    SET safe_display_name = REPLACE(safe_display_name, 'ớ', 'o');
+    SET safe_display_name = REPLACE(safe_display_name, 'ờ', 'o');
+    SET safe_display_name = REPLACE(safe_display_name, 'ở', 'o');
+    SET safe_display_name = REPLACE(safe_display_name, 'ỡ', 'o');
+    SET safe_display_name = REPLACE(safe_display_name, 'ợ', 'o');
+    SET safe_display_name = REPLACE(safe_display_name, 'ú', 'u');
+    SET safe_display_name = REPLACE(safe_display_name, 'ù', 'u');
+    SET safe_display_name = REPLACE(safe_display_name, 'ủ', 'u');
+    SET safe_display_name = REPLACE(safe_display_name, 'ũ', 'u');
+    SET safe_display_name = REPLACE(safe_display_name, 'ụ', 'u');
+    SET safe_display_name = REPLACE(safe_display_name, 'ư', 'u');
+    SET safe_display_name = REPLACE(safe_display_name, 'ứ', 'u');
+    SET safe_display_name = REPLACE(safe_display_name, 'ừ', 'u');
+    SET safe_display_name = REPLACE(safe_display_name, 'ử', 'u');
+    SET safe_display_name = REPLACE(safe_display_name, 'ữ', 'u');
+    SET safe_display_name = REPLACE(safe_display_name, 'ự', 'u');
+    SET safe_display_name = REPLACE(safe_display_name, 'ý', 'y');
+    SET safe_display_name = REPLACE(safe_display_name, 'ỳ', 'y');
+    SET safe_display_name = REPLACE(safe_display_name, 'ỷ', 'y');
+    SET safe_display_name = REPLACE(safe_display_name, 'ỹ', 'y');
+    SET safe_display_name = REPLACE(safe_display_name, 'ỵ', 'y');
     
+    RETURN safe_display_name;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER after_insert_product
+AFTER INSERT ON Product
+FOR EACH ROW
+BEGIN
+    DECLARE size_id INT;
+    DECLARE color_id INT;
+    DECLARE size_value VARCHAR(10);
+    DECLARE color_value VARCHAR(10);
+    DECLARE done_size INT DEFAULT 0;
+    DECLARE done_color INT DEFAULT 0;
+    DECLARE safe_display_name VARCHAR(255);
+    DECLARE productitem_id INT;
+    -- Cursor declarations
+    DECLARE size_cursor CURSOR FOR
+        SELECT ID, Value FROM VariationOption WHERE VariationID = (SELECT ID FROM Variation WHERE DisplayName = 'Size' AND CategoryID = 1);
+    DECLARE color_cursor CURSOR FOR
+        SELECT ID, Value FROM VariationOption WHERE VariationID = (SELECT ID FROM Variation WHERE DisplayName = 'Màu' AND CategoryID = 1);
+    -- Handler declarations
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_size = 1;
+
+    -- Function to create a URL-safe SKU from the display name
+    SET safe_display_name = REPLACE(LOWER(REPLACE(NEW.DisplayName, ' ', '-')), 'đ', 'd');
+
+    -- Check if the product belongs to the "Giày dép" category
+    IF (NEW.CategoryID IN (SELECT ID FROM ProductCategory WHERE ParentCategoryID = (SELECT ID FROM ProductCategory WHERE CategoryName = 'Giày dép'))) THEN
+
+        -- Iterate over all size options
+        OPEN size_cursor;
+        size_loop: LOOP
+            FETCH size_cursor INTO size_id, size_value;
+            IF done_size THEN
+                LEAVE size_loop;
+            END IF;
+            
+            -- Iterate over all color options
+            BEGIN
+                DECLARE done_color INT DEFAULT 0;
+                DECLARE color_cursor2 CURSOR FOR
+                    SELECT ID, Value FROM VariationOption WHERE VariationID = (SELECT ID FROM Variation WHERE DisplayName = 'Màu' AND CategoryID = 1);
+                DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_color = 1;
+
+                OPEN color_cursor2;
+                color_loop: LOOP
+                    FETCH color_cursor2 INTO color_id, color_value;
+                    IF done_color THEN
+                        LEAVE color_loop;
+                    END IF;
+
+                    -- Generate SKU
+                    SET @sku = CONCAT(ConvertToNonDiacritic(safe_display_name), '-', size_value, '-', ConvertToNonDiacritic(color_value));
+
+                    -- Insert new ProductItem
+                    INSERT INTO ProductItem (ProductID, SKU, QuantityInStock, ProductImage, Price)
+                    VALUES (NEW.ID, @sku, 0, NULL, 0);
+					
+                    SET productitem_id = LAST_INSERT_ID();
+                    
+                    -- Link the ProductItem with Size and Color
+                    INSERT INTO ProductConfig (ProductItemID, VariationID)
+                    VALUES (productitem_id, size_id);
+                    INSERT INTO ProductConfig (ProductItemID, VariationID)
+                    VALUES (productitem_id, color_id);
+
+                END LOOP;
+                CLOSE color_cursor2;
+            END;
+
+        END LOOP;
+        CLOSE size_cursor;
+    END IF;
+END$$
+
+DELIMITER ;
