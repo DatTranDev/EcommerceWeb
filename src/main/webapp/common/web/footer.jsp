@@ -10,7 +10,7 @@
 				<div class="row g-4">
 					<div class="col-lg-3">
 						<a href="#">
-							<h1 class="text-primary mb-0">ShoesStore</h1>
+							<h1 class="mb-0" style="color: #FFFFFF">ShoesStore</h1>
 							<p class="text-secondary mb-0">Giày Việt Nam chất lượng cao</p>
 						</a>
 					</div>
@@ -48,7 +48,7 @@
 						<p class="mb-4">Phong cách đa dạng, giá thành hợp ví, chất lượng hoàn hảo, thân thiện với môi trường, mang lại sự thoải mái cho người sử dụng.</p>
 
 						<a href=""
-							class="btn border-secondary py-2 px-4 rounded-pill text-primary">Xem thêm</a>
+							class="btn border-secondary py-2 px-4 rounded-pill text-primary" style="color: #FFFFFF!important;">Xem thêm</a>
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-6">
@@ -77,7 +77,7 @@
 						<p>Email: appservice.uit.se@gmail.com</p>
 						<p>Số điện thoại: 0123456789</p>
 						<p>Phương thức thanh toán</p>
-						<img src="./template/web/img/payment.png" class="img-fluid" alt="">
+						<img src="${pageContext.request.contextPath}/template/web/img/payment.png" class="img-fluid" alt="">
 					</div>
 				</div>
 			</div>
