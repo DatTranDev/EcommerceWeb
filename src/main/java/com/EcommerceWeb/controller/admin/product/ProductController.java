@@ -51,7 +51,7 @@ public class ProductController extends HttpServlet {
 
         request.setAttribute("listProduct",listProductShow);
         request.setAttribute("listCategory",listCategoryShow);
-        RequestDispatcher rd = request.getRequestDispatcher("views/admin/product/productList.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("views/admin/product/addProduct.jsp");
         rd.forward(request,response);
     }
     @Override

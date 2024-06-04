@@ -209,18 +209,18 @@ thead {
     padding-right: 15px;
 }
 .form-control {
-    background-color: #54657d;
-    color: #fff;
+    background-color: #e8eff7;
+    color: #424040;
     border: 0;
 }
 .form-control:focus {
-    background-color: #60738e;
-    color: #fff;
+    background-color: #d1e2f9;
+    color: #423d3d;
     border-color: transparent;
     box-shadow: 0 0 0 0.1rem rgb(180, 206, 233, 0.5);
 }
 .form-group label {
-    color: #fff;
+    color: #000000;
     margin-bottom: 10px;
 }
 .tm-hide-sm {
@@ -270,16 +270,16 @@ thead {
 }
 .btn-primary {
     color: #fff;
-    background-color: #f5a623;
-    border: 2px solid #f5a623;
+    background-color: #4E73DF;
+    border: 2px solid #4E73DF;
     font-size: 90%;
     font-weight: 600;
 }
 .btn-primary:active,
 .btn-primary:hover {
-    color: #f5a623;
+    color: #4E73DF;
     background-color: transparent;
-    border: 2px solid #f5a623;
+    border: 2px solid #4E73DF;
 }
 .custom-file-input {
     cursor: pointer;
@@ -397,7 +397,7 @@ input[type="checkbox"]:focus {
 .custom-select {
     width: 100%;
     border: none;
-    color: #acc6de;
+    color: #171718;
     height: 50px;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -410,7 +410,7 @@ input[type="checkbox"]:focus {
     -o-border-radius: 0;
     border-radius: 0;
     padding: 15px;
-    background: url(../img/arrow-down.png) 98% no-repeat #50657b;
+    background: url(../img/arrow-down.png) 98% no-repeat #e8eff7;
 }
 .custom-select:focus {
     outline: 0;
@@ -441,7 +441,7 @@ input[type="checkbox"]:focus {
     align-items: center;
     justify-content: center;
     color: #fff;
-    background: #aaa;
+    background: #e8eff7;
 }
 .tm-product-img-edit {
     max-width: 100%;
