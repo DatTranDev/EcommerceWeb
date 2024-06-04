@@ -48,4 +48,10 @@ public class ProductService implements IProductService{
 	public double getMaxPrice(int id) {
 		return productDAO.getMaxPrice(id);
 	}
+	public List<Product> top3saleProduct() {
+		return productDAO.top3saleProduct();
+	}
+	public int count() {
+		return productDAO.count();
+	}
 }

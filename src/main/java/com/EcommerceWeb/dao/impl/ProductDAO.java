@@ -78,4 +78,18 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 		List<ProductItem> productItems = query(sql, new ProductItemMapper(), id);
 		return productItems.get(0).getPrice();
 	}
+	public List<Product> top3saleProduct() {
+		String sql = "SELECT p.*\r\n"
+				+ "FROM product p\r\n"
+				+ "INNER JOIN productitem pi ON p.id = pi.productid\r\n"
+				+ "INNER JOIN orderitem oi ON pi.id = oi.productitemid\r\n"
+				+ "GROUP BY p.id\r\n"
+				+ "ORDER BY SUM(oi.quantity) DESC\r\n"
+				+ "LIMIT 3;";
+		return query(sql, new ProductMapper());
+	}
+	public int count() {
+		String sql = "SELECT count(*) FROM product";
+		return count(sql);
+	}
 }
