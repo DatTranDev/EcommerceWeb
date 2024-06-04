@@ -5,6 +5,7 @@ import javax.inject.Inject;
 
 import com.EcommerceWeb.dao.IProductDAO;
 import com.EcommerceWeb.model.Product;
+import com.EcommerceWeb.model.ProductCategory;
 import com.EcommerceWeb.service.IProductService;
 
 public class ProductService implements IProductService{
@@ -48,4 +49,6 @@ public class ProductService implements IProductService{
 	public double getMaxPrice(int id) {
 		return productDAO.getMaxPrice(id);
 	}
+	public int getTotalQuantityInStock(int id) {return  productDAO.getTotalQuantityInStock(id);}
+	public ProductCategory getCategory(int id) {return  productDAO.getCategory(id);}
 }

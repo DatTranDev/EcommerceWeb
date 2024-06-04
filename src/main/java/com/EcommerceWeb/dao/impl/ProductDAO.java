@@ -3,9 +3,11 @@ package com.EcommerceWeb.dao.impl;
 import java.util.List;
 
 import com.EcommerceWeb.dao.IProductDAO;
+import com.EcommerceWeb.mapper.ProductCategoryMapper;
 import com.EcommerceWeb.mapper.ProductItemMapper;
 import com.EcommerceWeb.mapper.ProductMapper;
 import com.EcommerceWeb.model.Product;
+import com.EcommerceWeb.model.ProductCategory;
 import com.EcommerceWeb.model.ProductItem;
 
 public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
@@ -77,5 +79,14 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 		String sql = "SELECT * FROM productitem WHERE productid = ? ORDER BY price DESC LIMIT 1;";
 		List<ProductItem> productItems = query(sql, new ProductItemMapper(), id);
 		return productItems.get(0).getPrice();
+	}
+	public int getTotalQuantityInStock(int id) {
+		String sql="SELECT sum(QuantityInStock) FROM productitem WHERE ProductID = ?";
+		return count(sql, id);
+	}
+	public ProductCategory getCategory(int id) {
+		String sql="SELECT * FROM productcategory WHERE ID = ? and IsDeleted = 0";
+		List<ProductCategory> productCategories = query(sql, new ProductCategoryMapper(), id);
+		return productCategories.get(0);
 	}
 }

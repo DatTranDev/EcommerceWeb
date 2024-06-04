@@ -43,7 +43,7 @@
 			 aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 				<h6 class="collapse-header">Thao tác</h6>
-				<a class="collapse-item" href="#">Danh sách sản phẩm</a>
+				<a class="collapse-item" href="${pageContext.request.contextPath}/admin-product">Danh sách sản phẩm</a>
 				<a class="collapse-item" href="#">Danh mục sản phẩm</a>
 				<a class="collapse-item" href="#">Size</a>
 				<div class="collapse-divider"></div>
