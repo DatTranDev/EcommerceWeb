@@ -6,6 +6,8 @@ public class UserAddress {
     private boolean isDefault;
     private boolean isDeleted;
 
+    private Address address;
+
     public int getUserID() {
         return userID;
     }
@@ -36,5 +38,13 @@ public class UserAddress {
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

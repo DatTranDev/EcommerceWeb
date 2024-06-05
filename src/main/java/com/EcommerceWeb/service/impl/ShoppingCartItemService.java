@@ -1,5 +1,8 @@
 package com.EcommerceWeb.service.impl;
 
+import com.EcommerceWeb.dao.IProductItemDAO;
+import com.EcommerceWeb.dao.IShoppingCartDAO;
+import com.EcommerceWeb.dao.IShoppingCartItemDAO;
 import com.EcommerceWeb.dao.impl.ProductItemDAO;
 import com.EcommerceWeb.dao.impl.ShoppingCartDAO;
 import com.EcommerceWeb.dao.impl.ShoppingCartItemDAO;
@@ -14,11 +17,11 @@ import java.util.List;
 public class ShoppingCartItemService implements IShoppingCartItemService {
 
     @Inject
-    private ShoppingCartItemDAO shoppingCartItemDAO;
+    private IShoppingCartItemDAO shoppingCartItemDAO;
     @Inject
-    private ProductItemDAO productItemDAO;
+    private IProductItemDAO productItemDAO;
     @Inject
-    private ShoppingCartDAO shoppingCartDAO;
+    private IShoppingCartDAO shoppingCartDAO;
 
 
 
