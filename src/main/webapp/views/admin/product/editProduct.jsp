@@ -1,9 +1,8 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: ADMIN
-  Date: 6/5/2024
-  Time: 2:56 AM
+  Date: 6/6/2024
+  Time: 2:42 AM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -19,7 +18,7 @@
             <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
                 <div class="row">
                     <div class="col-12">
-                        <h2 class="tm-block-title d-inline-block">Add Product</h2>
+                        <h2 class="tm-block-title d-inline-block" style="margin-top: 0px;">Edit Product</h2>
                     </div>
                 </div>
                 <div class="row tm-edit-product-row">
@@ -79,6 +78,37 @@
                             <input id="fileInput" type="file" style="display:none;" accept="image/*" multiple onchange="displayImages(event)" />
                             <input type="button" class="btn btn-primary btn-block mx-auto" value="UPLOAD PRODUCT IMAGES" onclick="document.getElementById('fileInput').click();" />
                         </div>
+                    </div>
+
+                    <div class="tm-product-table-container col-12" style="align-self:center; justify-content: center; align-items: center;">
+                        <table class="table table-hover tm-table-small tm-product-table" style="align-self:center; justify-content: center; align-items: center;">
+                            <thead>
+                            <tr>
+                                <th scope="col">&nbsp;</th>
+                                <th scope="col">PRODUCT NAME</th>
+                                <th scope="col">IN STOCK</th>
+                                <th scope="col">CATEGORY</th>
+                                <th scope="col">&nbsp;</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach var="item" items="${listProduct}" >
+                                <tr onclick="openEditTab(${item.id})" style="cursor: pointer;">
+                                    <th scope="row"><input type="checkbox"></th>
+                                    <td class="tm-product-name">${item.name}</td>
+                                    <td style="text-align: center; vertical-align: middle;">${item.quantity}</td>
+                                    <td>${item.category}</td>
+                                    <td>
+                                        <a href="#" class="tm-product-delete-link">
+                                            <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+
+
+                            </tbody>
+                        </table>
                     </div>
 
 

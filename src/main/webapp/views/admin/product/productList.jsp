@@ -30,7 +30,7 @@
                         </thead>
                         <tbody>
                         <c:forEach var="item" items="${listProduct}" >
-                            <tr>
+                            <tr onclick="openEditTab(${item.id})" style="cursor: pointer;">
                                 <th scope="row"><input type="checkbox"></th>
                                 <td class="tm-product-name">${item.name}</td>
                                 <td style="text-align: center; vertical-align: middle;">${item.quantity}</td>
@@ -48,7 +48,7 @@
                     </table>
                 </div>
                 <!-- table container -->
-                <a href="add-product.html" class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
+                <a  href="${pageContext.request.contextPath}/admin-addProduct" class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
                 <button class="btn btn-primary btn-block text-uppercase">
                     Delete selected products
                 </button>
@@ -82,11 +82,11 @@
     </div>
 </div>
 <script>
-    $(function() {
-        $(".tm-product-name").on("click", function() {
-            window.location.href = "edit-product.html";
-        });
-    });
+    function openEditTab(itemId) {
+        // Thay đổi đường dẫn theo URL trang chỉnh sửa sản phẩm của bạn
+        const editUrl = `/admin-product-edit?id=${itemId}`;
+        window.location.href = editUrl;
+    }
 </script>
 </body>
 </html>

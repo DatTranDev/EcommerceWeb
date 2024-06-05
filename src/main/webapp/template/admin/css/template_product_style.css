@@ -442,6 +442,7 @@ input[type="checkbox"]:focus {
     justify-content: center;
     color: #fff;
     background: #e8eff7;
+    overflow: hidden;
 }
 .tm-product-img-edit {
     max-width: 100%;
@@ -548,3 +549,4 @@ input[type="checkbox"]:focus {
         max-height: 350px;
     }
 }
+

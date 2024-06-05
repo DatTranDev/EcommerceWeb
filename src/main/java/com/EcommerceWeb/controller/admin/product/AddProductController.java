@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/admin-product"})
-public class ProductController extends HttpServlet {
+@WebServlet(urlPatterns = {"/admin-addProduct"})
+public class AddProductController extends HttpServlet {
     @Inject
     private ProductService productService;
     @Inject
@@ -25,24 +25,13 @@ public class ProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<ProductCategory> listCategory= productCategoryService.getAll();
-        List<Product> listProduct=productService.getAll();
-        List<ProductShow> listProductShow=new ArrayList<ProductShow>();
-        List<CategoryShow> listCategoryShow= new ArrayList<>();
-        for(Product product:listProduct) {
-            ProductShow productShow = new ProductShow();
-            productShow.setId(product.getID());
-            productShow.setName(product.getDisplayName());
-            productShow.setQuantity(productService.getTotalQuantityInStock(product.getID()));
-            productShow.setCategory( productService.getCategory(product.getCategoryID()).getCategoryName());
-            listProductShow.add(productShow);
-        }
+        List<ProductController.CategoryShow> listCategoryShow= new ArrayList<>();
         for(ProductCategory productCategory:listCategory) {
-            CategoryShow categoryShow = new CategoryShow();
-            categoryShow.setId(productCategory.getID());
+            ProductController.CategoryShow categoryShow = new ProductController.CategoryShow();
             categoryShow.setName(productCategory.getCategoryName());
             if(productCategory.getParentCategoryID()!=0)
             {
-               categoryShow.setParent(" ("+ productCategoryService.findOne(productCategory.getParentCategoryID()).getCategoryName()+")");
+                categoryShow.setParent(" ("+ productCategoryService.findOne(productCategory.getParentCategoryID()).getCategoryName()+")");
             }
             else
             {
@@ -51,9 +40,8 @@ public class ProductController extends HttpServlet {
             listCategoryShow.add(categoryShow);
         }
 
-        request.setAttribute("listProduct",listProductShow);
         request.setAttribute("listCategory",listCategoryShow);
-        RequestDispatcher rd = request.getRequestDispatcher("views/admin/product/productList.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("views/admin/product/addProduct.jsp");
         rd.forward(request,response);
     }
     @Override
@@ -61,18 +49,9 @@ public class ProductController extends HttpServlet {
 
     }
     public static class ProductShow {
-        private int id;
         private String name;
         private int quantity;
         private String category;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
 
         public String getName() {
             return name;
@@ -99,16 +78,8 @@ public class ProductController extends HttpServlet {
         }
     }
     public static class CategoryShow {
-        private int id;
         private String name;
         private String parent;
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
         public String getName() {
             return name;
         }
