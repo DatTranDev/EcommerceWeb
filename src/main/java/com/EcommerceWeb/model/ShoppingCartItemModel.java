@@ -1,11 +1,13 @@
 package com.EcommerceWeb.model;
 
-public class ShoppingCartItem {
+public class ShoppingCartItemModel {
     private int ID;
     private int cartID;
     private int productItemID;
     private int quantity;
     private boolean isDeleted;
+
+    private ProductItem productItem;
 
     public int getID() {
         return ID;
@@ -45,6 +47,14 @@ public class ShoppingCartItem {
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public ProductItem getProductItem() {
+        return productItem;
+    }
+
+    public void setProductItem(ProductItem productItem) {
+        this.productItem = productItem;
     }
 }
 

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet (urlPatterns = {"/cart"})
-public class CartController extends HttpServlet {
+public class ShoppingCartController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher("/views/web/cart.jsp");

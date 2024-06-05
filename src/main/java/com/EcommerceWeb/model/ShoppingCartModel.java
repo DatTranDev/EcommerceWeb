@@ -1,6 +1,6 @@
 package com.EcommerceWeb.model;
 
-public class ShoppingCart {
+public class ShoppingCartModel {
     private int ID;
     private int userID;
 
