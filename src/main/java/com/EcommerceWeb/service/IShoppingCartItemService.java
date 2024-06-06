@@ -10,5 +10,6 @@ public interface IShoppingCartItemService {
     ShoppingCartItemModel findOne(int shoppingCartItemId);
     ShoppingCartItemModel insert(ShoppingCartItemModel shoppingCartItemModel);
     ShoppingCartItemModel update(ShoppingCartItemModel shoppingCartItemModel);
-
+    boolean updateIsDeleteTrue(int shoppingCartItemID);
+    boolean updateListItemIsDeleteTrue(int[] ids);
 }

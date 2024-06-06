@@ -8,6 +8,7 @@ public class ShoppingCartItemModel {
     private boolean isDeleted;
 
     private ProductItem productItem;
+    private int[]ids;
 
     public int getID() {
         return ID;
@@ -55,6 +56,14 @@ public class ShoppingCartItemModel {
 
     public void setProductItem(ProductItem productItem) {
         this.productItem = productItem;
+    }
+
+    public int[] getIds() {
+        return ids;
+    }
+
+    public void setIds(int[] ids) {
+        this.ids = ids;
     }
 }
 

@@ -183,6 +183,8 @@ public class AbstractDAO<T> implements GenericDAO<T> {
 					statement.setInt(index, (Integer) parameter);
 				} else if (parameter instanceof Timestamp) {
 					statement.setTimestamp(index, (Timestamp) parameter);
+				}else if(parameter instanceof Boolean){
+					statement.setBoolean(index,(Boolean) parameter);
 				}
 				
 			}

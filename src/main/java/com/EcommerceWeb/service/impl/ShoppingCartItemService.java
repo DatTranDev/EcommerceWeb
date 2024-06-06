@@ -3,14 +3,10 @@ package com.EcommerceWeb.service.impl;
 import com.EcommerceWeb.dao.IProductItemDAO;
 import com.EcommerceWeb.dao.IShoppingCartDAO;
 import com.EcommerceWeb.dao.IShoppingCartItemDAO;
-import com.EcommerceWeb.dao.impl.ProductItemDAO;
-import com.EcommerceWeb.dao.impl.ShoppingCartDAO;
-import com.EcommerceWeb.dao.impl.ShoppingCartItemDAO;
 import com.EcommerceWeb.model.ProductItem;
 import com.EcommerceWeb.model.ShoppingCartItemModel;
 import com.EcommerceWeb.model.ShoppingCartModel;
 import com.EcommerceWeb.service.IProductItemService;
-import com.EcommerceWeb.service.IProductService;
 import com.EcommerceWeb.service.IShoppingCartItemService;
 
 import javax.inject.Inject;
@@ -79,6 +75,30 @@ public class ShoppingCartItemService implements IShoppingCartItemService {
 
         return findOne(shoppingCartItemModel.getID());
 
+    }
+
+    @Override
+    public boolean updateIsDeleteTrue(int shoppingCartItemID) {
+        ShoppingCartItemModel shoppingCartItemModel = shoppingCartItemDAO.findOne(shoppingCartItemID);
+        if(shoppingCartItemModel==null)return false;
+
+        shoppingCartItemModel.setDeleted(true);
+        shoppingCartItemDAO.update(shoppingCartItemModel);
+
+        ShoppingCartItemModel result=shoppingCartItemDAO.findOneWhereIsDeleteTrue(shoppingCartItemModel.getID());
+        if(result==null){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updateListItemIsDeleteTrue(int[] ids) {
+        for (int id : ids) {
+            boolean check=updateIsDeleteTrue(id);
+            if(!check)return false;
+        }
+        return true;
     }
 
 

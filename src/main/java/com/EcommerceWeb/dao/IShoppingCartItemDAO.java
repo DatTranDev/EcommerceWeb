@@ -9,4 +9,6 @@ public interface IShoppingCartItemDAO extends GenericDAO<ShoppingCartItemModel> 
     ShoppingCartItemModel findOne(int shoppingCartItemId);
     int insert(ShoppingCartItemModel shoppingCartItemModel);
     void update(ShoppingCartItemModel shoppingCartItemModel);
+    ShoppingCartItemModel findOneByProductItemId(int productItemID);
+    ShoppingCartItemModel findOneWhereIsDeleteTrue(int shoppingCartItemId);
 }
