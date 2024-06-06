@@ -1,10 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://example.com/utils" prefix="utils" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://example.com/utils" prefix="utils" %>
 <html>
 <head>
     <title>Giỏ hàng</title>
 </head>
+<body>
 <!-- Single Page Header start -->
 <div class="container-fluid page-header py-5">
     <h1 class="text-center text-white display-6">Giỏ hàng</h1>
@@ -64,7 +65,7 @@
                             </div>
                         </td>
                         <td>
-                            <p class="mb-0 mt-4">${utils:formatCurrency(item.productItem.price * item.quantity)}</p>
+                            <p class="mb-0 mt-4 item-total">${utils:formatCurrency(item.productItem.price * item.quantity)}</p>
                         </td>
                     </tr>
                 </c:forEach>
@@ -72,71 +73,13 @@
             </table>
         </div>
         <div class="mt-5">
+            <!-- Tổng tiền -->
+            <div class="d-flex justify-content-end mb-4">
+                <h5 class="mb-0">Tổng tiền:</h5>
+                <p class="mb-0 ms-2" id="totalAmount">${utils:formatCurrency(0)}</p>
+            </div>
             <button class="btn btn-danger" id="delete-selected-items">Xóa các sản phẩm đã chọn</button>
             <button class="btn btn-success" id="buy-selected-items">Mua các sản phẩm đã chọn</button>
-        </div>
-
-        <!-- Phần thông tin hóa đơn -->
-        <div class="row g-4 justify-content-end mt-5">
-            <div class="col-8"></div>
-            <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
-                <div class="bg-light rounded">
-                    <div class="p-4">
-                        <h1 class="display-6 mb-4">Thông tin thanh toán</h1>
-                        <div class="mb-4">
-                            <h5 class="mb-0">Ngày đặt hàng:</h5>
-                            <p class="mb-0">${shopOrder.orderDate}</p>
-                        </div>
-                        <div class="mb-4">
-                            <h5 class="mb-0">Tổng đơn hàng:</h5>
-                            <p class="mb-0">${utils:formatCurrency(shopOrder.orderTotal)}</p>
-                        </div>
-                        <div class="mb-4">
-                            <h5 class="mb-0">Mô tả:</h5>
-                            <p class="mb-0">${shopOrder.description}</p>
-                        </div>
-
-                        <!-- Phần phương thức thanh toán -->
-                        <h5 class="mb-4">Phương thức thanh toán:</h5>
-                        <c:forEach var="paymentMethod" items="${paymentMethods}">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paymentMethod" id="paymentMethod${paymentMethod.id}" value="${paymentMethod.id}">
-                                <label class="form-check-label" for="paymentMethod${paymentMethod.id}">
-                                        ${paymentMethod.name}
-                                </label>
-                            </div>
-                        </c:forEach>
-
-                        <!-- Phần địa chỉ giao hàng -->
-                        <h5 class="mb-4 mt-4">Địa chỉ giao hàng:</h5>
-                        <c:forEach var="address" items="${shippingAddresses}">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="shippingAddress" id="shippingAddress${address.id}" value="${address.id}">
-                                <label class="form-check-label" for="shippingAddress${address.id}">
-                                        ${address.fullAddress}
-                                </label>
-                            </div>
-                        </c:forEach>
-
-                        <!-- Phần phương thức vận chuyển -->
-                        <h5 class="mb-4 mt-4">Phương thức vận chuyển:</h5>
-                        <c:forEach var="shippingMethod" items="${shippingMethods}">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="shippingMethod" id="shippingMethod${shippingMethod.id}" value="${shippingMethod.id}">
-                                <label class="form-check-label" for="shippingMethod${shippingMethod.id}">
-                                        ${shippingMethod.name}
-                                </label>
-                            </div>
-                        </c:forEach>
-
-                    </div>
-                    <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
-                        <h5 class="mb-0 ps-4 me-4">Total</h5>
-                        <p class="mb-0 pe-4">${utils:formatCurrency(totalPrice + shippingPrice)}</p>
-                    </div>
-                    <a href="${pageContext.request.contextPath}/checkout" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4">Proceed Checkout</a>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -146,6 +89,29 @@
     document.addEventListener("DOMContentLoaded", function() {
         const deleteButton = document.getElementById("delete-selected-items");
         const checkboxes = document.querySelectorAll(".delete-item");
+        const totalAmountElement = document.getElementById("totalAmount");
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+        }
+
+        function calculateTotal() {
+            let totalAmount = 0;
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const itemRow = checkbox.closest('tr');
+                    const itemTotal = parseFloat(itemRow.querySelector('.item-total').innerText.replace(/[^\d]/g, ''));
+                    totalAmount += itemTotal;
+                }
+            });
+            totalAmountElement.innerText = formatCurrency(totalAmount);
+        }
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                calculateTotal();
+            });
+        });
 
         deleteButton.addEventListener("click", function() {
             const selectedIds = [];
@@ -181,5 +147,5 @@
         });
     });
 </script>
-
+</body>
 </html>

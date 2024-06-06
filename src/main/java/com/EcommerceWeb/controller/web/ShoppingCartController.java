@@ -1,9 +1,7 @@
 package com.EcommerceWeb.controller.web;
 
 import com.EcommerceWeb.dao.IShippingMethodDAO;
-import com.EcommerceWeb.model.ShippingMethod;
-import com.EcommerceWeb.model.ShoppingCartItemModel;
-import com.EcommerceWeb.model.SiteUser;
+import com.EcommerceWeb.model.*;
 import com.EcommerceWeb.service.*;
 import com.EcommerceWeb.utils.FormUtil;
 import com.EcommerceWeb.utils.SessionUtil;
@@ -57,17 +55,29 @@ public class ShoppingCartController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/error");
             return;
         }
+        request.setAttribute("siteUser", siteUser);
+
+
 
         //lay toan bo item co trong gio hang
         List<ShoppingCartItemModel> shoppingCartItemModelList = shoppingCartItemService.findAllByUserID(siteUser.getID());
-        if(shoppingCartItemModelList==null){
+        //lay toan bo item co trong phuong thuc thanh toan
+        List<PaymentMethod> paymentMethodList = paymentMethodService.findAllNotWhereIsDelete();
+        //lay toan bo dia chi cua userCur
+        List<UserAddress> userAddressList = userAddressService.findByUserID(siteUser.getID());
+        //lay toan bo phuong thuc van chuyen
+        List<ShippingMethod> shippingMethodList = shippingMethodService.findAllNotWhereIsDelete();
+
+
+        if(shoppingCartItemModelList==null || paymentMethodList==null || userAddressList==null || shippingMethodList==null){
             response.sendRedirect(request.getContextPath() + "/error");
             return;
         }
         //bind sang jsp
         request.setAttribute("shoppingCartItemModelList", shoppingCartItemModelList);
-
-
+        request.setAttribute("paymentMethodList", paymentMethodList);
+        request.setAttribute("userAddressList", userAddressList);
+        request.setAttribute("shippingMethodList", shippingMethodList);
         RequestDispatcher rd = request.getRequestDispatcher("/views/web/cart.jsp");
         rd.forward(request, response);
     }
