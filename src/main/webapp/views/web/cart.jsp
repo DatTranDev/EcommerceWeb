@@ -90,6 +90,8 @@
         const deleteButton = document.getElementById("delete-selected-items");
         const checkboxes = document.querySelectorAll(".delete-item");
         const totalAmountElement = document.getElementById("totalAmount");
+        const buyButton = document.getElementById("buy-selected-items");
+
 
         function formatCurrency(value) {
             return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
@@ -143,6 +145,42 @@
                 });
             } else if (selectedIds.length === 0) {
                 alert("Vui lòng chọn ít nhất một mục để xóa.");
+            }
+        });
+
+
+        buyButton.addEventListener("click", function() {
+            const selectedIds = [];
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    selectedIds.push(checkbox.getAttribute("data-id"));
+                }
+            });
+
+            if (selectedIds.length > 0) {
+                const urlAPI = `${pageContext.request.contextPath}/shop-order`;
+                var data = { ids: selectedIds };
+
+                $.ajax({
+                    url: urlAPI,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function (result) {
+                        if (result.success) {
+                            window.location.href = `${pageContext.request.contextPath}/checkout`;
+                        } else {
+                            console.log("vao day");
+                            alert("Có lỗi xảy ra!");
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        alert("Có lỗi xảy ra!");
+                    }
+                });
+            } else {
+                alert("Vui lòng chọn ít nhất một mục để mua.");
             }
         });
     });
