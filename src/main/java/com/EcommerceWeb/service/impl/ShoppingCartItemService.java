@@ -9,6 +9,8 @@ import com.EcommerceWeb.dao.impl.ShoppingCartItemDAO;
 import com.EcommerceWeb.model.ProductItem;
 import com.EcommerceWeb.model.ShoppingCartItemModel;
 import com.EcommerceWeb.model.ShoppingCartModel;
+import com.EcommerceWeb.service.IProductItemService;
+import com.EcommerceWeb.service.IProductService;
 import com.EcommerceWeb.service.IShoppingCartItemService;
 
 import javax.inject.Inject;
@@ -22,9 +24,8 @@ public class ShoppingCartItemService implements IShoppingCartItemService {
     private IProductItemDAO productItemDAO;
     @Inject
     private IShoppingCartDAO shoppingCartDAO;
-
-
-
+    @Inject
+    private IProductItemService productItemService;
     //tim toan bo item theo id cua gio hang
     @Override
     public List<ShoppingCartItemModel> findByCartID(int cardID) {
@@ -35,8 +36,9 @@ public class ShoppingCartItemService implements IShoppingCartItemService {
         }
 
         for(ShoppingCartItemModel item : list){
-            ProductItem productItem= productItemDAO.findOne(item.getProductItemID());
+            ProductItem productItem= productItemService.findOne(item.getProductItemID());
             item.setProductItem(productItem);
+            //item.getProductItem().setQuantityInStock(item.getQuantity());
         }
 
         return list;
