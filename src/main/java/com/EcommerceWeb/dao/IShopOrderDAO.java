@@ -11,4 +11,5 @@ public interface IShopOrderDAO extends GenericDAO<ShopOrderModel>{
     int insert(ShopOrderModel shopOrderModel);
 
     ShopOrderModel findOne(int id);
+    void update(ShopOrderModel shopOrderModel);
 }

@@ -10,6 +10,7 @@ import java.util.List;
 
 public class ShoppingCartItemDAO  extends AbstractDAO<ShoppingCartItemModel> implements IShoppingCartItemDAO {
 
+
     @Override
     public List<ShoppingCartItemModel> findByCartID(int cardID) {
 
@@ -24,7 +25,13 @@ public class ShoppingCartItemDAO  extends AbstractDAO<ShoppingCartItemModel> imp
         return list.isEmpty()?null:list.get(0);
 
     }
+    @Override
+    public ShoppingCartItemModel findOneWhereIsDeleteTrue(int shoppingCartItemId) {
+        String sql = "select * from ShoppingCartItem where ID = ? and IsDeleted = 1";
+        List<ShoppingCartItemModel> list = query(sql, new ShoppingCartItemMapper(), shoppingCartItemId);
+        return list.isEmpty()?null:list.get(0);
 
+    }
     @Override
     public int insert(ShoppingCartItemModel shoppingCartItemModel) {
         StringBuilder sql = new StringBuilder("INSERT INTO ShoppingCartItem (CartID, ProductItemID, Quantity)");
@@ -36,7 +43,14 @@ public class ShoppingCartItemDAO  extends AbstractDAO<ShoppingCartItemModel> imp
     public void update(ShoppingCartItemModel shoppingCartItemModel) {
         StringBuilder sql = new StringBuilder("UPDATE ShoppingCartItem SET CartID = ?, ProductItemID = ?, Quantity = ?, IsDeleted = ?");
         sql.append(" WHERE ID = ?");
-        update(sql.toString(), shoppingCartItemModel.getCartID(), shoppingCartItemModel.getProductItemID(), shoppingCartItemModel.getQuantity(), shoppingCartItemModel.isDeleted());
+        update(sql.toString(), shoppingCartItemModel.getCartID(), shoppingCartItemModel.getProductItemID(), shoppingCartItemModel.getQuantity(), shoppingCartItemModel.isDeleted(),shoppingCartItemModel.getID());
+    }
+
+    @Override
+    public ShoppingCartItemModel findOneByProductItemId(int productItemID) {
+        String sql = "select * from ShoppingCartItem where productItemID = ? and IsDeleted = 0";
+        List<ShoppingCartItemModel> list = query(sql, new ShoppingCartItemMapper(), productItemID);
+        return list.isEmpty()?null:list.get(0);
     }
 
 

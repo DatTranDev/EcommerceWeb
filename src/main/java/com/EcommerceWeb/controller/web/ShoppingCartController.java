@@ -1,5 +1,7 @@
 package com.EcommerceWeb.controller.web;
 
+import com.EcommerceWeb.dao.IShippingMethodDAO;
+import com.EcommerceWeb.model.ShippingMethod;
 import com.EcommerceWeb.model.ShoppingCartItemModel;
 import com.EcommerceWeb.model.SiteUser;
 import com.EcommerceWeb.service.*;
@@ -27,6 +29,12 @@ public class ShoppingCartController extends HttpServlet {
     private IShoppingCartItemService shoppingCartItemService;
     @Inject
     private ISiteUserService siteUserService;
+    @Inject
+    private IPaymentMethodService paymentMethodService;
+    @Inject
+    private IShippingMethodService shippingMethodService;
+    @Inject
+    private IUserAddressService userAddressService;
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -56,8 +64,7 @@ public class ShoppingCartController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/error");
             return;
         }
-
-        //
+        //bind sang jsp
         request.setAttribute("shoppingCartItemModelList", shoppingCartItemModelList);
 
 

@@ -36,4 +36,21 @@ public class ShopOrderDAO extends AbstractDAO<ShopOrderModel> implements IShopOr
         return list.isEmpty()?null:list.get(0);
     }
 
+    @Override
+    public void update(ShopOrderModel shopOrderModel) {
+        StringBuilder sql = new StringBuilder("UPDATE ShopOrder SET UserID = ?, PaymentMethodID = ?, ShippingAddressID = ?, ShippingMethodID = ?, OrderTotal = ?, OrderStatusID = ?, Description = ?, IsDeleted = ?");
+        sql.append(" WHERE ID = ?");
+        update(sql.toString(),
+                shopOrderModel.getUserID(),
+                shopOrderModel.getPaymentMethodID(),
+                shopOrderModel.getShippingAddressID(),
+                shopOrderModel.getShippingMethodID(),
+                shopOrderModel.getOrderTotal(),
+                shopOrderModel.getOrderStatusID(),
+                shopOrderModel.getDescription(),
+                shopOrderModel.isDeleted(),
+                shopOrderModel.getID());
+    }
+
+
 }

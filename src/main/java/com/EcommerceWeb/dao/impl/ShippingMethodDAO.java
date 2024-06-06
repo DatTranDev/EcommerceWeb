@@ -15,4 +15,10 @@ public class ShippingMethodDAO extends AbstractDAO<ShippingMethod> implements IS
         List<ShippingMethod> list = query(sql, new ShippingMethodMapper(), id);
         return list.isEmpty()?null:list.get(0);
     }
+
+    @Override
+    public List<ShippingMethod> findAllNotWhereIsDelete() {
+        String sql = "select * from ShippingMethod";
+        return query(sql,new ShippingMethodMapper());
+    }
 }
