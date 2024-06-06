@@ -193,10 +193,10 @@
                 const maxQuantity = parseInt(input.getAttribute('data-max-quantity'));
 
                 if (this.classList.contains('btn-minus')) {
-                    value=value+1;
+                    value=value+1;//fix do teamplate
                     value = value > 1 ? value - 1 : 1;
                 } else if (this.classList.contains('btn-plus')) {
-                    value=value-1;
+                    value=value-1;//fix do teamplate
                     value = value < maxQuantity ? value + 1 : maxQuantity;
                 }
 
@@ -234,6 +234,7 @@
                             window.location.reload();
                         } else {
                             alert("Có lỗi xảy ra!");
+                            window.location.reload();
                         }
                     },
                     error: function (error) {
@@ -262,13 +263,47 @@
             }
         });
 
-
-        //cap nhat gio hang
         updateCartButton.addEventListener("click", function() {
-            alert("Cập nhật giỏ hàng thành công!");
-            hideUpdateButton();
+
+            const updatedItems = [];
+            itemQuantities.forEach(quantityInput => {
+                const id = quantityInput.closest('tr').querySelector('.delete-item').getAttribute('data-id');
+                const quantity = quantityInput.value;
+
+                const convert = id+"-"+quantity;
+
+                updatedItems.push(convert);
+            });
+
+            console.log(updatedItems);
+            const urlAPI = `${pageContext.request.contextPath}/api-cart`;
+
+            var listUpdate = { listUpdate: updatedItems };
+            $.ajax({
+                url: urlAPI,
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(listUpdate),
+                success: function (result) {
+                    if (result.success) {
+                        window.location.reload();
+                    } else {
+                        alert("Có lỗi xảy ra!");
+                        window.location.reload();
+                    }
+                },
+                error: function (error) {
+                    alert("Có lỗi xảy ra!");
+                }
+            });
+
+
+
+
+          //  alert("Cập nhật giỏ hàng thành công!");
         });
 
+        // Khởi tạo nút ẩn nếu không có thay đổi ban đầu
         checkForQuantityChange();
     });
 </script>

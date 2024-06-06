@@ -11,11 +11,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {"/api-cart"})
@@ -31,7 +29,43 @@ public class ShoppingCartAPI extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // super.doPut(req, resp);
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+        boolean success=false;
+
+        try{
+
+            ShoppingCartItemModel shoppingCartItemModel = HttpUtil.of(req.getReader()).toModel(ShoppingCartItemModel.class);
+            if(shoppingCartItemModel!=null) {
+                for (String item : shoppingCartItemModel.getListUpdate()) {
+                    success=true;
+                    String[] s = item.trim().split("-");
+                    int shoppingCartItemID = Integer.parseInt(s[0]);
+                    int quantityUpdate = Integer.parseInt(s[1]);
+
+                    ShoppingCartItemModel itemUpdate=shoppingCartItemService.findOne(shoppingCartItemID);
+                    if(itemUpdate==null){
+                        success=false;
+                        break;
+                    }
+                    else {
+                        itemUpdate.setQuantity(quantityUpdate);
+                        if (shoppingCartItemService.update(itemUpdate) == null) {
+                            success = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+        }
+        catch (Exception e){success=false;}
+
+        ObjectMapper mapper=new ObjectMapper();
+        Map<String, Boolean> responseMap = new HashMap<>();
+        responseMap.put("success", success);
+        mapper.writeValue(resp.getOutputStream(), responseMap);
+
     }
 
     @Override
@@ -43,6 +77,7 @@ public class ShoppingCartAPI extends HttpServlet {
             ShoppingCartItemModel shoppingCartItemModel = HttpUtil.of(req.getReader()).toModel(ShoppingCartItemModel.class);
             success = shoppingCartItemService.updateListItemIsDeleteTrue(shoppingCartItemModel.getIds());
         } catch (Exception e) {
+            success=false;
         }
         ObjectMapper mapper=new ObjectMapper();
         Map<String, Boolean> responseMap = new HashMap<>();

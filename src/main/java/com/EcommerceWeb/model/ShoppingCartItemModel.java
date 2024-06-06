@@ -9,6 +9,7 @@ public class ShoppingCartItemModel {
 
     private ProductItem productItem;
     private int[]ids;
+    private String [] listUpdate;
 
     public int getID() {
         return ID;
@@ -64,6 +65,14 @@ public class ShoppingCartItemModel {
 
     public void setIds(int[] ids) {
         this.ids = ids;
+    }
+
+    public String[] getListUpdate() {
+        return listUpdate;
+    }
+
+    public void setListUpdate(String[] listUpdate) {
+        this.listUpdate = listUpdate;
     }
 }
 
