@@ -10,6 +10,7 @@ import com.EcommerceWeb.service.IProductItemService;
 import com.EcommerceWeb.service.IShoppingCartItemService;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCartItemService implements IShoppingCartItemService {
@@ -99,6 +100,22 @@ public class ShoppingCartItemService implements IShoppingCartItemService {
             if(!check)return false;
         }
         return true;
+    }
+
+    @Override
+    public List<ShoppingCartItemModel> findByListShoppingCartItemID(int[] ids) {
+        List<ShoppingCartItemModel> list = new ArrayList<>();
+        for(int id:ids){
+            ShoppingCartItemModel shoppingCartItemModel = shoppingCartItemDAO.findOne(id);
+            if(shoppingCartItemModel==null)return null;
+
+            ProductItem productItem= productItemService.findOne(shoppingCartItemModel.getProductItemID());
+            if(productItem==null)return null;
+            shoppingCartItemModel.setProductItem(productItem);
+
+            list.add(shoppingCartItemModel);
+        }
+        return list;
     }
 
 

@@ -32,6 +32,8 @@ public class ShoppingCartItemDAO  extends AbstractDAO<ShoppingCartItemModel> imp
         return list.isEmpty()?null:list.get(0);
 
     }
+
+
     @Override
     public int insert(ShoppingCartItemModel shoppingCartItemModel) {
         StringBuilder sql = new StringBuilder("INSERT INTO ShoppingCartItem (CartID, ProductItemID, Quantity)");
