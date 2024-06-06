@@ -81,6 +81,14 @@
             <button class="btn btn-danger" id="delete-selected-items">Xóa các sản phẩm đã chọn</button>
             <button class="btn btn-success" id="buy-selected-items">Mua các sản phẩm đã chọn</button>
         </div>
+
+
+        <form id="buyForm" method="post" action="${pageContext.request.contextPath}/shop-order">
+            <input type="hidden" name="selectedIds" id="selectedIds">
+        </form>
+
+
+
     </div>
 </div>
 <!-- Cart Page End -->
@@ -91,7 +99,8 @@
         const checkboxes = document.querySelectorAll(".delete-item");
         const totalAmountElement = document.getElementById("totalAmount");
         const buyButton = document.getElementById("buy-selected-items");
-
+        const buyForm = document.getElementById("buyForm");
+        const selectedIdsInput = document.getElementById("selectedIds");
 
         function formatCurrency(value) {
             return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
@@ -158,27 +167,9 @@
             });
 
             if (selectedIds.length > 0) {
-                const urlAPI = `${pageContext.request.contextPath}/shop-order`;
-                var data = { ids: selectedIds };
+                selectedIdsInput.value = selectedIds.join(',');
 
-                $.ajax({
-                    url: urlAPI,
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(data),
-                    success: function (result) {
-                        if (result.success) {
-                            window.location.href = `${pageContext.request.contextPath}/checkout`;
-                        } else {
-                            console.log("vao day");
-                            alert("Có lỗi xảy ra!");
-                        }
-                    },
-                    error: function (error) {
-                        console.log(error);
-                        alert("Có lỗi xảy ra!");
-                    }
-                });
+                buyForm.submit();
             } else {
                 alert("Vui lòng chọn ít nhất một mục để mua.");
             }
