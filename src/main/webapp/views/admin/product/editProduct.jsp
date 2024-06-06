@@ -34,6 +34,7 @@
                                         name="name"
                                         type="text"
                                         class="form-control validate"
+                                        value="${product.displayName}"
                                         required
                                 />
                             </div>
@@ -46,7 +47,7 @@
                                         class="form-control validate"
                                         rows="3"
                                         required
-                                ></textarea>
+                                >${product.description}</textarea>
                             </div>
                             <div class="form-group mb-3">
                                 <label
@@ -105,8 +106,6 @@
                                     </td>
                                 </tr>
                             </c:forEach>
-
-
                             </tbody>
                         </table>
                     </div>
@@ -121,9 +120,6 @@
         </div>
     </div>
 </div>
-
-
-
 
 <script>
     let currentImageIndex = 0;

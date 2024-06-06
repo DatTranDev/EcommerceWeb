@@ -84,7 +84,7 @@
 <script>
     function openEditTab(itemId) {
         // Thay đổi đường dẫn theo URL trang chỉnh sửa sản phẩm của bạn
-        const editUrl = `/admin-product-edit?id=${itemId}`;
+        const editUrl = `/admin-product-edit/${itemId}`;
         window.location.href = editUrl;
     }
 </script>
