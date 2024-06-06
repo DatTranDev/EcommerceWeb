@@ -19,7 +19,7 @@
             <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
                 <div class="row">
                     <div class="col-12">
-                        <h2 class="tm-block-title d-inline-block">Add Product</h2>
+                        <h2 class="tm-block-title d-inline-block">THÊM SẢN PHẨM</h2>
                     </div>
                 </div>
                 <div class="row tm-edit-product-row">
@@ -28,7 +28,7 @@
                             <div class="form-group mb-3">
                                 <label
                                         for="name"
-                                >Product Name
+                                >Tên sản phẩm
                                 </label>
                                 <input
                                         id="name"
@@ -41,7 +41,7 @@
                             <div class="form-group mb-3">
                                 <label
                                         for="description"
-                                >Description</label
+                                >Mô tả</label
                                 >
                                 <textarea
                                         class="form-control validate"
@@ -52,7 +52,7 @@
                             <div class="form-group mb-3">
                                 <label
                                         for="category"
-                                >Category</label
+                                >Danh mục</label
                                 >
                                 <select
                                         class="custom-select tm-select-accounts"
@@ -65,7 +65,7 @@
 
                                 </select>
                             </div>
-
+                        </form>
 
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
@@ -77,15 +77,15 @@
                         </div>
                         <div class="custom-file mt-3 mb-3">
                             <input id="fileInput" type="file" style="display:none;" accept="image/*" multiple onchange="displayImages(event)" />
-                            <input type="button" class="btn btn-primary btn-block mx-auto" value="UPLOAD PRODUCT IMAGES" onclick="document.getElementById('fileInput').click();" />
+                            <input type="button" class="btn btn-primary btn-block mx-auto" value="THÊM ẢNH" onclick="document.getElementById('fileInput').click();" />
                         </div>
                     </div>
 
 
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Product Now</button>
+                        <button type="submit" class="btn btn-primary btn-block text-uppercase">THÊM SẢN PHẨM</button>
                     </div>
-                    </form>
+
                 </div>
             </div>
         </div>

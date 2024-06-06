@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/admin-addProduct"})
+@WebServlet(urlPatterns = {"/admin-product/add"})
 public class AddProductController extends HttpServlet {
     @Inject
     private ProductService productService;
@@ -41,7 +41,7 @@ public class AddProductController extends HttpServlet {
         }
 
         request.setAttribute("listCategory",listCategoryShow);
-        RequestDispatcher rd = request.getRequestDispatcher("views/admin/product/addProduct.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/views/admin/product/addProduct.jsp");
         rd.forward(request,response);
     }
     @Override

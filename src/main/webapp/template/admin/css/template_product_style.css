@@ -549,4 +549,16 @@ input[type="checkbox"]:focus {
         max-height: 350px;
     }
 }
+.btn-custom {
+    background-color:  #F75C29FF;
+    color: white;
+    border: 1px solid  rgb(247, 92, 41);
+    transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color:transparent;
+    color:rgb(247, 92, 41);
+    border: 1px solid  rgb(247, 92, 41);
+}
 

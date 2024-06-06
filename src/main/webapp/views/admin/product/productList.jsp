@@ -22,19 +22,19 @@
                         <thead>
                         <tr>
                             <th scope="col">&nbsp;</th>
-                            <th scope="col">PRODUCT NAME</th>
-                            <th scope="col">IN STOCK</th>
-                            <th scope="col">CATEGORY</th>
+                            <th scope="col">TÊN SẢN PHẨM</th>
+                            <th scope="col">TỒN KHO</th>
+                            <th scope="col">DANH MỤC</th>
                             <th scope="col">&nbsp;</th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach var="item" items="${listProduct}" >
-                            <tr onclick="openEditTab(${item.id})" style="cursor: pointer;">
-                                <th scope="row"><input type="checkbox"></th>
-                                <td class="tm-product-name">${item.name}</td>
-                                <td style="text-align: center; vertical-align: middle;">${item.quantity}</td>
-                                <td>${item.category}</td>
+                            <tr style="cursor: pointer;">
+                                <th  scope="row"><input type="checkbox"></th>
+                                <td onclick="openEditTab(${item.id})" class="tm-product-name">${item.name}</td>
+                                <td onclick="openEditTab(${item.id})" style="text-align: center; vertical-align: middle;">${item.quantity}</td>
+                                <td onclick="openEditTab(${item.id})">${item.category}</td>
                                 <td>
                                     <a href="#" class="tm-product-delete-link">
                                         <i class="far fa-trash-alt tm-product-delete-icon"></i>
@@ -48,9 +48,9 @@
                     </table>
                 </div>
                 <!-- table container -->
-                <a  href="${pageContext.request.contextPath}/admin-addProduct" class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
+                <a  href="${pageContext.request.contextPath}/admin-product/add" class="btn btn-primary btn-block text-uppercase mb-3">THÊM SẢN PHẨM</a>
                 <button class="btn btn-primary btn-block text-uppercase">
-                    Delete selected products
+                    XÓA SẢN PHẨM ĐÃ CHỌN
                 </button>
             </div>
         </div>
@@ -69,13 +69,14 @@
                                     </a>
                                 </td>
                             </tr>
+                            </tr>
                         </c:forEach>
                         </tbody>
                     </table>
                 </div>
                 <!-- table container -->
                 <button class="btn btn-primary btn-block text-uppercase mb-3">
-                    Add new category
+                    THÊM DANH MỤC
                 </button>
             </div>
         </div>
@@ -84,7 +85,7 @@
 <script>
     function openEditTab(itemId) {
         // Thay đổi đường dẫn theo URL trang chỉnh sửa sản phẩm của bạn
-        const editUrl = `/admin-product-edit/${itemId}`;
+        const editUrl =`${pageContext.request.contextPath}/admin-editProduct/`+itemId;
         window.location.href = editUrl;
     }
 </script>

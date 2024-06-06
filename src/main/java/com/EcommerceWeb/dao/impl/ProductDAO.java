@@ -89,4 +89,12 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 		List<ProductCategory> productCategories = query(sql, new ProductCategoryMapper(), id);
 		return productCategories.get(0);
 	}
+
+	@Override
+	public List<ProductItem> getProductItems(int id) {
+		String sql = "SELECT * FROM productitem WHERE productid = ?";
+		List<ProductItem> productItems = query(sql, new ProductItemMapper(), id);
+		return productItems;
+	}
+
 }

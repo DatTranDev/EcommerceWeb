@@ -20,8 +20,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@WebServlet(urlPatterns = {"/admin-editProduct/*"})
-public class EditProductController extends HttpServlet {
+@WebServlet(urlPatterns = {"/admin-editProductItem/*"})
+public class EditProductItemController extends HttpServlet {
     @Inject
     private ProductService productService;
     @Inject
@@ -31,8 +31,6 @@ public class EditProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
-        List<CategoryShow> listCategoryShow= new ArrayList<>();
-        List<ProductItem> listProductItem= new ArrayList<>();
         List<String> listImage= new ArrayList<>();
         String productId = null;
         if (pathInfo != null) {
@@ -40,65 +38,29 @@ public class EditProductController extends HttpServlet {
             if (pathParts.length > 1) {
                 productId = pathParts[1];
 
-                    int id = Integer.parseInt(productId);
-                    Product product = productService.findOne(id);
-                    if(product != null){
-                        product.setCategory(productCategoryService.findOne(product.getCategoryID()));
-                        product.setMinPrice(productService.getMinPrice(id));
-                        product.setMaxPrice(productService.getMaxPrice(id));
-                        request.setAttribute("product", product);
-                        if(!(product.getProductImage()==null) && !product.getProductImage().isEmpty()){
-                            listImage= Arrays.stream(product.getProductImage().split(","))
+                int id = Integer.parseInt(productId);
+                ProductItem productItem = productItemService.findOne(id);
+                if(productItem != null){
+                    request.setAttribute("productItem", productItem);
+                    if(!(productItem.getProductImage()==null) && !productItem.getProductImage().isEmpty()){
+                        listImage= Arrays.stream(productItem.getProductImage().split(","))
                                 .map(String::trim)
-                                    .collect(Collectors.toList());
-                        }
-                        request.setAttribute("listImage", listImage);
-
-                        //
-                        listProductItem= productService.getProductItems(id);
-                        request.setAttribute("listProductItem", listProductItem);
-
-                        List<ProductCategory> listCategory = productCategoryService.getAll();
-                        for(ProductCategory productCategory:listCategory) {
-                            CategoryShow categoryShow = new CategoryShow();
-                            categoryShow.setId(productCategory.getID());
-                            categoryShow.setName(productCategory.getCategoryName());
-                            if(productCategory.getParentCategoryID()!=0)
-                            {
-                                categoryShow.setParent(" ("+ productCategoryService.findOne(productCategory.getParentCategoryID()).getCategoryName()+")");
-                            }
-                            else
-                            {
-                                categoryShow.setParent("");
-                            }
-                            if(productCategory.getID()==product.getCategory().getID())
-                            {
-                                listCategoryShow.add(0,categoryShow);
-                            }
-                            else
-                            {
-                                listCategoryShow.add(categoryShow);
-                            }
-
-
-
-                        }
-                        request.setAttribute("listCategory", listCategoryShow);
-
-
-
-                        RequestDispatcher rd = request.getRequestDispatcher("/views/admin/product/editProduct.jsp");
-                        rd.forward(request, response);
+                                .collect(Collectors.toList());
                     }
-                    else{
-                        response.sendRedirect(request.getContextPath() + "/error");
+                    request.setAttribute("listImage", listImage);
                     }
+                    RequestDispatcher rd = request.getRequestDispatcher("/views/admin/product/editProductItem.jsp");
+                    rd.forward(request, response);
+                }
+                else{
+                    response.sendRedirect(request.getContextPath() + "/error");
+                }
 
 //                catch (Exception e) {
 //                    response.sendRedirect(request.getContextPath() + "/error");
 //                }
             }
-        }
+
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
