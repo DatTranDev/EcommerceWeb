@@ -4,9 +4,11 @@ import com.EcommerceWeb.dao.IProductItemDAO;
 import com.EcommerceWeb.model.ProductItem;
 import com.EcommerceWeb.service.IProductItemService;
 
+import javax.inject.Inject;
 import java.util.List;
 
 public class ProductItemService implements IProductItemService {
+    @Inject
     private IProductItemDAO productItemDAO;
     @Override
     public List<ProductItem> getAll() {
