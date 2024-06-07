@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <%@taglib uri="http://example.com/utils" prefix="utils" %>
@@ -27,20 +28,20 @@
                         <div class="mb-4">
                             <div class="d-flex align-items-center">
                                 <h5 class="mb-0 me-2">Họ tên:</h5>
-                                <p class="mb-0">${siteUser.displayName}</p>
+                                <p class="mb-0" id="displayName">${siteUser.displayName}</p>
                             </div>
                         </div>
                         <div class="mb-4">
                             <div class="d-flex align-items-center">
                                 <h5 class="mb-0 me-2">Số điện thoại:</h5>
-                                <p class="mb-0">${siteUser.phoneNumber}</p>
+                                <p class="mb-0" id="phoneNumber">${siteUser.phoneNumber}</p>
                             </div>
                         </div>
 
                         <!-- Ghi chú -->
                         <div class="mb-4">
                             <h5 class="mb-0">Ghi chú:</h5>
-                            <textarea class="form-control" rows="4">${shopOrder.description}</textarea>
+                            <textarea class="form-control" id="description" rows="4">${shopOrder.description}</textarea>
                         </div>
 
                         <!-- Phần phương thức thanh toán -->
@@ -89,7 +90,7 @@
                         <h5 class="mb-0 ps-4 me-4">Tổng tiền</h5>
                         <p class="mb-0 pe-4" id="totalAmount">${utils:formatCurrency(0)}</p>
                     </div>
-                    <a href="${pageContext.request.contextPath}/checkout" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4">Đặt hàng</a>
+                    <button id="placeOrderBtn" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4">Đặt hàng</button>
                 </div>
             </div>
 
@@ -106,9 +107,9 @@
                             <th scope="col">Thành tiền</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="cartItems">
                         <c:forEach var="item" items="${shoppingCartItemModelList}">
-                            <tr>
+                            <tr data-id="${item.ID}">
                                 <th scope="row">
                                     <div class="d-flex align-items-center">
                                         <img src="${item.productItem.product.productImage}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
@@ -169,8 +170,51 @@
             shippingMethod.addEventListener('change', calculateTotal);
         });
 
-        // Initial calculation with the default selected shipping method
         calculateTotal();
+
+        document.getElementById('placeOrderBtn').addEventListener('click', function() {
+            const description = document.getElementById('description').value;
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            const shippingAddress = document.querySelector('input[name="shippingAddress"]:checked').value;
+            const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked').value;
+
+            const cartItems = [];
+            document.querySelectorAll('#cartItems tr').forEach(row => {
+                const item = {
+                    id: row.getAttribute('data-id')
+                };
+                cartItems.push(item);
+            });
+
+            const orderData = {
+                description,
+                paymentMethod,
+                shippingAddress,
+                shippingMethod,
+                items: cartItems
+            };
+
+            fetch('${pageContext.request.contextPath}/api-shop-order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(orderData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Đặt hàng thành công!');
+                        // Redirect or other actions
+                    } else {
+                        alert('Đặt hàng thất bại!');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Đặt hàng thất bại!');
+                });
+        });
     };
 </script>
 
