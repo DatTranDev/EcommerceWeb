@@ -9,6 +9,7 @@ import com.EcommerceWeb.model.UserAddress;
 import com.EcommerceWeb.service.IUserAddressService;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserAddressService implements IUserAddressService {
@@ -25,6 +26,24 @@ public class UserAddressService implements IUserAddressService {
             Address address =  addressDAO.findOne(item.getAddressID());
             item.setAddress(address);
         }
-        return list;
+        List<UserAddress> listNew =  new ArrayList<>();
+        for(UserAddress item:list){
+            if(item.isDefault()){
+                listNew.add(item);
+                break;
+            }
+        }
+        if(!listNew.isEmpty()){
+            for(UserAddress item:list) {
+                if(item!=listNew.get(0)){
+                    listNew.add(item);
+                }
+            }
+            return listNew;
+        }
+        else{
+            return list;
+
+        }
     }
 }

@@ -13,6 +13,14 @@ public class PaymentMethodService implements IPaymentMethodService {
 
     @Override
     public List<PaymentMethod> findAllNotWhereIsDelete() {
-        return paymentMethodDAO.findAllNotWhereIsDelete();
+        List<PaymentMethod> paymentMethodList = paymentMethodDAO.findAllNotWhereIsDelete();
+        if(paymentMethodList==null)return null;
+
+        for(PaymentMethod item:paymentMethodList){
+            if(item.isDeleted()){
+                item.setDisplayName(item.getDisplayName()+" ("+"Sắp ra mắt)");
+            }
+        }
+        return paymentMethodList;
     }
 }

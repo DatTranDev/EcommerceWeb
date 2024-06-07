@@ -45,9 +45,13 @@
 
                         <!-- Phần phương thức thanh toán -->
                         <h5 class="mb-4">Phương thức thanh toán:</h5>
-                        <c:forEach var="paymentMethod" items="${paymentMethodList}">
+                        <c:forEach var="paymentMethod" items="${paymentMethodList}" varStatus="status">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paymentMethod" id="paymentMethod${paymentMethod.ID}" value="${paymentMethod.ID}">
+                                <input class="form-check-input" type="radio" name="paymentMethod"
+                                       id="paymentMethod${paymentMethod.ID}"
+                                       value="${paymentMethod.ID}"
+                                       <c:if test="${paymentMethod.isDeleted()}">disabled</c:if>
+                                       <c:if test="${status.first && !paymentMethod.isDeleted()}">checked</c:if>>
                                 <label class="form-check-label" for="paymentMethod${paymentMethod.ID}">
                                         ${paymentMethod.displayName}
                                 </label>
@@ -56,9 +60,9 @@
 
                         <!-- Phần địa chỉ giao hàng -->
                         <h5 class="mb-4 mt-4">Địa chỉ giao hàng:</h5>
-                        <c:forEach var="address" items="${userAddressList}">
+                        <c:forEach var="address" items="${userAddressList}" varStatus="status">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="shippingAddress" id="shippingAddress${address.addressID}" value="${address.addressID}">
+                                <input class="form-check-input" type="radio" name="shippingAddress" id="shippingAddress${address.addressID}" value="${address.addressID}" <c:if test="${status.first}">checked</c:if>>
                                 <label class="form-check-label" for="shippingAddress${address.addressID}">
                                         ${address.address.value}
                                 </label>
@@ -67,9 +71,14 @@
 
                         <!-- Phần phương thức vận chuyển -->
                         <h5 class="mb-4 mt-4">Phương thức vận chuyển:</h5>
-                        <c:forEach var="shippingMethod" items="${shippingMethodList}">
+                        <c:forEach var="shippingMethod" items="${shippingMethodList}" varStatus="status">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="shippingMethod" id="shippingMethod${shippingMethod.ID}" value="${shippingMethod.ID}">
+                                <input class="form-check-input" type="radio" name="shippingMethod"
+                                       id="shippingMethod${shippingMethod.ID}"
+                                       value="${shippingMethod.ID}"
+                                       data-shipping-fee="${shippingMethod.price}"
+                                       <c:if test="${shippingMethod.isDeleted()}">disabled</c:if>
+                                       <c:if test="${status.first && !shippingMethod.isDeleted()}">checked</c:if>>
                                 <label class="form-check-label" for="shippingMethod${shippingMethod.ID}">
                                         ${shippingMethod.displayName}
                                 </label>
@@ -78,9 +87,9 @@
                     </div>
                     <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                         <h5 class="mb-0 ps-4 me-4">Tổng tiền</h5>
-                        <p class="mb-0 pe-4" id="totalAmount">${utils:formatCurrency(543054)}</p>
+                        <p class="mb-0 pe-4" id="totalAmount">${utils:formatCurrency(0)}</p>
                     </div>
-                    <a href="${pageContext.request.contextPath}/checkout" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4">Tiến hành thanh toán</a>
+                    <a href="${pageContext.request.contextPath}/checkout" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4">Đặt hàng</a>
                 </div>
             </div>
 
@@ -117,20 +126,14 @@
                                 <td>
                                     <div class="input-group quantity mt-4" style="width: 100px;">
                                         <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-minus rounded-circle bg-light border">
-                                                <i class="fa fa-minus"></i>
-                                            </button>
                                         </div>
-                                        <input type="text" class="form-control form-control-sm text-center border-0" value="${item.quantity}">
+                                        <input type="text" class="form-control form-control-sm text-center border-0" value="${item.quantity}" readonly style="background-color: #f9f9f9; color: #6c757d; cursor: not-allowed;">
                                         <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <p class="mb-0 mt-4 item-total">${utils:formatCurrency(item.productItem.price * item.quantity)}</p>
+                                    <p class="mb-0 mt-4 item-total" data-item-total="${item.productItem.price * item.quantity}">${utils:formatCurrency(item.productItem.price * item.quantity)}</p>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -144,7 +147,32 @@
 <!-- Checkout Page End -->
 
 <script>
+    window.onload = function() {
+        const shippingMethods = document.querySelectorAll('input[name="shippingMethod"]');
+        const totalAmountElement = document.getElementById('totalAmount');
+        const itemTotalElements = document.querySelectorAll('.item-total');
 
+        function calculateTotal() {
+            let itemTotal = 0;
+            itemTotalElements.forEach(element => {
+                itemTotal += parseFloat(element.getAttribute('data-item-total'));
+            });
+
+            const selectedShippingMethod = document.querySelector('input[name="shippingMethod"]:checked');
+            const shippingFee = parseFloat(selectedShippingMethod.getAttribute('data-shipping-fee'));
+
+            const totalAmount = itemTotal + shippingFee;
+            totalAmountElement.textContent = totalAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        }
+
+        shippingMethods.forEach(shippingMethod => {
+            shippingMethod.addEventListener('change', calculateTotal);
+        });
+
+        // Initial calculation with the default selected shipping method
+        calculateTotal();
+    };
 </script>
+
 </body>
 </html>
