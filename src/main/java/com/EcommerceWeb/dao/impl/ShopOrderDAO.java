@@ -18,14 +18,13 @@ public class ShopOrderDAO extends AbstractDAO<ShopOrderModel> implements IShopOr
 
     @Override
     public int insert(ShopOrderModel shopOrderModel) {
-        StringBuilder sql = new StringBuilder("INSERT INTO ShopOrder (UserID, PaymentMethodID, ShippingAddressID, ShippingMethodID, OrderTotal, Description)");
-        sql.append(" VALUES(?, ?, ?, ?, ?, ?)");
+        StringBuilder sql = new StringBuilder("INSERT INTO ShopOrder (UserID, PaymentMethodID, ShippingAddressID, ShippingMethodID, Description)");
+        sql.append(" VALUES(?, ?, ?, ?, ?)");
         return insert(sql.toString(),
                 shopOrderModel.getUserID(),
                 shopOrderModel.getPaymentMethodID(),
                 shopOrderModel.getShippingAddressID(),
                 shopOrderModel.getShippingMethodID(),
-                shopOrderModel.getOrderTotal(),
                 shopOrderModel.getDescription());
     }
 

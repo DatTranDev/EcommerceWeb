@@ -203,7 +203,7 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
+                    if (data.idShopOrderInsert!=-1) {
                         alert('Đặt hàng thành công!');
                         // Redirect or other actions
                     } else {

@@ -4,8 +4,10 @@ import com.EcommerceWeb.dao.*;
 
 import com.EcommerceWeb.model.*;
 import com.EcommerceWeb.service.IShopOrderService;
+import com.EcommerceWeb.service.IShoppingCartItemService;
 
 import javax.inject.Inject;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +28,8 @@ public class ShopOrderService implements IShopOrderService {
     private IProductItemDAO productItemDAO;
     @Inject
     private IOrderLineDAO orderLineDAO;
-
-
+    @Inject
+    private IShoppingCartItemService shoppingCartItemService;
     @Override
     public List<ShopOrderModel> findByUserIdAndOrderStatusID(int userID, int orderStatusID) {
         List<ShopOrderModel> list=shopOrderDAO.findByUserIdAndOrderStatusID(userID,orderStatusID);
@@ -53,23 +55,28 @@ public class ShopOrderService implements IShopOrderService {
     }
 
     @Override
-    public boolean insertBill(ShopOrderModel shopOrderModel,int[] listShoppingCartItemID) {
-        if(listShoppingCartItemID==null)return false;
+    public int insertBill(ShopOrderModel shopOrderModel,int[] listShoppingCartItemID) {
+        if(listShoppingCartItemID==null)return -1;
 
         shopOrderModel.setOrderTotal(0);
+        shopOrderModel.setOrderDate(new Timestamp(System.currentTimeMillis()));
         int idBillInsert=shopOrderDAO.insert(shopOrderModel);
-        if(idBillInsert==-1)return false;
+        if(idBillInsert==-1)return -1;
 
 
         double orderTotal = 0;
 
         for(int shoppingCartID:listShoppingCartItemID){
             ShoppingCartItemModel shoppingCartItemModel= shoppingCartItemDAO.findOne(shoppingCartID);
-            if(shoppingCartItemModel==null)return false;
+            if(shoppingCartItemModel==null)return -1;
+            ProductItem productItem = productItemDAO.findOne(shoppingCartItemModel.getProductItemID());
+            if(productItem==null)return -1;
+            shoppingCartItemModel.setProductItem(productItem);
+
             OrderLineModel orderLineModel = convertShoppingCartItemModelToOrderLineModel(shoppingCartItemModel);
             orderLineModel.setOrderID(idBillInsert);
 
-            if(orderLineDAO.insert(orderLineModel)==-1)return false;
+            if(orderLineDAO.insert(orderLineModel)==-1)return -1;
             orderTotal+=orderLineModel.getPrice();
 
         }
@@ -77,7 +84,9 @@ public class ShopOrderService implements IShopOrderService {
 
         shopOrderDAO.update(shopOrderModel);
 
-        return true;
+        shoppingCartItemService.updateListItemIsDeleteTrue(listShoppingCartItemID);
+
+        return idBillInsert;
     }
 
 
@@ -87,7 +96,6 @@ public class ShopOrderService implements IShopOrderService {
         orderLineModel.setProductItemID(shoppingCartItemModel.getProductItemID());
         orderLineModel.setQuantity(shoppingCartItemModel.getQuantity());
         orderLineModel.setPrice(shoppingCartItemModel.getProductItem().getPrice());
-        orderLineModel.setDeleted(shoppingCartItemModel.isDeleted());
         return orderLineModel;
     }
 }
