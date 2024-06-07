@@ -14,4 +14,8 @@ public interface IProductItemService {
     ProductItem findOne(int id);
     int getTotalItem();
     int getTotalQuantityOfProduct(int productID);
+
+
+    //phuc vu phan chi tiet san pham de chon size mau
+    List<ProductItem> getProductItemByProductIDForProductDetail(int productID);
 }
