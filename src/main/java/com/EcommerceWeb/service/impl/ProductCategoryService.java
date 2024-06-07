@@ -42,4 +42,9 @@ public class ProductCategoryService implements IProductCategoryService {
     public ProductCategory findOne(int id) {
         return productCategoryDAO.findOne(id);
     }
+
+    @Override
+    public List<ProductCategory> getAllParent() {
+        return productCategoryDAO.getAllParent();
+    }
 }

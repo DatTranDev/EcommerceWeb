@@ -31,11 +31,11 @@
                         <tbody>
                         <c:forEach var="item" items="${listProduct}" >
                             <tr style="cursor: pointer;">
-                                <th  scope="row"><input type="checkbox"></th>
-                                <td onclick="openEditTab(${item.id})" class="tm-product-name">${item.name}</td>
-                                <td onclick="openEditTab(${item.id})" style="text-align: center; vertical-align: middle;">${item.quantity}</td>
-                                <td onclick="openEditTab(${item.id})">${item.category}</td>
-                                <td>
+                                <th onclick="listDelete(${item.id})" scope="row"><input type="checkbox"></th>
+                                <td onclick="openEditProductTab(${item.id})" class="tm-product-name">${item.name}</td>
+                                <td onclick="openEditProductTab(${item.id})" style="text-align: center; vertical-align: middle;">${item.quantity}</td>
+                                <td onclick="openEditProductTab(${item.id})">${item.category}</td>
+                                <td onclick="deleteOne(${item.id})" >
                                     <a href="#" class="tm-product-delete-link">
                                         <i class="far fa-trash-alt tm-product-delete-icon"></i>
                                     </a>
@@ -49,9 +49,13 @@
                 </div>
                 <!-- table container -->
                 <a  href="${pageContext.request.contextPath}/admin-product/add" class="btn btn-primary btn-block text-uppercase mb-3">THÊM SẢN PHẨM</a>
-                <button class="btn btn-primary btn-block text-uppercase">
-                    XÓA SẢN PHẨM ĐÃ CHỌN
-                </button>
+                <form id="deleteProduct" action="<c:url value='/admin-product'/>" method="post" onsubmit="submitForm()">
+                    <input type="hidden" id="delete" name="listId"/>
+                    <button class="btn btn-primary btn-block text-uppercase" type="submit">
+                        XÓA SẢN PHẨM ĐÃ CHỌN
+                    </button>
+                </form>
+
             </div>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 tm-block-col">
@@ -61,33 +65,62 @@
                     <table class="table tm-table-small tm-product-table">
                         <tbody>
                         <c:forEach var="item" items="${listCategory}" >
-                            <tr>
-                                <td class="tm-product-name">${item.name}${item.parent}</td>
+                            <tr  style="cursor: pointer;">
+                                <td  onclick="openEditCategoryTab(${item.id})" class="tm-product-name">${item.name}${item.parent}</td>
                                 <td class="text-center">
-                                    <a href="#" class="tm-product-delete-link">
+                                    <a href="${pageContext.request.contextPath}/admin-deleteCategory/${item.id}" class="tm-product-delete-link">
                                         <i class="far fa-trash-alt tm-product-delete-icon"></i>
                                     </a>
                                 </td>
-                            </tr>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
                 </div>
+                <a  href="${pageContext.request.contextPath}/admin-addCategory" class="btn btn-primary btn-block text-uppercase mb-3">THÊM DANH MỤC</a>
                 <!-- table container -->
-                <button class="btn btn-primary btn-block text-uppercase mb-3">
-                    THÊM DANH MỤC
-                </button>
+<%--                <button class="btn btn-primary btn-block text-uppercase mb-3">--%>
+<%--                    THÊM DANH MỤC--%>
+<%--                </button>--%>
             </div>
         </div>
     </div>
 </div>
 <script>
-    function openEditTab(itemId) {
+    function openEditProductTab(itemId) {
         // Thay đổi đường dẫn theo URL trang chỉnh sửa sản phẩm của bạn
         const editUrl =`${pageContext.request.contextPath}/admin-editProduct/`+itemId;
         window.location.href = editUrl;
     }
 </script>
+<script>
+    function openEditCategoryTab(itemId) {
+        const editCategoryUrl =`${pageContext.request.contextPath}/admin-editCategory/`+itemId;
+        window.location.href = editCategoryUrl;
+    }
+</script>
+<script>
+    let listId=[];
+    function listDelete(number) {
+        var index = listId.indexOf(number);
+        if (index !== -1) {
+            listId.splice(index, 1);
+        } else {
+            listId.push(number);
+        }
+    }
+    function submitForm() {
+        var deleteString = listId.join(", ");
+        const imageUrlsInput = document.getElementById('delete');
+        imageUrlsInput.value = deleteString;
+        document.getElementById('deleteProduct').submit();
+    }
+    function  deleteOne(number){
+        const imageUrlsInput = document.getElementById('delete');
+        imageUrlsInput.value = number;
+        document.getElementById('deleteProduct').submit();
+    }
+</script>
+
 </body>
 </html>

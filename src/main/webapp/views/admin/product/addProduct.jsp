@@ -1,4 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<%@include file="/common/tagLib.jsp"%>
 <%--
   Created by IntelliJ IDEA.
   User: ADMIN
@@ -6,7 +8,6 @@
   Time: 2:56 AM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Title</title>
@@ -22,9 +23,9 @@
                         <h2 class="tm-block-title d-inline-block">THÊM SẢN PHẨM</h2>
                     </div>
                 </div>
-                <div class="row tm-edit-product-row">
+                <form class="row tm-edit-product-row" id="productForm" action="<c:url value='/admin-product/add'/>" method="post" onsubmit="submitForm()">
                     <div class="col-xl-6 col-lg-6 col-md-12">
-                        <form action="" class="tm-edit-product-form">
+                        <div class="tm-edit-product-form">
                             <div class="form-group mb-3">
                                 <label
                                         for="name"
@@ -44,6 +45,7 @@
                                 >Mô tả</label
                                 >
                                 <textarea
+                                        name="description"
                                         class="form-control validate"
                                         rows="3"
                                         required
@@ -57,42 +59,48 @@
                                 <select
                                         class="custom-select tm-select-accounts"
                                         id="category"
+                                        name="category"
                                 >
                                     <c:forEach var="item" items="${listCategory}">
-                                        <option value="">${item.name}${item.parent}</option>
+                                        <option value="${item.id}">${item.name}${item.parent}</option>
                                     </c:forEach>
 
 
                                 </select>
                             </div>
-                        </form>
-
+                        </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
                         <div class="tm-product-img-dummy mx-auto" id="imageContainer" style="position: relative;">
-                            <i class="fas fa-cloud-upload-alt tm-upload-icon" id="uploadIcon" onclick="document.getElementById('fileInput').click();"></i>
-                            <img id="previewImage" src="#" alt="Preview Image" style="display:none; width: auto; height: 100%;"/>
-                            <button id="prevButton" style="display:none; position: absolute; top: 50%; left: 10px; transform: translateY(-50%); background-color: white; border: none; cursor: pointer;">←</button>
-                            <button id="nextButton" style="display:none; position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background-color: white; border: none; cursor: pointer;">→</button>
+                            <i class="fas fa-cloud-upload-alt tm-upload-icon" id="uploadIcon"
+                               onclick="document.getElementById('fileInput').click();"></i>
+                            <img id="previewImage" src="#" alt="Preview Image"
+                                 style="display:none; width: auto; height: 100%;"/>
+                            <button id="prevButton"
+                                    style="display:none; position: absolute; top: 50%; left: 10px; transform: translateY(-50%); background-color: white; border: none; cursor: pointer;">
+                                ←
+                            </button>
+                            <button id="nextButton"
+                                    style="display:none; position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background-color: white; border: none; cursor: pointer;">
+                                →
+                            </button>
                         </div>
                         <div class="custom-file mt-3 mb-3">
-                            <input id="fileInput" type="file" style="display:none;" accept="image/*" multiple onchange="displayImages(event)" />
-                            <input type="button" class="btn btn-primary btn-block mx-auto" value="THÊM ẢNH" onclick="document.getElementById('fileInput').click();" />
+                            <input id="fileInput" type="file" style="display:none;" accept="image/*" multiple
+                                   onchange="displayImages(event)"/>
+                            <input type="button" class="btn btn-primary btn-block mx-auto" value="THÊM ẢNH"
+                                   onclick="document.getElementById('fileInput').click();"/>
                         </div>
                     </div>
-
-
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary btn-block text-uppercase">THÊM SẢN PHẨM</button>
+                            <input type="hidden" id="imageUrlsInput" name="listImage"/>
+                            <button type="submit" class="btn btn-primary btn-block text-uppercase">THÊM SẢN PHẨM</button>
                     </div>
-
-                </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
-
-
 
 
 <script>
@@ -156,6 +164,11 @@
                 displayImageAtIndex(currentImageIndex);
             }
         });
+    }
+    function submitForm() {
+        const imageUrlsInput = document.getElementById('imageUrlsInput');
+        imageUrlsInput.value = JSON.stringify(images);
+        document.getElementById('productForm').submit();
     }
 
 </script>

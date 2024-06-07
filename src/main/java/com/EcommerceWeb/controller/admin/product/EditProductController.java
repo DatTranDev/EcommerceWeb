@@ -6,6 +6,8 @@ import com.EcommerceWeb.model.ProductItem;
 import com.EcommerceWeb.service.impl.ProductCategoryService;
 import com.EcommerceWeb.service.impl.ProductItemService;
 import com.EcommerceWeb.service.impl.ProductService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
@@ -28,6 +30,8 @@ public class EditProductController extends HttpServlet {
     private ProductCategoryService productCategoryService;
     @Inject
     private ProductItemService productItemService;
+    @Inject
+    private Product selectedProduct;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
@@ -46,9 +50,10 @@ public class EditProductController extends HttpServlet {
                         product.setCategory(productCategoryService.findOne(product.getCategoryID()));
                         product.setMinPrice(productService.getMinPrice(id));
                         product.setMaxPrice(productService.getMaxPrice(id));
+                        selectedProduct=product;
                         request.setAttribute("product", product);
                         if(!(product.getProductImage()==null) && !product.getProductImage().isEmpty()){
-                            listImage= Arrays.stream(product.getProductImage().split(","))
+                            listImage= Arrays.stream(product.getProductImage().split(", "))
                                 .map(String::trim)
                                     .collect(Collectors.toList());
                         }
@@ -79,9 +84,6 @@ public class EditProductController extends HttpServlet {
                             {
                                 listCategoryShow.add(categoryShow);
                             }
-
-
-
                         }
                         request.setAttribute("listCategory", listCategoryShow);
 
@@ -102,6 +104,35 @@ public class EditProductController extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        String name= request.getParameter("name");
+        String description= request.getParameter("description");
+        int categoryID= Integer.parseInt(request.getParameter("category"));
+        String jsonImage= request.getParameter("listImage");
+        List<String> listImage= new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            listImage= objectMapper.readValue(jsonImage, new TypeReference<List<String>>() {});
+        } catch (Exception e) {
+            response.sendRedirect(request.getContextPath() + "/error");
+        }
+        String image = String.join(", ", listImage);
+        if(selectedProduct!=null)
+        {
+            selectedProduct.setProductImage(image);
+            selectedProduct.setDisplayName(name);
+            selectedProduct.setCategoryID(categoryID);
+            selectedProduct.setDescription(description);
+            Product test=productService.update(selectedProduct);
+            if(test!=null)
+            {
+                response.sendRedirect(request.getContextPath() + "/admin-product");
+            }
+        }
+        else
+        {
+            response.sendRedirect(request.getContextPath() + "/error");
+        }
 
     }
     public static class ProductShow {

@@ -4,6 +4,9 @@ import com.EcommerceWeb.model.Product;
 import com.EcommerceWeb.model.ProductCategory;
 import com.EcommerceWeb.service.impl.ProductCategoryService;
 import com.EcommerceWeb.service.impl.ProductService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
@@ -28,6 +31,7 @@ public class AddProductController extends HttpServlet {
         List<ProductController.CategoryShow> listCategoryShow= new ArrayList<>();
         for(ProductCategory productCategory:listCategory) {
             ProductController.CategoryShow categoryShow = new ProductController.CategoryShow();
+            categoryShow.setId(productCategory.getID());
             categoryShow.setName(productCategory.getCategoryName());
             if(productCategory.getParentCategoryID()!=0)
             {
@@ -46,6 +50,33 @@ public class AddProductController extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        String name= request.getParameter("name");
+        String description= request.getParameter("description");
+        int categoryID= Integer.parseInt(request.getParameter("category"));
+        String jsonImage= request.getParameter("listImage");
+        List<String> listImage= new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            listImage= objectMapper.readValue(jsonImage, new TypeReference<List<String>>() {});
+        } catch (Exception e) {
+            response.sendRedirect(request.getContextPath() + "/error");
+        }
+        String image = String.join(", ", listImage);
+        Product newProduct = new Product();
+        newProduct.setCategoryID(categoryID);
+        newProduct.setDisplayName(name);
+        newProduct.setDescription(description);
+        newProduct.setProductImage(image);
+        Product test=productService.add(newProduct);
+        if(test!=null)
+        {
+            response.sendRedirect(request.getContextPath() + "/admin-product");
+        }
+        else
+        {
+            response.sendRedirect(request.getContextPath() + "/error");
+        }
 
     }
     public static class ProductShow {
@@ -78,8 +109,18 @@ public class AddProductController extends HttpServlet {
         }
     }
     public static class CategoryShow {
+        private int id;
         private String name;
         private String parent;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
         public String getName() {
             return name;
         }

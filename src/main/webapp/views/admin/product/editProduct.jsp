@@ -25,9 +25,9 @@
                         <h2 class="tm-block-title d-inline-block" style="margin-top: 0;">SỬA SẢN PHẨM</h2>
                     </div>
                 </div>
-                <div class="row tm-edit-product-row">
+                <form class="row tm-edit-product-row" id="productForm" action="<c:url value='/admin-editProduct/${product.ID}'/>" method="post" onsubmit="submitForm()">
                     <div class="col-xl-6 col-lg-6 col-md-12">
-                        <form action="" class="tm-edit-product-form">
+                        <div class="tm-edit-product-form">
                             <div class="form-group mb-3">
                                 <label
                                         for="name"
@@ -48,6 +48,7 @@
                                 >Mô tả</label
                                 >
                                 <textarea
+                                        name="description"
                                         class="form-control validate"
                                         rows="3"
                                         required
@@ -61,15 +62,16 @@
                                 <select
                                         class="custom-select tm-select-accounts"
                                         id="category"
+                                        name="category"
                                 >
                                     <c:forEach var="item" items="${listCategory}">
-                                        <option value="">${item.name}${item.parent}</option>
+                                        <option value="${item.id}">${item.name}${item.parent}</option>
                                     </c:forEach>
 
 
                                 </select>
                             </div>
-                        </form>
+                        </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
 
@@ -81,7 +83,7 @@
                         </div>
                         <div class="custom-file mt-3 mb-3">
                             <input id="fileInput" type="file" style="display:none;" accept="image/*" multiple onchange="displayImages(event)" />
-                            <input type="button" class="btn btn-primary btn-block mx-auto" value="THÊM ẢNH" onclick="document.getElementById('fileInput').click();" />
+                            <input type="button" class="btn btn-primary btn-block mx-auto" value="SỬA ẢNH" onclick="document.getElementById('fileInput').click();" />
                         </div>
                     </div>
 
@@ -102,7 +104,7 @@
                             <tbody>
                             <c:forEach var="item" items="${listProductItem}" >
                                 <tr  style="cursor: pointer;">
-                                    <th  scope="row"><input type="checkbox"></th>
+                                    <th onclick="listDelete(${item.ID})"  scope="row"><input type="checkbox"></th>
                                     <td onclick="openEditTab(${item.ID})" class="tm-product-name">${item.SKU}</td>
                                     <td onclick="openEditTab(${item.ID})" style="width:180px; padding-left: 30px "> ${item.quantityInStock} </td>
                                     <td onclick="openEditTab(${item.ID})"> ${item.price}</td>
@@ -125,9 +127,10 @@
                     </div>
 
                     <div class="col-12" style="margin-top: 20px;">
+                        <input type="hidden" id="imageUrlsInput" name="listImage"/>
                         <button type="submit" class="btn btn-primary btn-block text-uppercase">Cập nhật sản phẩm</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -214,6 +217,23 @@
         const editUrl =`${pageContext.request.contextPath}/admin-editProductItem/`+itemId;
         window.location.href = editUrl;
     }
+    function submitForm() {
+        const imageUrlsInput = document.getElementById('imageUrlsInput');
+        imageUrlsInput.value = JSON.stringify(images);
+        document.getElementById('productForm').submit();
+    }
+</script>
+<script>
+    let listId=[];
+    function listDelete(number) {
+        var index = listId.indexOf(number);
+        if (index !== -1) {
+            listId.splice(index, 1);
+        } else {
+            listId.push(number);
+        }
+    }
+
 </script>
 </body>
 </html>

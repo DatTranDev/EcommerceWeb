@@ -58,7 +58,25 @@ public class ProductController extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.setCharacterEncoding("UTF-8");
+        String list = request.getParameter("listId");
+        if(list!=null && !list.isEmpty())
+        {
+            String[] stringArray = list.split(",\\s*"); // Tách chuỗi bằng dấu phẩy, loại bỏ khoảng trắng dư thừa
+            List<Integer> integerList = new ArrayList<>();
+            for (String numberString : stringArray) {
+                int number = Integer.parseInt(numberString.trim()); // Chuyển chuỗi thành số nguyên
+                integerList.add(number);
+            }
+            if(integerList.size()>0)
+            {
+                for(Integer integer:integerList)
+                {
+                    productService.delete(integer);
+                }
+                response.sendRedirect(request.getContextPath() + "/admin-product");
+            }
+        }
     }
     public static class ProductShow {
         private int id;

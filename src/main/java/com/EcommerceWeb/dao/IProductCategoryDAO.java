@@ -13,4 +13,5 @@ public interface IProductCategoryDAO extends GenericDAO<ProductCategory> {
     void update(ProductCategory product);
     void delete(int id);
     ProductCategory findOne(int id);
+    List<ProductCategory> getAllParent();
 }

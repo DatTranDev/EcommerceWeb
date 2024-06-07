@@ -12,4 +12,5 @@ public interface IProductCategoryService {
     ProductCategory update(ProductCategory productCategory);
     void delete(int id);
     ProductCategory findOne(int id);
+    List<ProductCategory> getAllParent();
 }
