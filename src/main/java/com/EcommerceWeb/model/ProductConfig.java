@@ -5,6 +5,10 @@ public class ProductConfig {
     private int variationID;
     private boolean isDeleted;
 
+
+
+    private VariationOption variationOption;
+
     public int getProductItemID() {
         return productItemID;
     }
@@ -28,5 +32,15 @@ public class ProductConfig {
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
+
+    public VariationOption getVariationOption() {
+        return variationOption;
+    }
+
+    public void setVariationOption(VariationOption variationOption) {
+        this.variationOption = variationOption;
+    }
+
+
 }
 

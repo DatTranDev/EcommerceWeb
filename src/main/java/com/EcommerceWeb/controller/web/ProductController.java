@@ -2,8 +2,12 @@ package com.EcommerceWeb.controller.web;
 
 import com.EcommerceWeb.model.Product;
 import com.EcommerceWeb.model.ProductCategory;
+import com.EcommerceWeb.model.ProductConfig;
+import com.EcommerceWeb.model.ProductItem;
 import com.EcommerceWeb.model.UserReview;
 import com.EcommerceWeb.service.IProductCategoryService;
+import com.EcommerceWeb.service.IProductConfigService;
+import com.EcommerceWeb.service.IProductItemService;
 import com.EcommerceWeb.service.IProductService;
 import com.EcommerceWeb.service.IUserReviewService;
 
@@ -24,9 +28,13 @@ public class ProductController extends HttpServlet {
     @Inject
     private IProductCategoryService productCategoryService;
     @Inject
+    private IProductItemService productItemService;
+    @Inject
+    private IProductConfigService productConfigService;
+    @Inject
     private IUserReviewService userReviewService;
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
         String productId = null;
 
@@ -34,10 +42,10 @@ public class ProductController extends HttpServlet {
             String[] pathParts = pathInfo.split("/");
             if (pathParts.length > 1) {
                 productId = pathParts[1];
-                try{
+                try {
                     int id = Integer.parseInt(productId);
                     Product product = productService.findOne(id);
-                    if(product != null){
+                    if (product != null) {
                         product.setCategory(productCategoryService.findOne(product.getCategoryID()));
                         product.setMinPrice(productService.getMinPrice(id));
                         product.setMaxPrice(productService.getMaxPrice(id));
@@ -47,27 +55,33 @@ public class ProductController extends HttpServlet {
                         request.setAttribute("ProductCategory", productCategories);
 
                         List<Product> productList = productService.getProductByCategory(product.getCategory().getParentCategoryID());
-                        for(Product product1 : productList){
+                        for (Product product1 : productList) {
                             product1.setMinPrice(productService.getMinPrice(product1.getID()));
                         }
                         request.setAttribute("ProductList", productList);
+
+                        // Lấy danh sách productItem ứng với productId
+                        List<ProductItem> productItemList = productItemService.getProductItemByProductIDForProductDetail(product.getID());
+                        if (productItemList == null) {
+                            response.sendRedirect(request.getContextPath() + "/error");
+                            return;
+                        }
+                        request.setAttribute("productItemList", productItemList);
+
 
                         List<UserReview> userReviews = userReviewService.getReviewByProductID(id);
                         request.setAttribute("UserReview", userReviews);
 
                         RequestDispatcher rd = request.getRequestDispatcher("/views/web/productDetail.jsp");
                         rd.forward(request, response);
-                    }
-                    else{
+                    } else {
                         response.sendRedirect(request.getContextPath() + "/error");
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     response.sendRedirect(request.getContextPath() + "/error");
                 }
             }
-        }
-        else{
+        } else {
             response.sendRedirect(request.getContextPath() + "/product-collections");
         }
     }

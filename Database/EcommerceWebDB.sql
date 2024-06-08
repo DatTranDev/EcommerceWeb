@@ -1,3 +1,6 @@
+
+DROP database IF exists EcommerceWeb;
+
 CREATE DATABASE IF NOT EXISTS EcommerceWeb;
 USE EcommerceWeb;
 
@@ -129,7 +132,7 @@ CREATE TABLE ShopOrder (
                            ShippingAddressID INT,
                            ShippingMethodID INT,
                            OrderTotal DECIMAL(10, 2) DEFAULT 0,
-                           OrderStatusID INT,
+                           OrderStatusID INT DEFAULT 1,
                            Description TEXT,
                            IsDeleted BIT DEFAULT 0,
                            FOREIGN KEY (UserID) REFERENCES SiteUser(ID),
@@ -180,8 +183,8 @@ CREATE TABLE ShoppingCartItem (
 -- Order Status
 INSERT INTO OrderStatus (Status, IsDeleted) VALUES ('Đang chuẩn bị', 0);
 INSERT INTO OrderStatus (Status, IsDeleted) VALUES ('Đang vận chuyển', 0);
-INSERT INTO OrderStatus (Status, IsDeleted) VALUES ('Giao hàng thành công', 0); 
-INSERT INTO OrderStatus (Status, IsDeleted) VALUES ('Giao hàng thất bại', 0); 
+INSERT INTO OrderStatus (Status, IsDeleted) VALUES ('Giao hàng thành công', 0);
+INSERT INTO OrderStatus (Status, IsDeleted) VALUES ('Giao hàng thất bại', 0);
 -- Category
 INSERT INTO ProductCategory (ParentCategoryID, CategoryName) VALUES (NULL, 'Giày dép');
 -- Giày dép ID 1
@@ -303,25 +306,25 @@ INSERT INTO ProductConfig (ProductItemID, VariationID) VALUES
     ((SELECT ID FROM ProductItem WHERE SKU = 'LOTGIAY-SNK-41'), (SELECT ID FROM VariationOption WHERE VariationID = 1 AND Value = '41'));
 INSERT INTO ProductConfig (ProductItemID, VariationID) VALUES
     ((SELECT ID FROM ProductItem WHERE SKU = 'LOTGIAY-SNK-42'), (SELECT ID FROM VariationOption WHERE VariationID = 1 AND Value = '42'));
-    
+
 -- Dincox co cao nau
 INSERT INTO ProductConfig (ProductItemID, VariationID) VALUES
     ((SELECT ID FROM ProductItem WHERE SKU = 'DINCOX-COCAO'), (SELECT ID FROM VariationOption WHERE VariationID = 1 AND Value = '41'));
 INSERT INTO ProductConfig (ProductItemID, VariationID) VALUES
     ((SELECT ID FROM ProductItem WHERE SKU = 'DINCOX-COCAO'), (SELECT ID FROM VariationOption WHERE VariationID = 2 AND Value = 'Nâu'));
-    
+
 -- Dincox co cao nau
 INSERT INTO ProductConfig (ProductItemID, VariationID) VALUES
     ((SELECT ID FROM ProductItem WHERE SKU = 'ZX-STREET'), (SELECT ID FROM VariationOption WHERE VariationID = 1 AND Value = '41'));
 INSERT INTO ProductConfig (ProductItemID, VariationID) VALUES
     ((SELECT ID FROM ProductItem WHERE SKU = 'ZX-STREET'), (SELECT ID FROM VariationOption WHERE VariationID = 2 AND Value = 'Trắng'));
-    
+
 -- Triger
 DELIMITER $$
 
 CREATE TRIGGER after_insert_orderline
-AFTER INSERT ON OrderLine
-FOR EACH ROW
+    AFTER INSERT ON OrderLine
+    FOR EACH ROW
 BEGIN
     -- Update OrderTotal of ShopOrder
     UPDATE ShopOrder
@@ -332,93 +335,93 @@ BEGIN
     UPDATE ProductItem
     SET QuantityInStock = QuantityInStock - NEW.Quantity
     WHERE ID = NEW.ProductItemID;
-END$$
+    END$$
 
-DELIMITER ;
+    DELIMITER ;
 DELIMITER $$
 
-CREATE TRIGGER after_update_orderline
-AFTER UPDATE ON OrderLine
-FOR EACH ROW
-BEGIN
-    -- Update OrderTotal of ShopOrder
-    UPDATE ShopOrder
-    SET OrderTotal = OrderTotal - (OLD.Quantity * OLD.Price) + (NEW.Quantity * NEW.Price)
-    WHERE ID = NEW.OrderID;
+    CREATE TRIGGER after_update_orderline
+        AFTER UPDATE ON OrderLine
+        FOR EACH ROW
+    BEGIN
+        -- Update OrderTotal of ShopOrder
+        UPDATE ShopOrder
+        SET OrderTotal = OrderTotal - (OLD.Quantity * OLD.Price) + (NEW.Quantity * NEW.Price)
+        WHERE ID = NEW.OrderID;
 
-    -- Update QuantityInStock of ProductItem
-    UPDATE ProductItem
-    SET QuantityInStock = QuantityInStock + OLD.Quantity - NEW.Quantity
-    WHERE ID = NEW.ProductItemID;
-END$$
+        -- Update QuantityInStock of ProductItem
+        UPDATE ProductItem
+        SET QuantityInStock = QuantityInStock + OLD.Quantity - NEW.Quantity
+        WHERE ID = NEW.ProductItemID;
+        END$$
 
-DELIMITER ;
+        DELIMITER ;
 DELIMITER $$
 
-CREATE TRIGGER after_delete_orderline
-AFTER DELETE ON OrderLine
-FOR EACH ROW
-BEGIN
-    -- Update OrderTotal of ShopOrder
-    UPDATE ShopOrder
-    SET OrderTotal = OrderTotal - (OLD.Quantity * OLD.Price)
-    WHERE ID = OLD.OrderID;
+        CREATE TRIGGER after_delete_orderline
+            AFTER DELETE ON OrderLine
+            FOR EACH ROW
+        BEGIN
+            -- Update OrderTotal of ShopOrder
+            UPDATE ShopOrder
+            SET OrderTotal = OrderTotal - (OLD.Quantity * OLD.Price)
+            WHERE ID = OLD.OrderID;
 
-    -- Update QuantityInStock of ProductItem
-    UPDATE ProductItem
-    SET QuantityInStock = QuantityInStock + OLD.Quantity
-    WHERE ID = OLD.ProductItemID;
-END$$
+            -- Update QuantityInStock of ProductItem
+            UPDATE ProductItem
+            SET QuantityInStock = QuantityInStock + OLD.Quantity
+            WHERE ID = OLD.ProductItemID;
+            END$$
 
-DELIMITER ;
+            DELIMITER ;
 DELIMITER $$
 
-CREATE TRIGGER before_update_shoporder
-BEFORE UPDATE ON ShopOrder
-FOR EACH ROW
-BEGIN
-    DECLARE status_id INT;
+            CREATE TRIGGER before_update_shoporder
+                BEFORE UPDATE ON ShopOrder
+                FOR EACH ROW
+            BEGIN
+                DECLARE status_id INT;
 
     -- Retrieve the status ID of the order
-    SELECT OrderStatusID INTO status_id
-    FROM ShopOrder
-    WHERE ID = OLD.ID;
+                SELECT OrderStatusID INTO status_id
+                FROM ShopOrder
+                WHERE ID = OLD.ID;
 
-    -- Check if the status is "Đang chuẩn bị"
-    IF status_id <> 1 THEN
+                -- Check if the status is "Đang chuẩn bị"
+                IF status_id <> 1 THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Chỉ được chỉnh sửa khi ở trạng thái "Đang chuẩn bị"';
-    END IF;
-END$$
+            END IF;
+            END$$
 
-DELIMITER ;
+            DELIMITER ;
 DELIMITER $$
 
-CREATE TRIGGER before_delete_shoporder
-BEFORE DELETE ON ShopOrder
-FOR EACH ROW
-BEGIN
-    DECLARE status_id INT;
+            CREATE TRIGGER before_delete_shoporder
+                BEFORE DELETE ON ShopOrder
+                FOR EACH ROW
+            BEGIN
+                DECLARE status_id INT;
 
     -- Retrieve the status ID of the order
-    SELECT OrderStatusID INTO status_id
-    FROM ShopOrder
-    WHERE ID = OLD.ID;
+                SELECT OrderStatusID INTO status_id
+                FROM ShopOrder
+                WHERE ID = OLD.ID;
 
-    -- Check if the status is "Đang chuẩn bị"
-    IF status_id <> 1 THEN
+                -- Check if the status is "Đang chuẩn bị"
+                IF status_id <> 1 THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Chỉ được xóa khi ở trạng thái "Đang chuẩn bị"';
-    END IF;
-END$$
+            END IF;
+            END$$
 
-DELIMITER ;
+            DELIMITER ;
 DELIMITER $$
 
-CREATE FUNCTION ConvertToNonDiacritic(input_string VARCHAR(255))
-RETURNS VARCHAR(255)
-DETERMINISTIC
-BEGIN
+            CREATE FUNCTION ConvertToNonDiacritic(input_string VARCHAR(255))
+                RETURNS VARCHAR(255)
+                DETERMINISTIC
+            BEGIN
     DECLARE safe_display_name VARCHAR(255);
     
     -- Function to create a URL-safe from the display name
@@ -489,19 +492,19 @@ BEGIN
     SET safe_display_name = REPLACE(safe_display_name, 'ỷ', 'y');
     SET safe_display_name = REPLACE(safe_display_name, 'ỹ', 'y');
     SET safe_display_name = REPLACE(safe_display_name, 'ỵ', 'y');
-    
-    RETURN safe_display_name;
-END$$
 
-DELIMITER ;
+            RETURN safe_display_name;
+            END$$
+
+            DELIMITER ;
 
 DELIMITER $$
 
-CREATE TRIGGER after_insert_product
-AFTER INSERT ON Product
-FOR EACH ROW
-BEGIN
-    DECLARE size_id INT;
+            CREATE TRIGGER after_insert_product
+                AFTER INSERT ON Product
+                FOR EACH ROW
+            BEGIN
+                DECLARE size_id INT;
     DECLARE color_id INT;
     DECLARE size_value VARCHAR(10);
     DECLARE color_value VARCHAR(10);
@@ -511,11 +514,11 @@ BEGIN
     DECLARE productitem_id INT;
     -- Cursor declarations
     DECLARE size_cursor CURSOR FOR
-        SELECT ID, Value FROM VariationOption WHERE VariationID = (SELECT ID FROM Variation WHERE DisplayName = 'Size' AND CategoryID = 1);
-    DECLARE color_cursor CURSOR FOR
-        SELECT ID, Value FROM VariationOption WHERE VariationID = (SELECT ID FROM Variation WHERE DisplayName = 'Màu' AND CategoryID = 1);
-    -- Handler declarations
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_size = 1;
+                SELECT ID, Value FROM VariationOption WHERE VariationID = (SELECT ID FROM Variation WHERE DisplayName = 'Size' AND CategoryID = 1);
+                DECLARE color_cursor CURSOR FOR
+                SELECT ID, Value FROM VariationOption WHERE VariationID = (SELECT ID FROM Variation WHERE DisplayName = 'Màu' AND CategoryID = 1);
+                -- Handler declarations
+                DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_size = 1;
 
     -- Function to create a URL-safe SKU from the display name
     SET safe_display_name = REPLACE(LOWER(REPLACE(NEW.DisplayName, ' ', '-')), 'đ', 'd');
@@ -530,43 +533,43 @@ BEGIN
             IF done_size THEN
                 LEAVE size_loop;
             END IF;
-            
+
             -- Iterate over all color options
             BEGIN
                 DECLARE done_color INT DEFAULT 0;
                 DECLARE color_cursor2 CURSOR FOR
-                    SELECT ID, Value FROM VariationOption WHERE VariationID = (SELECT ID FROM Variation WHERE DisplayName = 'Màu' AND CategoryID = 1);
-                DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_color = 1;
+            SELECT ID, Value FROM VariationOption WHERE VariationID = (SELECT ID FROM Variation WHERE DisplayName = 'Màu' AND CategoryID = 1);
+            DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_color = 1;
 
-                OPEN color_cursor2;
-                color_loop: LOOP
+            OPEN color_cursor2;
+            color_loop: LOOP
                     FETCH color_cursor2 INTO color_id, color_value;
                     IF done_color THEN
                         LEAVE color_loop;
-                    END IF;
+        END IF;
 
-                    -- Generate SKU
-                    SET @sku = CONCAT(ConvertToNonDiacritic(safe_display_name), '-', size_value, '-', ConvertToNonDiacritic(color_value));
+        -- Generate SKU
+        SET @sku = CONCAT(ConvertToNonDiacritic(safe_display_name), '-', size_value, '-', ConvertToNonDiacritic(color_value));
 
                     -- Insert new ProductItem
-                    INSERT INTO ProductItem (ProductID, SKU, QuantityInStock, ProductImage, Price)
-                    VALUES (NEW.ID, @sku, 0, NULL, 0);
-					
-                    SET productitem_id = LAST_INSERT_ID();
+        INSERT INTO ProductItem (ProductID, SKU, QuantityInStock, ProductImage, Price)
+        VALUES (NEW.ID, @sku, 0, NULL, 0);
+
+        SET productitem_id = LAST_INSERT_ID();
                     
                     -- Link the ProductItem with Size and Color
-                    INSERT INTO ProductConfig (ProductItemID, VariationID)
-                    VALUES (productitem_id, size_id);
-                    INSERT INTO ProductConfig (ProductItemID, VariationID)
-                    VALUES (productitem_id, color_id);
+        INSERT INTO ProductConfig (ProductItemID, VariationID)
+        VALUES (productitem_id, size_id);
+        INSERT INTO ProductConfig (ProductItemID, VariationID)
+        VALUES (productitem_id, color_id);
 
-                END LOOP;
-                CLOSE color_cursor2;
-            END;
+    END LOOP;
+    CLOSE color_cursor2;
+END;
 
-        END LOOP;
-        CLOSE size_cursor;
-    END IF;
+END LOOP;
+CLOSE size_cursor;
+END IF;
 END$$
 
 DELIMITER ;

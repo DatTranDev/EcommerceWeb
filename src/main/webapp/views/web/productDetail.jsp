@@ -4,13 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <title>${Product.displayName}</title>
+
+
+    <style>
+        .input-group.quantity {
+            display: flex !important;
+            align-items: center !important;
+            flex-wrap: nowrap;
+        }
+
+        .input-group.quantity .form-control {
+            width: 50px !important;
+            flex: 0 1 auto;
+        }
+
+        #totalPriceContainer {
+            margin-left: 10px !important;
+            white-space: nowrap;
+        }
+
+        #totalPrice {
+            margin-left: 10px !important;
+            font-weight: bold !important;
+            white-space: nowrap;
+        }
+
+        #input_QuantityByDTT{
+            width: 1px;
+        }
+
+    </style>
+
 </head>
+<body>
 <!-- Single Page Header start -->
 <div class="container-fluid page-header py-5">
     <h1 class="text-center text-white display-6">Chi tiết</h1>
 </div>
 <!-- Single Page Header End -->
-
 
 <!-- Single Product Start -->
 <div class="container-fluid py-5 mt-5">
@@ -28,8 +59,8 @@
                     <div class="col-lg-6">
                         <h4 class="fw-bold mb-3">${Product.displayName}</h4>
                         <p class="mb-3">Danh mục: ${Product.category.categoryName}</p>
-                        <fmt:formatNumber value="${Product.minPrice}" pattern="#,##0" var="formattedPrice" />
-                        <h5 class="fw-bold mb-3">${formattedPrice}đ</h5>
+                        <h5 id="productPrice" class="fw-bold mb-3">${formattedPrice}</h5>
+                        <h5 class="fw-bold mb-3">${formattedPrice}</h5>
                         <div class="d-flex mb-4">
                             <i class="fa fa-star text-secondary"></i>
                             <i class="fa fa-star text-secondary"></i>
@@ -38,20 +69,76 @@
                             <i class="fa fa-star"></i>
                         </div>
                         <p class="mb-4">${Product.description}</p>
-                        <div class="input-group quantity mb-5" style="width: 100px;">
+
+                        <c:set var="hasSize" value="false" />
+                        <c:set var="hasColor" value="false" />
+
+                        <c:forEach var="item" items="${productItemList}">
+                            <c:forEach var="config" items="${item.listProductConfig}">
+                                <c:if test="${config.variationOption.variation.displayName == 'Size'}">
+                                    <c:set var="hasSize" value="true" />
+                                </c:if>
+                                <c:if test="${config.variationOption.variation.displayName == 'Màu'}">
+                                    <c:set var="hasColor" value="true" />
+                                </c:if>
+                            </c:forEach>
+                        </c:forEach>
+
+                        <c:if test="${hasSize}">
+                            <div class="mb-4">
+                                <label for="sizeSelect">Chọn kích cỡ:</label>
+                                <select id="sizeSelect" class="form-select">
+                                    <c:forEach var="item" items="${productItemList}">
+                                        <c:forEach var="config" items="${item.listProductConfig}">
+                                            <c:if test="${config.variationOption.variation.displayName == 'Size'}">
+                                                <option value="${item.ID}_${config.variationOption.value}">${config.variationOption.value}</option>
+                                            </c:if>
+                                        </c:forEach>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </c:if>
+
+                        <c:if test="${hasColor}">
+                            <div class="mb-4">
+                                <label for="colorSelect">Chọn màu sắc:</label>
+                                <select id="colorSelect" class="form-select">
+                                    <c:forEach var="item" items="${productItemList}">
+                                        <c:forEach var="config" items="${item.listProductConfig}">
+                                            <c:if test="${config.variationOption.variation.displayName == 'Màu'}">
+                                                <option value="${item.ID}_${config.variationOption.value}">${config.variationOption.value}</option>
+                                            </c:if>
+                                        </c:forEach>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </c:if>
+
+                        <div class="mb-4">
+                            <label for="quantityInStock">Số lượng tồn:</label>
+                            <span id="quantityInStock">${productItemList[0].quantityInStock}</span>
+                        </div>
+                        <div class="input-group quantity mt-4" style="width: auto;">
                             <div class="input-group-btn">
-                                <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
+                                <button type="button" class="btn btn-sm btn-minus rounded-circle bg-light border quantity-button">
                                     <i class="fa fa-minus"></i>
                                 </button>
                             </div>
-                            <input type="text" class="form-control form-control-sm text-center border-0" value="1">
+                            <input style="width: 50px !important;"id="input_QuantityByDTT" type="text" class="text-center border-0 item-quantity" value="1" data-max-quantity="${productItemList[0].quantityInStock}" data-price="${Product.minPrice}">
                             <div class="input-group-btn">
-                                <button class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                <button type="button" class="btn btn-sm btn-plus rounded-circle bg-light border quantity-button">
                                     <i class="fa fa-plus"></i>
                                 </button>
                             </div>
+                            <div id="totalPriceContainer" class="d-flex align-items-center ms-3">
+                                <h5 id="totalPrice" class="fw-bold mb-0 ms-2">Tổng tiền: ${formattedPrice}</h5>
+                            </div>
                         </div>
-                        <a href="#" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+
+                        <a href="#" id="addToCartButton" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary" style="margin-top: 20px;">
+                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Thêm vào giỏ hàng
+                        </a>
+
                     </div>
                     <div class="col-lg-12">
                         <nav>
@@ -170,5 +257,254 @@
             </div>
         </div>
     </div>
+
+
+
 </div>
 <!-- Single Product End -->
+
+<!--  json -->
+<script>
+    var productItems = [
+        <c:forEach var="item" items="${productItemList}">
+        {
+            id: '${item.ID}',
+            price: '${item.price}',
+            configs: [
+                <c:forEach var="config" items="${item.listProductConfig}">
+                {
+                    type: '${config.variationOption.variation.displayName}',
+                    value: '${config.variationOption.value}',
+                    quantityInStock: ${item.quantityInStock}
+                },
+                </c:forEach>
+            ]
+        },
+        </c:forEach>
+    ];
+    console.log("Product items: ", productItems);
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var selectedProductItemId = null;
+
+        function updateQuantity() {
+            var sizeSelect = document.getElementById('sizeSelect');
+            var colorSelect = document.getElementById('colorSelect');
+            var selectedSize = sizeSelect ? sizeSelect.value.split('_')[1] : null;
+            var selectedColor = colorSelect ? colorSelect.value.split('_')[1] : null;
+            var matchedProductItem = null;
+
+            productItems.forEach(function(item) {
+                var hasSize = false;
+                var hasColor = false;
+
+                item.configs.forEach(function(config) {
+                    if (config.type === 'Size' && config.value === selectedSize) {
+                        hasSize = true;
+                    }
+                    if (config.type === 'Màu' && config.value === selectedColor) {
+                        hasColor = true;
+                    }
+                });
+
+                if (!sizeSelect) {//phong trong truong hop khong co size
+                    hasSize = true;
+                }
+                if (!colorSelect) {//phong trong truong hop khong co mau
+                    hasColor = true;
+                }
+
+                if (hasSize && hasColor) {
+                    matchedProductItem = item;
+                }
+            });
+
+            var quantityInStock = document.getElementById('quantityInStock');
+            var quantityInput = document.querySelector(".item-quantity");
+            var addToCartButton = document.getElementById('addToCartButton');
+            var priceDisplay = document.getElementById('productPrice');
+            var totalPriceDisplay = document.getElementById('totalPrice');
+
+            if (matchedProductItem) {
+                var stock = matchedProductItem.configs[0].quantityInStock;
+                quantityInStock.textContent = stock;
+                quantityInput.setAttribute('data-max-quantity', stock);
+                quantityInput.value = 1;
+
+                selectedProductItemId = matchedProductItem.id;
+
+                // cap nhat gia tien tuong ung
+                priceDisplay.textContent = new Intl.NumberFormat('vi-VN').format(matchedProductItem.price) + 'đ';
+                var totalPrice = parseInt(matchedProductItem.price) * parseInt(quantityInput.value);
+                totalPriceDisplay.textContent = 'Tổng tiền: ' + new Intl.NumberFormat('vi-VN').format(totalPrice) + 'đ';
+                // Kiểm tra số lượng tồn kho và cập nhật trạng thái của nút "Thêm vào giỏ hàng"
+                if (stock > 0) {
+                    addToCartButton.classList.remove('disabled');
+                    addToCartButton.classList.add('text-primary');
+                } else {
+                    addToCartButton.classList.add('disabled');
+                    addToCartButton.classList.remove('text-primary');
+                }
+            } else {
+                quantityInStock.textContent = '0';
+                quantityInput.setAttribute('data-max-quantity', '0');
+                quantityInput.value = 1;
+
+                // Vô hiệu hóa nút "Thêm vào giỏ hàng" khi không có hàng tồn kho
+                addToCartButton.classList.add('disabled');
+                addToCartButton.classList.remove('text-primary');
+            }
+
+            updateTotalPrice();
+        }
+
+        function updateTotalPrice() {
+            var quantityInput = document.querySelector(".item-quantity");
+            var quantity = parseInt(quantityInput.value);
+            var priceDisplay = document.getElementById('productPrice');
+            var totalPriceDisplay = document.getElementById('totalPrice');
+
+            var price = parseInt(priceDisplay.textContent.replace(/[^0-9]/g, ''));
+            var totalPrice = price * quantity;
+            totalPriceDisplay.textContent = 'Tổng tiền: ' + new Intl.NumberFormat('vi-VN').format(totalPrice) + 'đ';
+
+            const maxQuantity = parseInt(quantityInput.getAttribute('data-max-quantity'));
+            if(maxQuantity===0){
+                totalPriceDisplay.textContent = '';
+            }
+        }
+
+        // Tự động cập nhật khi trang tải
+        updateQuantity();
+
+        if (document.getElementById('sizeSelect')) {
+            document.getElementById('sizeSelect').addEventListener('change', updateQuantity);
+        }
+        if (document.getElementById('colorSelect')) {
+            document.getElementById('colorSelect').addEventListener('change', updateQuantity);
+        }
+
+        //tang giam so luong
+        const quantityButtons = document.querySelectorAll(".quantity-button");
+        const quantityInput = document.querySelector(".item-quantity");
+
+        quantityButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                let value = parseInt(quantityInput.value);
+                const maxQuantity = parseInt(quantityInput.getAttribute('data-max-quantity'));
+
+                if (this.classList.contains('btn-minus')) {
+                    value += 1;
+                    value = value > 1 ? value - 1 : 1;
+                } else if (this.classList.contains('btn-plus')) {
+                    value -= 1;
+                    value = value < maxQuantity ? value + 1 : maxQuantity;
+                }
+
+                quantityInput.value = value;
+                validateQuantity(quantityInput);
+                updateTotalPrice();
+            });
+        });
+
+        quantityInput.addEventListener('input', function() {
+            validateQuantity(quantityInput);
+            updateTotalPrice();
+        });
+
+        function validateQuantity(input) {
+            const maxQuantity = parseInt(input.getAttribute('data-max-quantity'));
+            let value = parseInt(input.value);
+
+            if (isNaN(value) || value < 1) {
+                value = 1;
+            } else if (value > maxQuantity) {
+                value = maxQuantity;
+            }
+
+            input.value = value;
+        }
+
+        // them vao gio hang
+        const addToCartButton = document.getElementById('addToCartButton');
+        addToCartButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            const quantityInput = document.querySelector(".item-quantity");
+
+            const quantity = quantityInput ? quantityInput.value : 0;
+
+            const data = {
+                productItemId: selectedProductItemId,
+                quantity,
+            };
+
+            fetch('${pageContext.request.contextPath}/api-add_product_to_cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (!data.typeAddTocart) {
+                            if (confirm("Sản phẩm đã có trong giỏ hàng với số lượng là " + data.soluongdangco + ",bạn muốn đặt thêm số lượng không?")) {
+                                const maxQuantity = parseInt(quantityInput.getAttribute('data-max-quantity'));
+
+                                let denta = parseInt(maxQuantity) - (parseInt(quantity) + parseInt(data.soluongdangco));
+
+                                console.log(denta);
+                                console.log(maxQuantity);
+                                console.log(quantity);
+                                console.log(data.soluongdangco);
+                                if ( parseInt(denta) < 0) {
+                                    const msg = "Bạn chỉ có thể mua thêm " + ( parseInt(maxQuantity) - data.soluongdangco) +" sản phẩm";
+                                    alert(msg);
+                                    return;
+                                }
+
+                                const dataUpdate = {
+                                    productItemId: selectedProductItemId,
+                                    quantity,
+                                };
+
+
+                                fetch('${pageContext.request.contextPath}/api-add_product_to_cart', {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(dataUpdate)
+                                })
+                                    .then(response => response.json())
+                                    .then(dataForUpdate => {
+                                        if (dataForUpdate.success) {
+                                            alert('Đặt hàng thành công!');
+                                        } else {
+                                            alert('Đặt hàng thất bại!');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        alert('Đặt hàng thất bại!');
+                                    });
+
+                            }
+                        } else {
+                            alert('Đặt hàng thành công!');
+                        }
+                    } else {
+                        alert('Đặt hàng thất bại!');
+                    }
+                })
+                .catch(error => {
+                    alert('Đặt hàng thất bại!');
+                });
+        });
+    });
+</script>
+
+
+</body>
+</html>

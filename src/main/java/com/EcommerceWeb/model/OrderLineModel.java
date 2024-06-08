@@ -1,12 +1,13 @@
 package com.EcommerceWeb.model;
 
-public class OrderLine {
+public class OrderLineModel {
     private int ID;
     private int productItemID;
     private int orderID;
     private int quantity;
     private double price;
     private boolean isDeleted;
+    private ProductItem productItem;
 
     public int getID() {
         return ID;
@@ -54,5 +55,13 @@ public class OrderLine {
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public ProductItem getProductItem() {
+        return productItem;
+    }
+
+    public void setProductItem(ProductItem productItem) {
+        this.productItem = productItem;
     }
 }

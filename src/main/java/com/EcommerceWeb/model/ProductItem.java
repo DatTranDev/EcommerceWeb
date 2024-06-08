@@ -1,5 +1,7 @@
 package com.EcommerceWeb.model;
 
+import java.util.List;
+
 public class ProductItem {
     private int ID;
     private int productID;
@@ -8,6 +10,10 @@ public class ProductItem {
     private String productImage;
     private double price;
     private boolean isDeleted;
+
+    private Product product;
+    private List<ProductConfig> listProductConfig;
+
 
     public int getID() {
         return ID;
@@ -63,6 +69,22 @@ public class ProductItem {
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public List<ProductConfig> getListProductConfig() {
+        return listProductConfig;
+    }
+
+    public void setListProductConfig(List<ProductConfig> listProductConfig) {
+        this.listProductConfig = listProductConfig;
     }
 }
 

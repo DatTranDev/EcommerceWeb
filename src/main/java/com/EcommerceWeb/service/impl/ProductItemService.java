@@ -1,13 +1,31 @@
 package com.EcommerceWeb.service.impl;
 
+import com.EcommerceWeb.dao.IProductConfigDAO;
+import com.EcommerceWeb.dao.IProductDAO;
 import com.EcommerceWeb.dao.IProductItemDAO;
+import com.EcommerceWeb.model.Product;
+import com.EcommerceWeb.model.ProductConfig;
 import com.EcommerceWeb.model.ProductItem;
+import com.EcommerceWeb.service.IProductConfigService;
 import com.EcommerceWeb.service.IProductItemService;
+import com.EcommerceWeb.service.IProductService;
 
+import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductItemService implements IProductItemService {
+
+    @Inject
     private IProductItemDAO productItemDAO;
+    @Inject
+    private IProductDAO productDAO;
+    @Inject
+    private IProductConfigDAO productConfigDAO;
+    @Inject
+    private IProductConfigService productConfigService;
+
+
     @Override
     public List<ProductItem> getAll() {
         return productItemDAO.getAll()  ;
@@ -43,7 +61,15 @@ public class ProductItemService implements IProductItemService {
 
     @Override
     public ProductItem findOne(int id) {
-        return productItemDAO.findOne(id);
+
+        ProductItem productItem = productItemDAO.findOne(id);
+        if(productItem==null)return null;
+        Product product=productDAO.findOne(productItem.getProductID());
+        productItem.setProduct(product);
+
+        productItem.setListProductConfig(productConfigService.findByProductItemID(productItem.getID()));
+
+        return productItem;
     }
 
     @Override
@@ -54,5 +80,34 @@ public class ProductItemService implements IProductItemService {
     @Override
     public int getTotalQuantityOfProduct(int productID) {
         return productItemDAO.getTotalQuantityOfProduct(productID);
+    }
+
+    @Override
+    public List<ProductItem> getProductItemByProductIDForProductDetail(int productID) {
+
+        List<ProductItem> list= productItemDAO.getProductItemByProductID(productID);
+        if(list==null)return null;
+
+        for(ProductItem productItem:list){
+            Product product = productDAO.findOne(productItem.getProductID());
+            if(product==null)return null;
+            productItem.setProduct(product);
+
+            List<ProductConfig> productConfigList = productConfigService.findByProductItemID(productItem.getID());
+            if(productConfigList==null)return null;
+            productItem.setListProductConfig(productConfigList);
+        }
+
+//        //khong lay cai co so luong ton <1
+//        List<ProductItem> listNew= new ArrayList<>();
+//        for(ProductItem productItem:list){
+//            if(productItem.getQuantityInStock()>0){
+//                listNew.add(productItem);
+//            }
+//        }
+
+
+        return list;
+
     }
 }
