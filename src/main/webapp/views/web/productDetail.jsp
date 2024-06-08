@@ -256,6 +256,9 @@
             </div>
         </div>
     </div>
+
+
+
 </div>
 <!-- Single Product End -->
 
@@ -282,6 +285,9 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        var selectedProductItemId = null;
+
+
         function updateQuantity() {
             var sizeSelect = document.getElementById('sizeSelect');
             var colorSelect = document.getElementById('colorSelect');
@@ -316,6 +322,9 @@
                 quantityInStock.textContent = stock;
                 quantityInput.setAttribute('data-max-quantity', stock);
                 quantityInput.value = 1;
+
+                selectedProductItemId = matchedProductItem.id;
+
 
                 // Kiểm tra số lượng tồn kho và cập nhật trạng thái của nút "Thêm vào giỏ hàng"
                 if (stock > 0) {
@@ -382,6 +391,41 @@
 
             input.value = value;
         }
+
+        // them vao gio hng
+        const addToCartButton = document.getElementById('addToCartButton');
+        addToCartButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            const quantityInput = document.querySelector(".item-quantity");
+
+            const quantity = quantityInput ? quantityInput.value : 0;
+
+            const data = {
+                productItemId: selectedProductItemId,
+                quantity,
+            };
+
+            fetch('${pageContext.request.contextPath}/api-cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => {
+
+
+
+                })
+                .catch(error => {
+
+                    alert('Đặt hàng thất bại!');
+                });
+
+
+        });
+
     });
 </script>
 </body>

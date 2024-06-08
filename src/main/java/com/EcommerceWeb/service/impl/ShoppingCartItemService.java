@@ -118,5 +118,37 @@ public class ShoppingCartItemService implements IShoppingCartItemService {
         return list;
     }
 
+    @Override
+    public ShoppingCartItemModel findOneByProductItemIdFix(int productItemID) {
+        return shoppingCartItemDAO.findOneByProductItemIdFix(productItemID);
+    }
+
+
+
+
+    @Override
+    public ShoppingCartItemModel insertFix(int userID, int productItemID, int quantity) {
+
+        ShoppingCartModel shoppingCartModel = shoppingCartDAO.findOneByUserID(userID);
+        if(shoppingCartModel==null)return null;
+
+        ShoppingCartItemModel shoppingCartItemModel = new ShoppingCartItemModel();
+        shoppingCartItemModel.setCartID(shoppingCartModel.getID());
+        shoppingCartItemModel.setProductItemID(productItemID);
+        shoppingCartItemModel.setQuantity(quantity);
+        shoppingCartItemModel.setDeleted(false);
+
+        int iDInsert= shoppingCartItemDAO.insert(shoppingCartItemModel);
+
+        if(iDInsert==-1)return null;
+
+        return findOne(iDInsert);
+    }
+
+    @Override
+    public ShoppingCartItemModel updateFix(int userID, int productItemID, int quantity) {
+        return null;
+    }
+
 
 }
