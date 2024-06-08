@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 
 
@@ -39,10 +40,13 @@ public class ShoppingCartController extends HttpServlet {
 
 
         //test
-        SiteUser model = FormUtil.toModel(SiteUser.class, request);
-        model = siteUserService.findByUserNameAndPassword("user@gmail.com", "user");
-        if(model!=null) {
-            SessionUtil.getInstance().putValue(request, "SITEUSER", model);
+        //SiteUser model = FormUtil.toModel(SiteUser.class, request);
+        //model = siteUserService.findByUserNameAndPassword("user@gmail.com", "user");
+        SiteUser model = (SiteUser) SessionUtil.getInstance().getValue(request, "SITEUSER");
+        if(model==null) {
+            String loginUrl = request.getContextPath() + "/dang-nhap?action=login&message=" + URLEncoder.encode("Vui lòng đăng nhập trước", "UTF-8") + "&alert=danger";
+            response.sendRedirect(loginUrl);
+            return;
         }
 
 

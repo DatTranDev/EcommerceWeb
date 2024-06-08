@@ -495,7 +495,11 @@
                             alert('Đặt hàng thành công!');
                         }
                     } else {
-                        alert('Đặt hàng thất bại!');
+                        if(!data.isLogin) {
+                            alert('Bạn cần đăng nhập để thực hiện chức năng này!');
+                        }
+                        else
+                            alert('Đặt hàng thất bại!');
                     }
                 })
                 .catch(error => {

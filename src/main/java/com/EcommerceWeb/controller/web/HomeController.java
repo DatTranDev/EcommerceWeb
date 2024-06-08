@@ -75,7 +75,7 @@ public class HomeController extends HttpServlet{
 			request.setAttribute("ProductCategory", productCategory);
 			request.setAttribute("ShoesCategory", shoesCategory);
 			request.setAttribute("AccessoriesCategory", accessoriesCategory);
-			//request.setAttribute("Product", product);
+			request.setAttribute("Product", product);
 			List<Product> firstEightProducts = new ArrayList<>();
 			if (product.size() >= 8) {
 				firstEightProducts = product.subList(0, 8);
@@ -106,7 +106,7 @@ public class HomeController extends HttpServlet{
 			List<UserReview> goodReview = userReviewService.getGoodReview();
 			request.setAttribute("GoodReview", goodReview);
 			SessionUtil.getInstance().putValue(request, "ProductCategory", productCategory);
-			//SessionUtil.getInstance().putValue(request, "Product", product);
+			SessionUtil.getInstance().putValue(request, "Product", product);
 			SessionUtil.getInstance().putValue(request, "ShoesCategory", shoesCategory);
 			SessionUtil.getInstance().putValue(request, "AccessoriesCategory", accessoriesCategory);
 
@@ -114,8 +114,10 @@ public class HomeController extends HttpServlet{
 				request.setAttribute("SITEUSER", firstLoad);
 				if(firstLoad.getRole().equals("admin")) {
 					RequestDispatcher rd =request.getRequestDispatcher("/views/admin/home.jsp");
+					rd.forward(request, response);
 				} else if(firstLoad.getRole().equals("Khách hàng")) {
 					RequestDispatcher rd =request.getRequestDispatcher("/views/web/home.jsp");
+					rd.forward(request, response);
 				}
 			}else {
 				RequestDispatcher rd =request.getRequestDispatcher("/views/web/home.jsp");
