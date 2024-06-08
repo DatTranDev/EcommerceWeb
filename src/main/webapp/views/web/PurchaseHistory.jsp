@@ -147,17 +147,7 @@
 </div>
 <!-- Order Details End -->
 <script>
-    $(document).ready(function () {
-        $('.nav-link').click(function (e) {
-            e.preventDefault();
-            $('.nav-link').removeClass('active');
-            $(this).addClass('active');
 
-            var target = $(this).data('target');
-            $('.product-list').removeClass('active');
-            $('#' + target).addClass('active');
-        });
-    });
 </script>
 </body>
 </html>
