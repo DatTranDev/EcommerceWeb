@@ -179,11 +179,6 @@ CREATE TABLE ShoppingCartItem (
                                   FOREIGN KEY (CartID) REFERENCES ShoppingCart(ID),
                                   FOREIGN KEY (ProductItemID) REFERENCES ProductItem(ID)
 );
-CREATE TABLE TriggerLog (
-                            ID INT AUTO_INCREMENT PRIMARY KEY,
-                            Message VARCHAR(255),
-                            CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 
 
 
