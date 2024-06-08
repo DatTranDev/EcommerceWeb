@@ -1,216 +1,223 @@
+<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@taglib uri="http://example.com/utils" prefix="utils" %>
 <html>
 <head>
     <title>Đặt hàng</title>
 </head>
+<body>
 <!-- Single Page Header start -->
 <div class="container-fluid page-header py-5">
     <h1 class="text-center text-white display-6">Đặt hàng</h1>
 </div>
 <!-- Single Page Header End -->
 
-
 <!-- Checkout Page Start -->
 <div class="container-fluid py-5">
     <div class="container py-5">
-        <h1 class="mb-4">Billing details</h1>
-        <form action="#">
-            <div class="row g-5">
-                <div class="col-md-12 col-lg-6 col-xl-7">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-6">
-                            <div class="form-item w-100">
-                                <label class="form-label my-3">First Name<sup>*</sup></label>
-                                <input type="text" class="form-control">
+        <h1 class="mb-4">Thông tin hóa đơn</h1>
+        <div class="row g-5">
+            <div class="col-md-12 col-lg-5 col-xl-4">
+                <!-- Phần thông tin hóa đơn -->
+                <div class="bg-light rounded">
+                    <div class="p-4">
+                        <h1 class="display-6 mb-4">Thanh toán</h1>
+
+                        <!-- Hiển thị tên người dùng và số điện thoại -->
+                        <div class="mb-4">
+                            <div class="d-flex align-items-center">
+                                <h5 class="mb-0 me-2">Họ tên:</h5>
+                                <p class="mb-0" id="displayName">${siteUser.displayName}</p>
                             </div>
                         </div>
-                        <div class="col-md-12 col-lg-6">
-                            <div class="form-item w-100">
-                                <label class="form-label my-3">Last Name<sup>*</sup></label>
-                                <input type="text" class="form-control">
+                        <div class="mb-4">
+                            <div class="d-flex align-items-center">
+                                <h5 class="mb-0 me-2">Số điện thoại:</h5>
+                                <p class="mb-0" id="phoneNumber">${siteUser.phoneNumber}</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label my-3">Company Name<sup>*</sup></label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label my-3">Address <sup>*</sup></label>
-                        <input type="text" class="form-control" placeholder="House Number Street Name">
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label my-3">Town/City<sup>*</sup></label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label my-3">Country<sup>*</sup></label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label my-3">Postcode/Zip<sup>*</sup></label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label my-3">Mobile<sup>*</sup></label>
-                        <input type="tel" class="form-control">
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label my-3">Email Address<sup>*</sup></label>
-                        <input type="email" class="form-control">
-                    </div>
-                    <div class="form-check my-3">
-                        <input type="checkbox" class="form-check-input" id="Account-1" name="Accounts" value="Accounts">
-                        <label class="form-check-label" for="Account-1">Create an account?</label>
-                    </div>
-                    <hr>
-                    <div class="form-check my-3">
-                        <input class="form-check-input" type="checkbox" id="Address-1" name="Address" value="Address">
-                        <label class="form-check-label" for="Address-1">Ship to a different address?</label>
-                    </div>
-                    <div class="form-item">
-                        <textarea name="text" class="form-control" spellcheck="false" cols="30" rows="11" placeholder="Oreder Notes (Optional)"></textarea>
-                    </div>
-                </div>
-                <div class="col-md-12 col-lg-6 col-xl-5">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col">Products</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Total</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th scope="row">
-                                    <div class="d-flex align-items-center mt-2">
-                                        <img src="img/vegetable-item-2.jpg" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
-                                    </div>
-                                </th>
-                                <td class="py-5">Awesome Brocoli</td>
-                                <td class="py-5">$69.00</td>
-                                <td class="py-5">2</td>
-                                <td class="py-5">$138.00</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <div class="d-flex align-items-center mt-2">
-                                        <img src="img/vegetable-item-5.jpg" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
-                                    </div>
-                                </th>
-                                <td class="py-5">Potatoes</td>
-                                <td class="py-5">$69.00</td>
-                                <td class="py-5">2</td>
-                                <td class="py-5">$138.00</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <div class="d-flex align-items-center mt-2">
-                                        <img src="img/vegetable-item-3.png" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
-                                    </div>
-                                </th>
-                                <td class="py-5">Big Banana</td>
-                                <td class="py-5">$69.00</td>
-                                <td class="py-5">2</td>
-                                <td class="py-5">$138.00</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                </th>
-                                <td class="py-5"></td>
-                                <td class="py-5"></td>
-                                <td class="py-5">
-                                    <p class="mb-0 text-dark py-3">Subtotal</p>
-                                </td>
-                                <td class="py-5">
-                                    <div class="py-3 border-bottom border-top">
-                                        <p class="mb-0 text-dark">$414.00</p>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                </th>
-                                <td class="py-5">
-                                    <p class="mb-0 text-dark py-4">Shipping</p>
-                                </td>
-                                <td colspan="3" class="py-5">
-                                    <div class="form-check text-start">
-                                        <input type="checkbox" class="form-check-input bg-primary border-0" id="Shipping-1" name="Shipping-1" value="Shipping">
-                                        <label class="form-check-label" for="Shipping-1">Free Shipping</label>
-                                    </div>
-                                    <div class="form-check text-start">
-                                        <input type="checkbox" class="form-check-input bg-primary border-0" id="Shipping-2" name="Shipping-1" value="Shipping">
-                                        <label class="form-check-label" for="Shipping-2">Flat rate: $15.00</label>
-                                    </div>
-                                    <div class="form-check text-start">
-                                        <input type="checkbox" class="form-check-input bg-primary border-0" id="Shipping-3" name="Shipping-1" value="Shipping">
-                                        <label class="form-check-label" for="Shipping-3">Local Pickup: $8.00</label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                </th>
-                                <td class="py-5">
-                                    <p class="mb-0 text-dark text-uppercase py-3">TOTAL</p>
-                                </td>
-                                <td class="py-5"></td>
-                                <td class="py-5"></td>
-                                <td class="py-5">
-                                    <div class="py-3 border-bottom border-top">
-                                        <p class="mb-0 text-dark">$135.00</p>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
-                        <div class="col-12">
-                            <div class="form-check text-start my-3">
-                                <input type="checkbox" class="form-check-input bg-primary border-0" id="Transfer-1" name="Transfer" value="Transfer">
-                                <label class="form-check-label" for="Transfer-1">Direct Bank Transfer</label>
-                            </div>
-                            <p class="text-start text-dark">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
+
+                        <!-- Ghi chú -->
+                        <div class="mb-4">
+                            <h5 class="mb-0">Ghi chú:</h5>
+                            <textarea class="form-control" id="description" rows="4">${shopOrder.description}</textarea>
                         </div>
-                    </div>
-                    <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
-                        <div class="col-12">
-                            <div class="form-check text-start my-3">
-                                <input type="checkbox" class="form-check-input bg-primary border-0" id="Payments-1" name="Payments" value="Payments">
-                                <label class="form-check-label" for="Payments-1">Check Payments</label>
+
+                        <!-- Phần phương thức thanh toán -->
+                        <h5 class="mb-4">Phương thức thanh toán:</h5>
+                        <c:forEach var="paymentMethod" items="${paymentMethodList}" varStatus="status">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="paymentMethod"
+                                       id="paymentMethod${paymentMethod.ID}"
+                                       value="${paymentMethod.ID}"
+                                       <c:if test="${paymentMethod.isDeleted()}">disabled</c:if>
+                                       <c:if test="${status.first && !paymentMethod.isDeleted()}">checked</c:if>>
+                                <label class="form-check-label" for="paymentMethod${paymentMethod.ID}">
+                                        ${paymentMethod.displayName}
+                                </label>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
-                        <div class="col-12">
-                            <div class="form-check text-start my-3">
-                                <input type="checkbox" class="form-check-input bg-primary border-0" id="Delivery-1" name="Delivery" value="Delivery">
-                                <label class="form-check-label" for="Delivery-1">Cash On Delivery</label>
+                        </c:forEach>
+
+                        <!-- Phần địa chỉ giao hàng -->
+                        <h5 class="mb-4 mt-4">Địa chỉ giao hàng:</h5>
+                        <c:forEach var="address" items="${userAddressList}" varStatus="status">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="shippingAddress" id="shippingAddress${address.addressID}" value="${address.addressID}" <c:if test="${status.first}">checked</c:if>>
+                                <label class="form-check-label" for="shippingAddress${address.addressID}">
+                                        ${address.address.value}
+                                </label>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
-                        <div class="col-12">
-                            <div class="form-check text-start my-3">
-                                <input type="checkbox" class="form-check-input bg-primary border-0" id="Paypal-1" name="Paypal" value="Paypal">
-                                <label class="form-check-label" for="Paypal-1">Paypal</label>
+                        </c:forEach>
+
+                        <!-- Phần phương thức vận chuyển -->
+                        <h5 class="mb-4 mt-4">Phương thức vận chuyển:</h5>
+                        <c:forEach var="shippingMethod" items="${shippingMethodList}" varStatus="status">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="shippingMethod"
+                                       id="shippingMethod${shippingMethod.ID}"
+                                       value="${shippingMethod.ID}"
+                                       data-shipping-fee="${shippingMethod.price}"
+                                       <c:if test="${shippingMethod.isDeleted()}">disabled</c:if>
+                                       <c:if test="${status.first && !shippingMethod.isDeleted()}">checked</c:if>>
+                                <label class="form-check-label" for="shippingMethod${shippingMethod.ID}">
+                                        ${shippingMethod.displayName}
+                                </label>
                             </div>
-                        </div>
+                        </c:forEach>
                     </div>
-                    <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-                        <button type="button" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Place Order</button>
+                    <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
+                        <h5 class="mb-0 ps-4 me-4">Tổng tiền</h5>
+                        <p class="mb-0 pe-4" id="totalAmount">${utils:formatCurrency(0)}</p>
                     </div>
+                    <button id="placeOrderBtn" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4">Đặt hàng</button>
                 </div>
             </div>
-        </form>
+
+            <div class="col-md-12 col-lg-7 col-xl-8">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Hình ảnh</th>
+                            <th scope="col">Tên</th>
+                            <th scope="col">Loại</th>
+                            <th scope="col">Đơn giá</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Thành tiền</th>
+                        </tr>
+                        </thead>
+                        <tbody id="cartItems">
+                        <c:forEach var="item" items="${shoppingCartItemModelList}">
+                            <tr data-id="${item.ID}">
+                                <th scope="row">
+                                    <div class="d-flex align-items-center">
+                                        <img src="${item.productItem.product.productImage}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
+                                    </div>
+                                </th>
+                                <td>
+                                    <p class="mb-0 mt-4">${item.productItem.product.displayName}</p>
+                                </td>
+                                <td>
+                                    <p class="mb-0 mt-4">${utils:formatVariation(item.productItem.listProductConfig)}</p>
+                                </td>
+                                <td>
+                                    <p class="mb-0 mt-4">${utils:formatCurrency(item.productItem.price)}</p>
+                                </td>
+                                <td>
+                                    <div class="input-group quantity mt-4" style="width: 100px;">
+                                        <div class="input-group-btn">
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm text-center border-0" value="${item.quantity}" readonly style="background-color: #f9f9f9; color: #6c757d; cursor: not-allowed;">
+                                        <div class="input-group-btn">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="mb-0 mt-4 item-total" data-item-total="${item.productItem.price * item.quantity}">${utils:formatCurrency(item.productItem.price * item.quantity)}</p>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <!-- Checkout Page End -->
+
+<script>
+    window.onload = function() {
+        const shippingMethods = document.querySelectorAll('input[name="shippingMethod"]');
+        const totalAmountElement = document.getElementById('totalAmount');
+        const itemTotalElements = document.querySelectorAll('.item-total');
+        const OrderButton = document.querySelectorAll("placeOrderBtn");
+
+        function calculateTotal() {
+            let itemTotal = 0;
+            itemTotalElements.forEach(element => {
+                itemTotal += parseFloat(element.getAttribute('data-item-total'));
+            });
+
+            const selectedShippingMethod = document.querySelector('input[name="shippingMethod"]:checked');
+            const shippingFee = parseFloat(selectedShippingMethod.getAttribute('data-shipping-fee'));
+
+            const totalAmount = itemTotal + shippingFee;
+            totalAmountElement.textContent = totalAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        }
+
+        shippingMethods.forEach(shippingMethod => {
+            shippingMethod.addEventListener('change', calculateTotal);
+        });
+
+        calculateTotal();
+
+        document.getElementById('placeOrderBtn').addEventListener('click', function() {
+            const description = document.getElementById('description').value;
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            const shippingAddress = document.querySelector('input[name="shippingAddress"]:checked').value;
+            const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked').value;
+
+            const cartItems = [];
+            document.querySelectorAll('#cartItems tr').forEach(row => {
+                const item = {
+                    id: row.getAttribute('data-id')
+                };
+                cartItems.push(item);
+            });
+
+            const orderData = {
+                description,
+                paymentMethod,
+                shippingAddress,
+                shippingMethod,
+                items: cartItems
+            };
+
+            fetch('${pageContext.request.contextPath}/api-shop-order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(orderData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.idShopOrderInsert!=-1) {
+                        alert('Đặt hàng thành công!');
+                        // Redirect or other actions
+                    } else {
+                        alert('Đặt hàng thất bại!');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Đặt hàng thất bại!');
+                });
+        });
+    };
+</script>
+
+</body>
 </html>

@@ -6,6 +6,10 @@ public class VariationOption {
     private String value;
     private boolean isDeleted;
 
+
+    private Variation variation;
+
+
     public int getID() {
         return ID;
     }
@@ -36,6 +40,14 @@ public class VariationOption {
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public Variation getVariation() {
+        return variation;
+    }
+
+    public void setVariation(Variation variation) {
+        this.variation = variation;
     }
 }
 

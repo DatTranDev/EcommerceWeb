@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+        version="2.1">
+
+    <tlib-version>1.0</tlib-version>
+    <short-name>utils</short-name>
+    <uri>http://example.com/utils</uri>
+
+    <function>
+        <name>formatCurrency</name>
+        <function-class>com.EcommerceWeb.utils.MotSoPhuongThucBoTro</function-class>
+        <function-signature>java.lang.String formatMoney(double)</function-signature>
+    </function>
+
+    <function>
+        <name>formatVariation</name>
+        <function-class>com.EcommerceWeb.utils.MotSoPhuongThucBoTro</function-class>
+        <function-signature>java.lang.String formatVariation(java.util.List)</function-signature>
+    </function>
+</taglib>

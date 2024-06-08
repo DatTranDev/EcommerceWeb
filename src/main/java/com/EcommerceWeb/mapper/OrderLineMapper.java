@@ -3,13 +3,13 @@ package com.EcommerceWeb.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.EcommerceWeb.model.OrderLine;
+import com.EcommerceWeb.model.OrderLineModel;
 
-public class OrderLineMapper implements RowMapper<OrderLine> {
+public class OrderLineMapper implements RowMapper<OrderLineModel> {
     @Override
-    public OrderLine mapRow(ResultSet resultSet) {
+    public OrderLineModel mapRow(ResultSet resultSet) {
         try {
-            OrderLine orderLine = new OrderLine();
+            OrderLineModel orderLine = new OrderLineModel();
             orderLine.setID(resultSet.getInt("ID"));
             orderLine.setProductItemID(resultSet.getInt("ProductItemID"));
             orderLine.setOrderID(resultSet.getInt("OrderID"));

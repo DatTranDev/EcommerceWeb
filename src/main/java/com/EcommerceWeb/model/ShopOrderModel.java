@@ -2,7 +2,7 @@ package com.EcommerceWeb.model;
 
 import java.util.Date;
 
-public class ShopOrder {
+public class ShopOrderModel {
     private int ID;
     private int userID;
     private Date orderDate;
@@ -13,6 +13,14 @@ public class ShopOrder {
     private int orderStatusID;
     private String description;
     private boolean isDeleted;
+
+
+    private PaymentMethod paymentMethod;
+    private Address shippingAddress;
+    private ShippingMethod shippingMethod;
+    private OrderStatus orderStatus;
+
+
 
     public int getID() {
         return ID;
@@ -92,6 +100,38 @@ public class ShopOrder {
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public Address getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(Address shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public ShippingMethod getShippingMethod() {
+        return shippingMethod;
+    }
+
+    public void setShippingMethod(ShippingMethod shippingMethod) {
+        this.shippingMethod = shippingMethod;
     }
 }
 
