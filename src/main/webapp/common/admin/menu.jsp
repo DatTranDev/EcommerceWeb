@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+		 pageEncoding="UTF-8"%>
 <%@include file="/common/tagLib.jsp"%>
 <!DOCTYPE html>
 <!-- Sidebar -->
 <ul
-	class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
-	id="accordionSidebar">
+		class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+		id="accordionSidebar">
 
 	<!-- Sidebar - Brand -->
 	<a
-		class="sidebar-brand d-flex align-items-center justify-content-center"
-		href="#">
+			class="sidebar-brand d-flex align-items-center justify-content-center"
+			href="#">
 		<div class="sidebar-brand-icon rotate-n-15">
 			<i class="fas fa-laugh-wink"></i>
 		</div>
@@ -24,7 +24,7 @@
 
 	<!-- Nav Item - Dashboard -->
 	<li class="nav-item active"><a class="nav-link" href="#">
-			<i class="fas fa-fw fa-tachometer-alt"></i> <span>Thống kê</span>
+		<i class="fas fa-fw fa-tachometer-alt"></i> <span>Thống kê</span>
 	</a></li>
 
 	<!-- Divider -->
@@ -63,11 +63,11 @@
 			 data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 				<h6 class="collapse-header">Đơn hàng</h6>
-				<a class="collapse-item" href="#">Đơn đã bán</a>
-				<a class="collapse-item" href="#">Đơn chờ xử lý</a>
-				<div class="collapse-divider"></div>
-				<h6 class="collapse-header">Trạng thái</h6>
-				<a class="collapse-item" href="#">Quản lý trạng thái </a>
+				<a class="collapse-item nav-status-shop-oder" href="admin-shop-order?status=waiting">Chờ xác nhận</a>
+				<a class="collapse-item nav-status-shop-oder" href="admin-shop-order?status=shipping">Đang vận chuyển</a>
+				<a class="collapse-item nav-status-shop-oder" href="admin-shop-order?status=delivered">Giao hàng thành công</a>
+				<a class="collapse-item nav-status-shop-oder" href="admin-shop-order?status=failed">Giao hàng thất bại</a>
+				<a class="collapse-item nav-status-shop-oder" href="admin-shop-order?status=canceled">Đã hủy</a>
 			</div>
 		</div>
 	</li>
@@ -82,3 +82,13 @@
 
 </ul>
 <!-- End of Sidebar -->
+
+<script>
+	document.querySelectorAll('.nav-status-shop-oder').forEach(function(element) {
+		element.addEventListener('click', function(event) {
+			event.preventDefault();
+			var status = this.getAttribute('href').split('=')[1];
+			window.location.href = 'admin-shop-order?status=' + status;
+		});
+	});
+</script>
