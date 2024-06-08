@@ -67,6 +67,9 @@ public class ShopOrderService implements IShopOrderService {
         if(idBillInsert==-1)return -1;
 
 
+        ShippingMethod shippingMethod=  shippingMethodDAO.findOneById( shopOrderModel.getShippingMethodID());
+        if(shippingMethod==null)return -1;
+
         double orderTotal = 0;
 
         for(int shoppingCartID:listShoppingCartItemID){
@@ -80,11 +83,13 @@ public class ShopOrderService implements IShopOrderService {
             orderLineModel.setOrderID(idBillInsert);
 
             if(orderLineDAO.insert(orderLineModel)==-1)return -1;
-            orderTotal+=orderLineModel.getPrice();
+            orderTotal+=(orderLineModel.getPrice()* orderLineModel.getQuantity());
 
         }
-        shopOrderModel.setOrderTotal(orderTotal);
 
+        shopOrderModel.setID(idBillInsert);
+        shopOrderModel.setOrderTotal(orderTotal+ shippingMethod.getPrice());
+        shopOrderModel.setOrderStatusID(1);
         shopOrderDAO.update(shopOrderModel);
 
         shoppingCartItemService.updateListItemIsDeleteTrue(listShoppingCartItemID);
