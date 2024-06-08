@@ -13,4 +13,7 @@ public class OrderStatusService implements IOrderStatusService {
     public List<OrderStatus> getAllOrderByStatus(String status){
         return OrderStatusDAO.getAllByStatus(status);
     }
+    public List<OrderStatus> getAllOrder(){
+        return OrderStatusDAO.getAllOrderStatus();
+    }
 }

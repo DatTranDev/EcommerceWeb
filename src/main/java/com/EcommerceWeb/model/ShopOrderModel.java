@@ -1,6 +1,7 @@
 package com.EcommerceWeb.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class ShopOrderModel {
     private int ID;
@@ -19,6 +20,7 @@ public class ShopOrderModel {
     private Address shippingAddress;
     private ShippingMethod shippingMethod;
     private OrderStatus orderStatus;
+    private List<OrderLineModel> listOrderLine;
 
 
 
@@ -132,6 +134,14 @@ public class ShopOrderModel {
 
     public void setShippingMethod(ShippingMethod shippingMethod) {
         this.shippingMethod = shippingMethod;
+    }
+
+    public List<OrderLineModel> getListOrderLine() {
+        return listOrderLine;
+    }
+
+    public void setListOrderLine(List<OrderLineModel> listOrderLine) {
+        this.listOrderLine = listOrderLine;
     }
 }
 

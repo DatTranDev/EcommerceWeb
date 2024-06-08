@@ -3,6 +3,7 @@ package com.EcommerceWeb.service.impl;
 import com.EcommerceWeb.dao.*;
 
 import com.EcommerceWeb.model.*;
+import com.EcommerceWeb.service.IProductItemService;
 import com.EcommerceWeb.service.IShopOrderService;
 import com.EcommerceWeb.service.IShoppingCartItemService;
 
@@ -28,6 +29,8 @@ public class ShopOrderService implements IShopOrderService {
     private IProductItemDAO productItemDAO;
     @Inject
     private IOrderLineDAO orderLineDAO;
+    @Inject
+    private IProductItemService productItemService;
     @Inject
     private IShoppingCartItemService shoppingCartItemService;
     @Override
@@ -89,6 +92,25 @@ public class ShopOrderService implements IShopOrderService {
         return idBillInsert;
     }
 
+    @Override
+    public List<ShopOrderModel> findAllByUserID(int userID) {
+        List<ShopOrderModel> result=shopOrderDAO.findAllByUserID(userID);
+        if(result==null)return null;
+
+        for(ShopOrderModel shopOrderModel:result){
+            List<OrderLineModel> orderLineModelList = orderLineDAO.findByOrderID(shopOrderModel.getID());
+            if(orderLineModelList==null)return null;
+            shopOrderModel.setListOrderLine(orderLineModelList);
+
+            for(OrderLineModel orderLineModel:orderLineModelList){
+                ProductItem productItem= productItemService.findOne(orderLineModel.getProductItemID());
+                if(productItem==null)return null;
+                orderLineModel.setProductItem(productItem);
+            }
+
+        }
+        return result;
+    }
 
 
     private static OrderLineModel convertShoppingCartItemModelToOrderLineModel(ShoppingCartItemModel shoppingCartItemModel){
