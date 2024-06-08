@@ -242,10 +242,10 @@
                                     <div class="ms-4 d-block">
                                         <h4 class="text-dark">${item.username}</h4>
                                         <div class="d-flex pe-5">
-                                            <c:forEach var="i" begin="1" end="${item.rating}">
+                                            <c:forEach var="i" begin="1" end="${item.ratingValue}">
                                                 <i class="fas fa-star text-primary"></i>
                                             </c:forEach>
-                                            <c:forEach var="i" begin="1" end="${5 - item.rating}">
+                                            <c:forEach var="i" begin="1" end="${5 - item.ratingValue}">
                                                 <i class="fas fa-star"></i>
                                             </c:forEach>
                                         </div>

@@ -10,4 +10,5 @@ public interface IUserReviewService {
     void update(UserReview userReview);
     void delete(int id);
     List<UserReview> getGoodReview();
+    List<UserReview> getReviewByProductID(int productID);
 }

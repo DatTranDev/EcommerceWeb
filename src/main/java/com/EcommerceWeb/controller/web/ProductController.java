@@ -2,8 +2,10 @@ package com.EcommerceWeb.controller.web;
 
 import com.EcommerceWeb.model.Product;
 import com.EcommerceWeb.model.ProductCategory;
+import com.EcommerceWeb.model.UserReview;
 import com.EcommerceWeb.service.IProductCategoryService;
 import com.EcommerceWeb.service.IProductService;
+import com.EcommerceWeb.service.IUserReviewService;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
@@ -21,6 +23,8 @@ public class ProductController extends HttpServlet {
     private IProductService productService;
     @Inject
     private IProductCategoryService productCategoryService;
+    @Inject
+    private IUserReviewService userReviewService;
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
@@ -47,6 +51,9 @@ public class ProductController extends HttpServlet {
                             product1.setMinPrice(productService.getMinPrice(product1.getID()));
                         }
                         request.setAttribute("ProductList", productList);
+
+                        List<UserReview> userReviews = userReviewService.getReviewByProductID(id);
+                        request.setAttribute("UserReview", userReviews);
 
                         RequestDispatcher rd = request.getRequestDispatcher("/views/web/productDetail.jsp");
                         rd.forward(request, response);

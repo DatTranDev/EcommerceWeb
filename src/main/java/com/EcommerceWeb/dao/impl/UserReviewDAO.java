@@ -38,4 +38,16 @@ public class UserReviewDAO extends AbstractDAO<UserReview> implements IUserRevie
                 "WHERE UserReview.ratingValue > 3";
         return query(query, new UserReviewMapper());
     }
+    @Override
+    public List<UserReview> getReviewByProductID(int productID) {
+        String query = "SELECT ur.*, su.DisplayName AS username " +
+                "FROM UserReview ur " +
+                "JOIN OrderLine ol ON ur.OrderedProductID = ol.ID " +
+                "JOIN ProductItem pi ON ol.ProductItemID = pi.ID " +
+                "JOIN Product p ON pi.ProductID = p.ID " +
+                "JOIN SiteUser su ON ur.UserID = su.ID " +
+                "WHERE p.ID = ? AND ur.IsDeleted = 0";
+        return query(query, new UserReviewMapper(), productID);
+    }
+
 }
