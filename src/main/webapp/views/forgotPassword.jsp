@@ -25,16 +25,16 @@
                                                id="exampleInputEmail" aria-describedby="emailHelp"
                                                placeholder="Enter Email Address...">
                                     </div>
-                                    <a href="login.html" class="btn btn-primary btn-user btn-block">
+                                    <a href="#" class="btn btn-primary btn-user btn-block">
                                         Xác nhận
                                     </a>
                                 </form>
                                 <hr>
                                 <div class="text-center">
-                                    <a class="small" href="register.html">Tạo tài khoản!</a>
+                                    <a class="small" href="${pageContext.request.contextPath}/dang-nhap?action=register">Tạo tài khoản!</a>
                                 </div>
                                 <div class="text-center">
-                                    <a class="small" href="login.html">  Đã có tài khoản? Đăng nhập!</a>
+                                    <a class="small" href="${pageContext.request.contextPath}/dang-nhap?action=login">  Đã có tài khoản? Đăng nhập!</a>
                                 </div>
                             </div>
                         </div>

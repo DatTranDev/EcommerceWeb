@@ -16,4 +16,6 @@ public interface IProductService {
 	double getMinPrice(int id);
 	double getMaxPrice(int id);
 	List<ProductItem> getProductItems(int id);
+	List<Product> top3saleProduct();
+	int count();
 }

@@ -3,13 +3,13 @@ package com.EcommerceWeb.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.EcommerceWeb.model.ShoppingCartItem;
+import com.EcommerceWeb.model.ShoppingCartItemModel;
 
-public class ShoppingCartItemMapper implements RowMapper<ShoppingCartItem> {
+public class ShoppingCartItemMapper implements RowMapper<ShoppingCartItemModel> {
     @Override
-    public ShoppingCartItem mapRow(ResultSet resultSet) {
+    public ShoppingCartItemModel mapRow(ResultSet resultSet) {
         try {
-            ShoppingCartItem shoppingCartItem = new ShoppingCartItem();
+            ShoppingCartItemModel shoppingCartItem = new ShoppingCartItemModel();
             shoppingCartItem.setID(resultSet.getInt("ID"));
             shoppingCartItem.setCartID(resultSet.getInt("CartID"));
             shoppingCartItem.setProductItemID(resultSet.getInt("ProductItemID"));

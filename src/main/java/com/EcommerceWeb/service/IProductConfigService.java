@@ -10,4 +10,5 @@ public interface IProductConfigService {
     int add(ProductConfig productConfig);
     void delete(int itemID, int optionID);
     ProductConfig findOne(int itemID, int optionID);
+    List<ProductConfig>findByProductItemID(int productItemID);
 }

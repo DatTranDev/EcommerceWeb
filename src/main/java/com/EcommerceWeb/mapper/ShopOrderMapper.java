@@ -3,13 +3,13 @@ package com.EcommerceWeb.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.EcommerceWeb.model.ShopOrder;
+import com.EcommerceWeb.model.ShopOrderModel;
 
-public class ShopOrderMapper implements RowMapper<ShopOrder> {
+public class ShopOrderMapper implements RowMapper<ShopOrderModel> {
     @Override
-    public ShopOrder mapRow(ResultSet resultSet) {
+    public ShopOrderModel mapRow(ResultSet resultSet) {
         try {
-            ShopOrder shopOrder = new ShopOrder();
+            ShopOrderModel shopOrder = new ShopOrderModel();
             shopOrder.setID(resultSet.getInt("ID"));
             shopOrder.setUserID(resultSet.getInt("UserID"));
             shopOrder.setOrderDate(resultSet.getDate("OrderDate"));

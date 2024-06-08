@@ -56,4 +56,10 @@ public class ProductService implements IProductService{
 	public List<ProductItem> getProductItems(int id) {
 		return  productDAO.getProductItems(id);
 	}
+	public List<Product> top3saleProduct() {
+		return productDAO.top3saleProduct();
+	}
+	public int count() {
+		return productDAO.count();
+	}
 }

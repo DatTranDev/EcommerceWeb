@@ -6,6 +6,7 @@ public class UserReview {
     private int orderedProductID;
     private int ratingValue;
     private String comment;
+    private String username;
     private boolean isDeleted;
 
     public int getID() {
@@ -46,6 +47,12 @@ public class UserReview {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+    public String getUsername() {
+        return username;
+    }
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public boolean isDeleted() {

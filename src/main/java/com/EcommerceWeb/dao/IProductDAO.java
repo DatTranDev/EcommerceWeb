@@ -17,4 +17,6 @@ public interface IProductDAO extends GenericDAO<Product> {
 	int getTotalQuantityInStock(int id);
 	ProductCategory getCategory(int id);
 	List<ProductItem> getProductItems(int id);
+	List<Product> top3saleProduct();
+	int count();
 }

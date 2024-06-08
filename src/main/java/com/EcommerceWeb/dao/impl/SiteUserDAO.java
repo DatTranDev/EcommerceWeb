@@ -29,8 +29,8 @@ public class SiteUserDAO extends AbstractDAO<SiteUser> implements ISiteUserDAO{
 
     @Override
     public int register(SiteUser siteUser) {
-        String sql = "INSERT INTO SiteUser(username, password, email, phone, role) VALUES(?, ?, ?, ?, ?)";
-        return insert(sql, siteUser.getUserName(), Helper.toMd5(siteUser.getPassword()), siteUser.getEmail(), siteUser.getPhoneNumber(), siteUser.getRole());
+        String sql = "INSERT INTO SiteUser(displayname, password, email, role) VALUES(?, ?, ?, ?)";
+        return insert(sql, siteUser.getDisplayName(), Helper.toMd5(siteUser.getPassword()), siteUser.getEmail(), siteUser.getRole());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class SiteUserDAO extends AbstractDAO<SiteUser> implements ISiteUserDAO{
 
     @Override
     public int count() {
-        String sql = "SELECT COUNT(*) FROM SiteUser";
+        String sql = "SELECT COUNT(*) FROM SiteUser WHERE role = 'Khách hàng'";
         return count(sql);
     }
 }

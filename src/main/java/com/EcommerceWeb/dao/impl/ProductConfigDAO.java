@@ -40,4 +40,10 @@ public class ProductConfigDAO extends AbstractDAO <ProductConfig> implements IPr
         List<ProductConfig> productConfigs = query(sql, new ProductConfigMapper(), itemID,optionID);
         return productConfigs.isEmpty() ? null : productConfigs.get(0);
     }
+
+    @Override
+    public List<ProductConfig> findByProductItemID(int productItemID) {
+        String sql = "SELECT * FROM ProductConfig WHERE ProductItemID = ?  and IsDeleted = 0";
+        return query(sql, new ProductConfigMapper(), productItemID);
+    }
 }
