@@ -56,4 +56,25 @@ public class ShoppingCartItemDAO  extends AbstractDAO<ShoppingCartItemModel> imp
     }
 
 
+
+
+    //sau nay nho fix lai cho chung
+    @Override
+    public ShoppingCartItemModel findOneByProductItemIdFix(int productItemID) {
+                String sql = "select * from ShoppingCartItem where productItemID = ? and IsDeleted = 0";
+        List<ShoppingCartItemModel> list = query(sql, new ShoppingCartItemMapper(), productItemID);
+
+        if(list==null)return null;
+
+        if(list.isEmpty()){
+            ShoppingCartItemModel shoppingCartItemModel = new ShoppingCartItemModel();
+            shoppingCartItemModel.setID(-1);
+            return shoppingCartItemModel;
+        }
+        else{
+            return list.get(0);
+        }
+    }
+
+
 }

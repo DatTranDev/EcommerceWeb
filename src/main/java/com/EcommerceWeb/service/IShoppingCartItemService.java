@@ -13,4 +13,7 @@ public interface IShoppingCartItemService {
     boolean updateIsDeleteTrue(int shoppingCartItemID);
     boolean updateListItemIsDeleteTrue(int[] ids);
     List<ShoppingCartItemModel> findByListShoppingCartItemID(int[]ids);
+    ShoppingCartItemModel findOneByProductItemIdFix(int productItemID);
+    ShoppingCartItemModel insertFix(int userID,int productItemID,int quantity);
+    ShoppingCartItemModel updateFix(int userID, int productItemID, int quantity);
 }
