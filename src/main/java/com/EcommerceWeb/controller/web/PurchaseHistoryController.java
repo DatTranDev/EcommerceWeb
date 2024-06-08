@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 
-@WebServlet(urlPatterns = {"/purchaseHistory"})
+@WebServlet(urlPatterns = {"/purchase-history"})
 public class PurchaseHistoryController extends HttpServlet {
 
     @Inject
