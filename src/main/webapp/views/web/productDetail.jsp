@@ -70,29 +70,29 @@
                                 <img src="${pageContext.request.contextPath}/template/web/img/sizechart.png" class="img-fluid w-100 rounded" alt="">
                             </div>
                             <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
-                                <c:forEach var="item" items="UserReview">
-<%--                                    <div class="d-flex">--%>
-<%--                                        <img src="${pageContext.request.contextPath}/template/web/img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">--%>
-<%--                                        <div class="">--%>
-<%--                                            <div class="d-flex justify-content-between">--%>
-<%--                                                <h5>${item.username}</h5>--%>
-<%--                                                <div class="d-flex mb-3">--%>
-<%--                                                    <c:forEach var="i" begin="1" end="${item.ratingValue}">--%>
-<%--                                                        <i class="fas fa-star text-primary"></i>--%>
-<%--                                                    </c:forEach>--%>
-<%--                                                    <c:forEach var="i" begin="1" end="${5 - item.ratingValue}">--%>
-<%--                                                        <i class="fas fa-star"></i>--%>
-<%--                                                    </c:forEach>--%>
-<%--                                                </div>--%>
-<%--                                            </div>--%>
-<%--                                            <p>${item.comment}</p>--%>
-<%--                                        </div>--%>
-<%--                                    </div>--%>
+                                <c:forEach var="item" items="${UserReview}">
+                                    <div class="d-flex">
+                                        <img src="${pageContext.request.contextPath}/template/web/img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+                                        <div class="">
+                                            <div class="d-flex justify-content-between">
+                                                <h5>${item.username}</h5>
+                                                <div class="d-flex mb-3">
+                                                    <c:forEach var="i" begin="1" end="${item.ratingValue}">
+                                                        <i class="fas fa-star text-primary"></i>
+                                                    </c:forEach>
+                                                    <c:forEach var="i" begin="1" end="${5 - item.ratingValue}">
+                                                        <i class="fas fa-star"></i>
+                                                    </c:forEach>
+                                                </div>
+                                            </div>
+                                           <p>${item.comment}</p>
+                                        </div>
+                                    </div>
                                 </c:forEach>
                             </div>
                         </div>
                     </div>
-                    <form method="post" action="<c:url value="//api-admin/userreview"/>" >
+                    <form method="post" action="<c:url value="/api-admin/userreview"/>" >
                         <h4 class="mb-5 fw-bold">Leave a Reply</h4>
                         <div class="row g-4">
                             <div class="col-lg-12">
