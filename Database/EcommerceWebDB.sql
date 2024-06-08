@@ -285,6 +285,9 @@ insert into SiteUser(DisplayName, Email, PhoneNumber, PassWord, Gender)
     value ("Nhan Tran", "user@gmail.com", "0123456789", "user", "Male");
 update Siteuser set password = "ee11cbb19052e40b07aac0ca060c23ee" where id = 2;
 update Siteuser set password = "21232f297a57a5a743894a0e4a801fc3" where id = 1;
+
+insert into ShoppingCart(userID) values(2);
+
 UPDATE `product` SET `DisplayName` = 'Dincox E06HI',`ProductImage` ='https://product.hstatic.net/1000365025/product/dincox40_3af9e6f6d64646aabcb4e4859543c1be_master.jpg', `Description` = 'Dòng cao cổ vintage' WHERE (`ID` = '4');
 UPDATE `product` SET `DisplayName` = 'Biti\'s Hunter Street Bloomin\' Central 12',`ProductImage` = 'https://product.hstatic.net/1000230642/product/08500den__12__a72c6a17dd844182b888f9e0f0fff7b7.jpg', `Description` = 'Giày Thể Thao Nữ Biti\'s Hunter Street Bloomin\' Central DSWH08500 mang thiết kế trẻ trung, sang trọng và gai góc, phù hợp với những cô nàng cá tính. Với họa tiết tinh tế, bụi bặm, sản phẩm chắc chắn sẽ là sự lựa chọn không thể tuyệt vời hơn đối với các tín đồ thời trang theo đuổi phong cách hiện đại có chút đường phố này. Để biết thêm về sản phẩm, bạn hãy tham khảo nội dung ở dưới đây.' WHERE (`ID` = '1');
 UPDATE `product` SET `DisplayName` = 'Giày Đi Bộ Nữ Biti\'s Hunter Jogging',`ProductImage` = 'https://product.hstatic.net/1000230642/product/dswh05300ked9_a3ef2e3602714439bbe024e568bfa3f8.jpg', `Description` = 'Nếu như bạn muốn mua một đôi giày đi bộ êm chân lại có khả năng tôn dáng người của mình thì giày đi bộ Biti\'s Hunter Jogging DSWH05300 chính là dòng sản phẩm tốt nhất dành cho bạn. Với thiết kế kiểu dáng thể thao đẹp mắt, chất liệu vải mềm mại sẽ giúp bạn di chuyển vừa thoải mái vừa êm chân trong thời gian dài. Để hiểu hơn về sản phẩm, cùng theo dõi ngay sau đây' WHERE (`ID` = '2');
