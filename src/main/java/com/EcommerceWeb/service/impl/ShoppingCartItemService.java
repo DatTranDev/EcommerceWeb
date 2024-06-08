@@ -146,8 +146,8 @@ public class ShoppingCartItemService implements IShoppingCartItemService {
     }
 
     @Override
-    public ShoppingCartItemModel updateFix(int userID, int productItemID, int quantity) {
-        return null;
+    public ShoppingCartItemModel updateFix(ShoppingCartItemModel shoppingCartItemModel) {
+       return update(shoppingCartItemModel);
     }
 
 

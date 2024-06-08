@@ -405,7 +405,7 @@
                 quantity,
             };
 
-            fetch('${pageContext.request.contextPath}/api-cart', {
+            fetch('${pageContext.request.contextPath}/api-add_product_to_cart', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -414,8 +414,9 @@
             })
                 .then(response => response.json())
                 .then(data => {
-
-
+                    if(data.success){
+                        alert('Đặt hàng thành công!');
+                    }
 
                 })
                 .catch(error => {
