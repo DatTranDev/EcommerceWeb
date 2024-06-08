@@ -81,4 +81,13 @@ public class ShopOrderAPI extends HttpServlet {
         mapper.writeValue(resp.getOutputStream(), responseMap);
 
     }
+
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+
+
+
+    }
 }
