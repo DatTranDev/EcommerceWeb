@@ -204,10 +204,20 @@
             })
                 .then(response => response.json())
                 .then(data => {
+
+                    console.log(data);
                     if (data.idShopOrderInsert!=-1) {
+
+                        let id=data.idShopOrderInsert;
+
                         alert('Đặt hàng thành công!');
-                        // Redirect or other actions
-                    } else {
+                        console.log(id);
+                        let url=`${pageContext.request.contextPath}/purchaseHistory?idShopOrder=`+id
+                        window.location.href =url;
+                        console.log(url);
+
+                    }
+                    else {
                         alert('Đặt hàng thất bại!');
                     }
                 })
