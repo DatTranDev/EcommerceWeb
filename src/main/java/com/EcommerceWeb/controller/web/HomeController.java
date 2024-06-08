@@ -63,6 +63,8 @@ public class HomeController extends HttpServlet{
 			rd.forward(request, response);
 		}
 		else {
+			SiteUser firstLoad = (SiteUser) SessionUtil.getInstance().getValue(request, "SITEUSER");;
+
 			List<ProductCategory> productCategory = productCategoryService.getAll();
 			List<Product> product = productService.getAll();
 			for(Product prd : product){
@@ -108,8 +110,17 @@ public class HomeController extends HttpServlet{
 			SessionUtil.getInstance().putValue(request, "ShoesCategory", shoesCategory);
 			SessionUtil.getInstance().putValue(request, "AccessoriesCategory", accessoriesCategory);
 
-			RequestDispatcher rd =request.getRequestDispatcher("/views/web/home.jsp");
-			rd.forward(request, response);
+			if(firstLoad!=null) {
+				request.setAttribute("SITEUSER", firstLoad);
+				if(firstLoad.getRole().equals("admin")) {
+					RequestDispatcher rd =request.getRequestDispatcher("/views/admin/home.jsp");
+				} else if(firstLoad.getRole().equals("Khách hàng")) {
+					RequestDispatcher rd =request.getRequestDispatcher("/views/web/home.jsp");
+				}
+			}else {
+				RequestDispatcher rd =request.getRequestDispatcher("/views/web/home.jsp");
+				rd.forward(request, response);
+			}
 		}
 	}
 

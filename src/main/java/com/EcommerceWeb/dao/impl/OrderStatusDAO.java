@@ -15,9 +15,19 @@ public class OrderStatusDAO extends AbstractDAO<OrderStatus> implements IOrderSt
         List<OrderStatus> list = query(sql, new OrderStatusMapper(), id);
         return list.isEmpty()?null:list.get(0);
     }
+
+    @Override
     public List<OrderStatus> getAllByStatus(String status) {
         String sql = "select * from OrderStatus where status = ?";
         List<OrderStatus> list = query(sql, new OrderStatusMapper(),status);
         return list.isEmpty()?null:list;
     }
+
+    @Override
+    public List<OrderStatus> getAllOrderStatus() {
+        String sql = "select * from OrderStatus";
+        List<OrderStatus> list = query(sql, new OrderStatusMapper());
+        return list.isEmpty()?null:list;
+    }
+
 }

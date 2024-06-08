@@ -51,5 +51,11 @@ public class ShopOrderDAO extends AbstractDAO<ShopOrderModel> implements IShopOr
                 shopOrderModel.getID());
     }
 
+    @Override
+    public List<ShopOrderModel> findAllByUserID(int userID) {
+        String sql = "select * from ShopOrder where UserID = ? and IsDeleted = 0";
+        return query(sql,new ShopOrderMapper(),userID);
+    }
+
 
 }
