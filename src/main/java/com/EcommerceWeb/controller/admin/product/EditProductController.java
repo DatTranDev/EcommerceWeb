@@ -48,8 +48,8 @@ public class EditProductController extends HttpServlet {
                     Product product = productService.findOne(id);
                     if(product != null){
                         product.setCategory(productCategoryService.findOne(product.getCategoryID()));
-                        product.setMinPrice(productService.getMinPrice(id));
-                        product.setMaxPrice(productService.getMaxPrice(id));
+//                        product.setMinPrice(productService.getMinPrice(id));
+//                        product.setMaxPrice(productService.getMaxPrice(id));
                         selectedProduct=product;
                         request.setAttribute("product", product);
                         if(!(product.getProductImage()==null) && !product.getProductImage().isEmpty()){
