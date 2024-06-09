@@ -112,6 +112,54 @@ public class ShopOrderService implements IShopOrderService {
         return result;
     }
 
+    @Override
+    public List<ShopOrderModel> getAll() {
+        List<ShopOrderModel> result = shopOrderDAO.getAll();
+        if(result==null)return null;
+        return result;
+    }
+
+    @Override
+    public List<ShopOrderModel> findAllByOrderStatus() {
+        List<ShopOrderModel> result = shopOrderDAO.getAll();
+        List<ShopOrderModel> ListOrderSuccess = new ArrayList<>();
+        String s = "Giao hàng thành công";
+        if(result==null)return null;
+        for(ShopOrderModel shopOrderModel:result){
+            if(shopOrderModel.getOrderStatus().equals(s)){
+                ListOrderSuccess.add(shopOrderModel);
+            }
+        }
+        if(ListOrderSuccess.size()==0)return null;
+        return ListOrderSuccess;
+    }
+
+//    @Override
+//    public int calculateRevenueByMonth(int month) {
+//        ShopOrderService shopOrder = new ShopOrderService();
+//        int sum =0;
+//        List<ShopOrderModel> list = shopOrder.findAllByOrderStatus();
+//        for(ShopOrderModel shopOrderModel:list){
+//            if (shopOrderModel.getOrderDate().getMonth()==month){
+//                sum+=shopOrderModel.getOrderTotal();
+//            }
+//        }
+//        return sum;
+//    }
+//
+//    @Override
+//    public int calculateRevenueByYear(int year) {
+//        ShopOrderService shopOrder = new ShopOrderService();
+//        int sum =0;
+//        List<ShopOrderModel> list = shopOrder.findAllByOrderStatus();
+//        for(ShopOrderModel shopOrderModel:list){
+//            if (shopOrderModel.getOrderDate().getYear()==year){
+//                sum+=shopOrderModel.getOrderTotal();
+//            }
+//        }
+//        return sum;
+//    }
+
 
     private static OrderLineModel convertShoppingCartItemModelToOrderLineModel(ShoppingCartItemModel shoppingCartItemModel){
         OrderLineModel orderLineModel = new OrderLineModel();

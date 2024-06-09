@@ -57,5 +57,11 @@ public class ShopOrderDAO extends AbstractDAO<ShopOrderModel> implements IShopOr
         return query(sql,new ShopOrderMapper(),userID);
     }
 
+    @Override
+    public List<ShopOrderModel> getAll() {
+        String sql = "select * from ShopOrder";
+        return query(sql,new ShopOrderMapper());
+    }
+
 
 }

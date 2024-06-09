@@ -179,6 +179,24 @@
             }
         }
     }
+    // // Thêm sự kiện lắng nghe khi người dùng thay đổi giá trị trong input `yearInput`
+    // document.getElementById('yearInput').addEventListener('change', function() {
+    //     // Lấy giá trị năm từ input `yearInput`
+    //     var year = parseInt(this.value);
+    //
+    //     // Lặp qua danh sách `successShopOrderList` và tính tổng doanh thu của các đơn hàng trong năm
+    //     var annualRevenue = 0;
+    //     for (var i = 0; i < successShopOrderList.length; i++) {
+    //         var orderYear = new Date(successShopOrderList[i].orderDate).getFullYear();
+    //         if (orderYear === year) {
+    //             annualRevenue += successShopOrderList[i].totalAmount;
+    //         }
+    //     }
+    //
+    //     // Cập nhật giá trị của `Doanh thu (Hàng năm)` trên giao diện
+    //     document.querySelector('.text-success.text-gray-800').textContent = "$" + annualRevenue.toLocaleString();
+    // });
+
 </script>
 
 
