@@ -44,15 +44,21 @@ public class ShopOrderAPI extends HttpServlet {
             if(tempDescription==null || tempDescription.trim().isEmpty()){
                 description="Không có ghi chú";
             }
-
-            int orderId = Integer.parseInt ((String) data.get("orderId"));
-
+            int orderId;
+            if(data.get("orderId") instanceof  String) {
+                orderId = Integer.parseInt((String) data.get("orderId"));
+            }
+            else{
+                orderId =(int)data.get("orderId");
+            }
             ShopOrderModel shopOrderModel = shopOrderService.findOne(orderId);
             if(shopOrderModel==null){
                 success = false;
             }
             else{
-                shopOrderModel.setDescription(description);
+                if(!description.equals("deleteOnShopOrder.jsp")) {
+                    shopOrderModel.setDescription(description);
+                }
                 shopOrderModel.setOrderStatusID(5);
                 shopOrderDAO.update(shopOrderModel);
 

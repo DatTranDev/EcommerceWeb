@@ -90,8 +90,50 @@
         form.appendChild(idInput);
 
         document.body.appendChild(form);
-        console.log("vao day");
-        form.submit();
+        console.log(action);
+        if(action==="detail"){
+            console.log("vao");
+            form.submit();
+        }
+        else{
+            confirmDelete(id);
+        }
+    }
+
+    function confirmDelete(id) {
+        if (confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?")) {
+            console.log(id);
+
+            var notes =  `deleteOnShopOrder.jsp`;
+            const dataDelete = {
+                orderId:id,
+                notes,
+            };
+
+            fetch(`${pageContext.request.contextPath}/api-admin-shop-order`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataDelete)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.success) {
+                        alert('Hủy đơn hàng thành công!');
+                        let url = `${pageContext.request.contextPath}/admin-shop-order?status=waiting`;
+                        window.location.href = url;
+                    } else {
+                        alert('Hủy đơn hàng thất bại!');
+                    }
+                })
+                .catch(error => {
+                    alert('Hủy đơn hàng thất bại!');
+                });
+
+
+        }
     }
 
     function getContextPath() {
