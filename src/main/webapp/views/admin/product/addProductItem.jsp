@@ -64,9 +64,14 @@
                                         required
                                 />
                             </div>
+                            <c:if test="${type == 1}">
+                                <div class="form-group mb-3">
+                                    <label style="font-weight: bold;">Phân loại (chọn ít nhất một phân loại)</label>
+                                </div>
+                            </c:if>
+
                             <div class="form-group mb-3">
                                 <label
-                                        for="category"
                                 >Size</label
                                 >
                                 <select
@@ -74,17 +79,18 @@
                                         id="size"
                                         name="size"
                                 >
-                                    <option>Không có</option>
-                                    <c:forEach var="item" items="${listCategory}">
-                                        <option value="${item.id}">${item.name}${item.parent}</option>
+                                    <c:if test="${type == 1}">
+                                        <option value="-1">Không có</option>
+                                    </c:if>
+
+                                    <c:forEach var="item" items="${listSize}">
+                                        <option value="${item.ID}">${item.value}</option>
                                     </c:forEach>
-
-
                                 </select>
                             </div>
                             <div class="form-group mb-3">
                                 <label
-                                        for="category"
+
                                 >Màu</label
                                 >
                                 <select
@@ -92,9 +98,11 @@
                                         id="color"
                                         name="color"
                                 >
-                                    <option>Không có</option>
-                                    <c:forEach var="item" items="${listCategory}">
-                                        <option value="${item.id}">${item.name}${item.parent}</option>
+                                    <c:if test="${type == 1}">
+                                        <option value="-1">Không có</option>
+                                    </c:if>
+                                    <c:forEach var="item" items="${listColor}">
+                                        <option value="${item.ID}">${item.value}</option>
                                     </c:forEach>
                                 </select>
                             </div>
@@ -140,8 +148,6 @@
         images = [];
         currentImageIndex = 0;
         let loadedImagesCount = 0;
-
-
         // Clear previous images
         document.getElementById('imageContainer').innerHTML = '<i class="fas fa-cloud-upload-alt tm-upload-icon" id="uploadIcon" onclick="document.getElementById(\'fileInput\').click();"></i>';
 

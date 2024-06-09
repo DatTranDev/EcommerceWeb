@@ -26,7 +26,7 @@ public class ProductController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<ProductCategory> listCategory= productCategoryService.getAll();
         List<Product> listProduct=productService.getAll();
-        List<ProductShow> listProductShow=new ArrayList<ProductShow>();
+        List<ProductShow> listProductShow=new ArrayList<>();
         List<CategoryShow> listCategoryShow= new ArrayList<>();
         for(Product product:listProduct) {
             ProductShow productShow = new ProductShow();

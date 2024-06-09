@@ -23,7 +23,7 @@ public class ProductItemDAO extends AbstractDAO<ProductItem> implements IProduct
 
     @Override
     public int add(ProductItem productItem) {
-        String sql = "INSERT INTO Product (ProductID, SKU, QuantityInStock, ProductImage, Price) \r\n"
+        String sql = "INSERT INTO ProductItem (ProductID, SKU, QuantityInStock, ProductImage, Price) \r\n"
                 + "VALUES (?, ?, ?, ?, ?)";
         return insert(sql, productItem.getProductID(), productItem.getSKU(),
                 productItem.getQuantityInStock(), productItem.getProductImage(),productItem.getPrice());
@@ -70,4 +70,5 @@ public class ProductItemDAO extends AbstractDAO<ProductItem> implements IProduct
         String sql = "SELECT SUM(QuantityInStock) AS TotalQuantity FROM ProductItem WHERE ProductID = ?";
         return count(sql,productID);
     }
+
 }

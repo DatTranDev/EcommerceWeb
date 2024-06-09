@@ -10,6 +10,12 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <% List<String> imageUrls = (List<String>) request.getAttribute("listImage"); %>
+<%
+    int size = (Integer) request.getAttribute("size");
+%>
+<%
+    int color = (Integer) request.getAttribute("color");
+%>
 <html>
 <head>
     <title>Title</title>
@@ -24,7 +30,7 @@
                         <h2 class="tm-block-title d-inline-block">SỬA MÃ SẢN PHẨM</h2>
                     </div>
                 </div>
-                <form class="row tm-edit-product-row">
+                <form class="row tm-edit-product-row" id="productItemForm" action="<c:url value='/admin-editProductItem/${productItem.ID}'/>" method="post" onsubmit="submitForm()">
                     <div class="col-xl-6 col-lg-6 col-md-12">
                         <div class="tm-edit-product-form">
                             <div class="form-group mb-3">
@@ -47,8 +53,8 @@
                                 >Số lượng trong kho
                                 </label>
                                 <input
-                                        id="stock"
-                                        name="name"
+                                        id="quantity"
+                                        name="quantity"
                                         type="number"
                                         class="form-control validate"
                                         value="${productItem.quantityInStock}"
@@ -62,13 +68,73 @@
                                 </label>
                                 <input
                                         id="price"
-                                        name="name"
+                                        name="price"
                                         type="number"
                                         class="form-control validate"
                                         value="${productItem.price}"
                                         required
                                 />
                             </div>
+
+                        <c:if test="${type == 1}">
+                            <div class="form-group mb-3">
+                                <label style="font-weight: bold;">Phân loại (chọn ít nhất một phân loại)</label>
+                            </div>
+                        </c:if>
+
+                        <div class="form-group mb-3">
+                            <label
+                            >Size</label
+                            >
+                            <select
+                                    class="custom-select tm-select-accounts"
+                                    id="size"
+                                    name="size"
+                            >
+                                <c:if test="${type == 1}">
+                                    <option value="-1">Không có</option>
+                                </c:if>
+
+                                <c:forEach var="item" items="${listSize}">
+                                    <c:choose>
+                                        <c:when test="${item.ID == size}">
+                                            <option value="${item.ID}" selected >${item.value}</option>
+                                        </c:when>
+                                        <c:otherwise>
+
+                                                <option value="${item.ID}" >${item.value}</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label
+
+                            >Màu</label
+                            >
+                            <select
+                                    class="custom-select tm-select-accounts"
+                                    id="color"
+                                    name="color"
+                            >
+                                <c:if test="${type == 1}">
+                                    <option value="-1">Không có</option>
+                                </c:if>
+                                <c:forEach var="item" items="${listColor}">
+                                    <c:choose>
+                                        <c:when test="${item.ID == color}">
+                                            <option value="${item.ID}" selected >${item.value}</option>
+                                        </c:when>
+                                        <c:otherwise>
+
+                                            <option value="${item.ID}" >${item.value}</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                            </select>
+                        </div>
+
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
@@ -94,7 +160,7 @@
                         </div>
                     </div>
                     <div class="col-12">
-
+                        <input type="hidden" id="imageUrlsInput" name="listImage"/>
                         <button type="submit" class="btn btn-primary btn-block text-uppercase">CẬP NHẬT MÃ SẢN PHẨM
                         </button>
                     </div>
@@ -175,6 +241,12 @@
                 displayImageAtIndex(currentImageIndex);
             }
         });
+    }
+    //
+    function submitForm() {
+        const imageUrlsInput = document.getElementById('imageUrlsInput');
+        imageUrlsInput.value = JSON.stringify(images);
+        document.getElementById('productItemForm').submit();
     }
 
 </script>

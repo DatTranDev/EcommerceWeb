@@ -62,4 +62,13 @@ public class ProductService implements IProductService{
 	public int count() {
 		return productDAO.count();
 	}
+
+	@Override
+	public ProductItem findItemByVariation(int id, int size, int color) {
+		return productDAO.findItemByVariation(id, size, color);
+	}
+	public ProductItem findItemByOneVariation(int id, int size, int color)
+	{
+		return productDAO.findItemByOneVariation(id, size, color);
+	}
 }

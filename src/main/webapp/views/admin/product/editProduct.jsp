@@ -109,7 +109,7 @@
                                     <td onclick="openEditTab(${item.ID})" style="width:180px; padding-left: 30px "> ${item.quantityInStock} </td>
                                     <td onclick="openEditTab(${item.ID})"> ${item.price}</td>
                                     <td>
-                                        <a href="#" class="tm-product-delete-link">
+                                        <a href="${pageContext.request.contextPath}/admin-deleteProductItem/${product.ID}/${item.ID}" class="tm-product-delete-link">
                                             <i class="far fa-trash-alt tm-product-delete-icon"></i>
                                         </a>
                                     </td>
@@ -121,9 +121,11 @@
 
 
                     <div class="col-12 d-flex justify-content-between" >
-                        <a  href="${pageContext.request.contextPath}/admin-addProductItem/${product.ID}" class="btn btn-primary btn-block text-uppercase btn-custom" style="max-width: 40%;">THÊM MÃ SẢN PHẨM</a>
-
-                        <button type="submit" class="btn btn-primary btn-block text-uppercase btn-custom" style="max-width: 40%; margin-top: 0;height: 100%;">Xóa mục đã chọn</button>
+                        <a  href="${pageContext.request.contextPath}/admin-addProductItem/${product.ID}" class="btn btn-primary btn-block text-uppercase btn-custom" style="max-width: 40%;">
+                            THÊM MÃ SẢN PHẨM</a>
+                            <button type="button" onclick="submitFormDelete()" class="btn btn-primary btn-block text-uppercase btn-custom" style="max-width: 40%; margin-top: 0;height: 100%;">
+                                Xóa mục đã chọn
+                            </button>
                     </div>
 
                     <div class="col-12" style="margin-top: 20px;">
@@ -233,7 +235,17 @@
             listId.push(number);
         }
     }
-
+    function submitFormDelete() {
+        console.log("đã vào");
+        var deleteString = listId.join(", ");
+        const url="${pageContext.request.contextPath}/admin-deleteProductItem/${product.ID}/"+deleteString;
+        window.location.href = url;
+    }
+    function  deleteOne(number){
+        const imageUrlsInput = document.getElementById('delete');
+        imageUrlsInput.value = number;
+        document.getElementById('deleteProduct').submit();
+    }
 </script>
 </body>
 </html>

@@ -81,7 +81,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 		return productItems.get(0).getPrice();
 	}
 	public int getTotalQuantityInStock(int id) {
-		String sql="SELECT sum(QuantityInStock) FROM productitem WHERE ProductID = ?";
+		String sql="SELECT sum(QuantityInStock) FROM productitem WHERE ProductID = ? and IsDeleted = 0";
 		return count(sql, id);
 	}
 	public ProductCategory getCategory(int id) {
@@ -92,7 +92,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 
 	@Override
 	public List<ProductItem> getProductItems(int id) {
-		String sql = "SELECT * FROM productitem WHERE productid = ?";
+		String sql = "SELECT * FROM productitem WHERE productid = ? and IsDeleted=0";
 		List<ProductItem> productItems = query(sql, new ProductItemMapper(), id);
 		return productItems;
 	}
@@ -111,4 +111,20 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 		String sql = "SELECT count(*) FROM product";
 		return count(sql);
 	}
+	public ProductItem findItemByVariation(int id, int color, int size)
+	{
+		String sql="SELECT * FROM productitem pi WHERE ProductID = ? and IsDeleted=0 and " +
+				"(SELECT count(*) FROM productconfig WHERE ProductItemID=pi.ID and (VariationID=? or VariationID=?) and IsDeleted=0)=2";
+		List<ProductItem> productItems = query(sql, new ProductItemMapper(), id,color,size);
+		return productItems.isEmpty() ? null : productItems.get(0);
+	}
+
+	public ProductItem findItemByOneVariation(int id, int size, int color) {
+		String sql="SELECT * FROM productitem pi WHERE ProductID = ? and IsDeleted=0 and  EXISTS " +
+				"(SELECT * FROM productconfig pg WHERE pg.ProductItemID=pi.ID and (pg.VariationID=? or pg.VariationID=?) and pg.IsDeleted=0 and  " +
+				"(SELECT count(*) FROM productconfig pg2 WHERE pg2.ProductItemID=pi.ID and (pg2.VariationID!=pg.VariationID) and pg2.IsDeleted=0)<2)";
+		List<ProductItem> productItems = query(sql, new ProductItemMapper(), id,color,size);
+		return productItems.isEmpty() ? null : productItems.get(0);
+	}
+
 }

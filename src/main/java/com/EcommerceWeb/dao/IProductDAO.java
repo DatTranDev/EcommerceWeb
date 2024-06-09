@@ -19,4 +19,6 @@ public interface IProductDAO extends GenericDAO<Product> {
 	List<ProductItem> getProductItems(int id);
 	List<Product> top3saleProduct();
 	int count();
+	ProductItem findItemByVariation(int id, int size, int color);
+	ProductItem findItemByOneVariation(int id, int size, int color);
 }
