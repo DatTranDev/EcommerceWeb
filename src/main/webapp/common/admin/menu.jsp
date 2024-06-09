@@ -34,10 +34,13 @@
 	<div class="sidebar-heading">Table</div>
 
 	<!-- Nav Item - Utilities Collapse Menu -->
+
+
 	<li class="nav-item"><a class="nav-link collapsed" href="#"
 							data-toggle="collapse" data-target="#collapseUtilities"
-							aria-expanded="true" aria-controls="collapseUtilities"> <i
-			class="fas fa-fw fa-wrench"></i> <span>Quản lý sản phẩm</span>
+							aria-expanded="true" aria-controls="collapseUtilities">
+		<i class="fas fa-fw  fa-solid fa-shoe-prints"></i>
+		<span>Quản lý sản phẩm</span>
 	</a>
 		<div id="collapseUtilities" class="collapse"
 			 aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
@@ -56,7 +59,7 @@
 		<a class="nav-link collapsed" href="#"
 		   data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
 		   aria-controls="collapseTwo">
-			<i class="fas fa-fw fa-cog"></i>
+			<i class="fas fa-fw  fa-solid fa-truck"></i>
 			<span>Quản lý đơn hàng</span>
 		</a>
 		<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
