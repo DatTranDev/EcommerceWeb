@@ -55,10 +55,10 @@
                             <button style="padding-top: 1px;padding-bottom: 1px" class="btn btn-info btn-sm" onclick="handleAction('detail', ${item.ID})" title="Chi tiết">
                                 <i class="fas fa-info-circle" style="font-size: 10px;"></i>
                             </button>
-                            <button style="padding-top: 1px;padding-bottom: 1px"  class="btn btn-success btn-sm" onclick="handleAction('accept', ${item.ID})" title="Chấp nhận">
+                            <button style="padding-top: 1px;padding-bottom: 1px"  class="btn btn-success btn-sm" onclick="handleAction('accept', ${item.ID})" title="Giao hàng thành công">
                                 <i class="fas fa-check" style="font-size: 10px;"></i>
                             </button>
-                            <button style="padding-top: 1px;padding-bottom: 1px"  class="btn btn-danger btn-sm" onclick="handleAction('delete', ${item.ID})" title="Xóa">
+                            <button style="padding-top: 1px;padding-bottom: 1px"  class="btn btn-danger btn-sm" onclick="handleAction('delete', ${item.ID})" title="Giao hàng thất bại">
                                 <i class="fas fa-times" style="font-size: 10px;"></i>
                             </button>
                         </td>
@@ -106,7 +106,7 @@
     }
 
     function confirmDelete(id) {
-        if (confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?")) {
+        if (confirm("Bạn muốn chuyển trạng thái đơn hàng sang giao hàng thất bại?")) {
             console.log(id);
 
             var notes =  `deleteOnShopOrder.jsp`;
@@ -115,7 +115,7 @@
                 notes,
             };
 
-            fetch(`${pageContext.request.contextPath}/api-admin-shop-order`, {
+            fetch(`${pageContext.request.contextPath}/api-admin-shop-order-dang-giao-hang`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -126,15 +126,15 @@
                 .then(data => {
                     console.log(data);
                     if (data.success) {
-                        alert('Hủy đơn hàng thành công!');
-                        let url = `${pageContext.request.contextPath}/admin-shop-order?status=waiting`;
+                        alert('Chuyển trạng thái đơn hàng thành công!');
+                        let url = `${pageContext.request.contextPath}/admin-shop-order?status=shipping`;
                         window.location.href = url;
                     } else {
-                        alert('Hủy đơn hàng thất bại!');
+                        alert('Chuyển trạng thái đơn hàng thất bại!');
                     }
                 })
                 .catch(error => {
-                    alert('Hủy đơn hàng thất bại!');
+                    alert('Chuyển trạng thái đơn hàng thất bại!');
                 });
 
 
@@ -142,14 +142,14 @@
     }
 
     function confirmAccept(id) {
-        if (confirm("Bạn muốn chuyển đơn hàng sang trạng thái đang giao hàng?")) {
+        if (confirm("Bạn muốn chuyển đơn hàng sang trạng thái giao hàng thành công?")) {
             console.log(id);
 
             const dataAccept = {
                 orderId:id,
             };
 
-            fetch(`${pageContext.request.contextPath}/api-admin-shop-order`, {
+            fetch(`${pageContext.request.contextPath}/api-admin-shop-order-dang-giao-hang`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -161,7 +161,7 @@
                     console.log(data);
                     if (data.success) {
                         alert('Chuyển trạng thái đơn hàng thành công!');
-                        let url = `${pageContext.request.contextPath}/admin-shop-order?status=waiting`;
+                        let url = `${pageContext.request.contextPath}/admin-shop-order?status=shipping`;
                         window.location.href = url;
                     } else {
                         alert('Chuyển trạng thái đơn hàng thất bại!');

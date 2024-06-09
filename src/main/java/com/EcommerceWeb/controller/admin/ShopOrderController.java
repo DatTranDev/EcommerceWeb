@@ -35,25 +35,32 @@ public class ShopOrderController extends HttpServlet {
 
             int orderStatusID=0;
 
+            String view ="";
             if(status.equals("waiting")){
                 statusShopOder = "Chờ xác nhận";
                 orderStatusID=1;
+                view="shopOrder";
             }else if(status.equals("shipping")){
                 statusShopOder = "Đang vận chuyển";
                 orderStatusID=2;
+                view="shopOrderForDangGiao";
 
             }else if(status.equals("delivered")){
                 statusShopOder = "Giao hàng thành công";
                 orderStatusID=3;
+                view="shopOrderForGiaoThanhCong";
+
 
             }else if(status.equals("failed")){
                 statusShopOder = "Giao hàng thất bại";
                 orderStatusID=4;
+                view="shopOrderForGiaoThatBai";
 
             }
             else if(status.equals("canceled")){
                 statusShopOder = "Đã hủy";
                 orderStatusID=5;
+                view="shopOrderForDaHuy";
 
             }else{
                 RequestDispatcher rd = req.getRequestDispatcher("/views/admin/error.jsp");
@@ -74,7 +81,7 @@ public class ShopOrderController extends HttpServlet {
                 req.setAttribute("shopOrderModelList",shopOrderModelList);
 
 
-                RequestDispatcher rd = req.getRequestDispatcher("/views/admin/shop_order/shopOrder.jsp");
+                RequestDispatcher rd = req.getRequestDispatcher("/views/admin/shop_order/"+view+".jsp");
                 rd.forward(req, resp);
             }
         }
@@ -116,7 +123,7 @@ public class ShopOrderController extends HttpServlet {
 
                 request.setAttribute("shopOrderModel",shopOrderModel);
 
-                request.getRequestDispatcher("/views/admin/shop_order/shopOrderDetail.jsp").forward(request, response);
+                request.getRequestDispatcher("/views/admin/shop_order/shopOrderDetailForDangGiao.jsp").forward(request, response);
             }
         }
         catch (Exception e){
