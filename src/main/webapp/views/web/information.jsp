@@ -9,6 +9,7 @@
     <title>Thông tin người dùng</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
 <!-- Header Section Start -->
@@ -32,6 +33,16 @@
                     </div>
                     <div class="mb-3">
                         <strong>Số điện thoại:</strong> <span id="phoneNumber">${siteUser.phoneNumber}</span>
+                        <c:if test="${siteUser.phoneNumber == 'Chưa có'}">
+                            <button class="btn btn-primary" type="button" onclick="showPhoneNumberInput()">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </c:if>
+                    </div>
+                    <div class="mb-3" id="phoneNumberInput" style="display: none;">
+                        <textarea class="form-control" id="newPhoneNumber" rows="1" placeholder="Nhập số điện thoại mới"></textarea>
+                        <button class="btn btn-success mt-2" type="button" onclick="addPhoneNumber()">Lưu số điện thoại</button>
+                        <button class="btn btn-secondary mt-2" type="button" onclick="cancelAddPhoneNumber()">Hủy</button>
                     </div>
                     <div class="mb-3">
                         <strong>Giới tính:</strong> <span id="gender">${siteUser.gender}</span>
@@ -78,6 +89,58 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
+    function showPhoneNumberInput() {
+        document.getElementById("phoneNumberInput").style.display = "block";
+    }
+
+    function addPhoneNumber() {
+        var newPhoneNumber = document.getElementById("newPhoneNumber").value;
+        if (isValidPhoneNumber(newPhoneNumber)) {
+            console.log(newPhoneNumber);
+            document.getElementById("newPhoneNumber").value = "";
+
+            const valuePhoneNumber = {
+                newPhoneNumber,
+            };
+
+            fetch('${pageContext.request.contextPath}/api-site-user', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(valuePhoneNumber)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.success) {
+                        alert('Thêm số điện thoại thành công!');
+                        window.location.reload();
+                    }
+                    else {
+                        alert('Thêm số điện thoại thất bại!');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Thêm số điện thoại thất bại!');
+                });
+        } else {
+            alert("Vui lòng nhập số điện thoại hợp lệ.");
+        }
+    }
+
+    function cancelAddPhoneNumber() {
+        document.getElementById("newPhoneNumber").value = "";
+        document.getElementById("phoneNumberInput").style.display = "none";
+    }
+
+    function isValidPhoneNumber(phoneNumber) {
+        // Regex pattern for validating a phone number (Example pattern, modify as needed)
+        var phonePattern = /^[0-9]{10}$/;
+        return phonePattern.test(phoneNumber);
+    }
+
     function addNewAddress() {
         var newAddress = document.getElementById("newAddress").value;
         if (newAddress) {
@@ -130,7 +193,7 @@
             };
 
             fetch('${pageContext.request.contextPath}/api-site-user', {
-                method: 'PUT',
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
                 },

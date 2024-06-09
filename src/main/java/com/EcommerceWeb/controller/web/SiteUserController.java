@@ -40,6 +40,9 @@ public class SiteUserController extends HttpServlet {
                 susscess=false;
             }
             else {
+                if(siteUser.getPhoneNumber()==null || siteUser.getPhoneNumber().trim().isEmpty()){
+                    siteUser.setPhoneNumber("Chưa có");
+                }
                 req.setAttribute("siteUser", siteUser);
                 req.setAttribute("userAddressList",userAddressList);
                 RequestDispatcher rd = req.getRequestDispatcher("/views/web/information.jsp");
