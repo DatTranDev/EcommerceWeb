@@ -15,23 +15,23 @@
                         </div>
                         <form class="user" method="post" action="<c:url value='/dang-nhap'/>" accept-charset="UTF-8">
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                                <input type="text" class="form-control form-control-user" id="exampleFirstName" required="required"
                                        name="DisplayName"
                                        placeholder="Your name">
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control form-control-user" id="exampleInputEmail"
+                                <input type="email" class="form-control form-control-user" id="exampleInputEmail" required="required"
                                        aria-describedby="email" name="Email"
                                        placeholder="Email Address">
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="password" class="form-control form-control-user"
+                                    <input type="password" class="form-control form-control-user" required="required"
                                            name="Password"
                                            id="exampleInputPassword" placeholder="Password">
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="password" class="form-control form-control-user"
+                                    <input type="password" class="form-control form-control-user" required="required"
                                            name="RepeatPassword"
                                            id="exampleRepeatPassword" placeholder="Repeat Password">
                                 </div>

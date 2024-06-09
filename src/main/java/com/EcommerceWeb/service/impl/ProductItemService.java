@@ -11,11 +11,11 @@ import com.EcommerceWeb.service.IProductItemService;
 import com.EcommerceWeb.service.IProductService;
 
 import javax.inject.Inject;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductItemService implements IProductItemService {
-
     @Inject
     private IProductItemDAO productItemDAO;
     @Inject

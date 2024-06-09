@@ -212,7 +212,7 @@
 
                         alert('Đặt hàng thành công!');
                         console.log(id);
-                        let url=`${pageContext.request.contextPath}/purchaseHistory?idShopOrder=`+id
+                        let url=`${pageContext.request.contextPath}/purchase-history?idShopOrder=`+id
                         window.location.href =url;
                         console.log(url);
 

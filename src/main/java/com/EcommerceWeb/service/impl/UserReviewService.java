@@ -30,4 +30,13 @@ public class UserReviewService implements IUserReviewService {
     public List<UserReview> getGoodReview() {
         return userReviewDAO.getGoodReview();
     }
+    public List<UserReview> getReviewByProductID(int productID) {
+        return userReviewDAO.getReviewByProductID(productID);
+    }
+    public boolean checkUserReview(int userID, int orderedProductID) {
+        return userReviewDAO.checkUserReview(userID, orderedProductID);
+    }
+    public int getOrderLineID(int userID, int productItemID) {
+        return userReviewDAO.getOrderLineID(userID, productItemID);
+    }
 }

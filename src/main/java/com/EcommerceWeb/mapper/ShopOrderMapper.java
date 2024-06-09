@@ -12,7 +12,7 @@ public class ShopOrderMapper implements RowMapper<ShopOrderModel> {
             ShopOrderModel shopOrder = new ShopOrderModel();
             shopOrder.setID(resultSet.getInt("ID"));
             shopOrder.setUserID(resultSet.getInt("UserID"));
-            shopOrder.setOrderDate(resultSet.getDate("OrderDate"));
+            shopOrder.setOrderDate(resultSet.getTimestamp("OrderDate"));
             shopOrder.setPaymentMethodID(resultSet.getInt("PaymentMethodID"));
             shopOrder.setShippingAddressID(resultSet.getInt("ShippingAddressID"));
             shopOrder.setShippingMethodID(resultSet.getInt("ShippingMethodID"));

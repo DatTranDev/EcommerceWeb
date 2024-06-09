@@ -3,6 +3,7 @@ package com.EcommerceWeb.service;
 import java.util.List;
 
 import com.EcommerceWeb.model.Product;
+import com.EcommerceWeb.model.ProductItem;
 
 public interface IProductService {
 	List<Product> getAll();
@@ -14,6 +15,9 @@ public interface IProductService {
 	int getTotalItem();
 	double getMinPrice(int id);
 	double getMaxPrice(int id);
+	List<ProductItem> getProductItems(int id);
 	List<Product> top3saleProduct();
 	int count();
+	ProductItem findItemByVariation(int id, int size, int color);
+	ProductItem findItemByOneVariation(int id, int size, int color);
 }

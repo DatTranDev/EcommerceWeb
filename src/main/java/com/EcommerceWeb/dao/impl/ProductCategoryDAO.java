@@ -22,9 +22,8 @@ public class ProductCategoryDAO extends AbstractDAO<ProductCategory> implements 
     }
     @Override
     public void update(ProductCategory productCategory) {
-        String sql = "UPDATE ProductCategory SET ParentCategoryID = ?, DisplayName = ? WHERE ID = ?";
-
-        update(sql, productCategory.getParentCategoryID(), productCategory.getCategoryName(), productCategory.getID());
+        String sql = "UPDATE ProductCategory SET CategoryName = ? WHERE ID = ?";
+        update(sql,productCategory.getCategoryName(), productCategory.getID());
     }
 
     @Override
@@ -39,5 +38,13 @@ public class ProductCategoryDAO extends AbstractDAO<ProductCategory> implements 
         List<ProductCategory> productCategories = query(sql, new ProductCategoryMapper(), id);
         return productCategories.isEmpty() ? null : productCategories.get(0);
     }
-    
+
+    @Override
+    public List<ProductCategory> getAllParent() {
+        String sql = "SELECT * FROM ProductCategory WHERE ParentCategoryID is null and IsDeleted = 0";
+        List<ProductCategory> productCategories = query(sql, new ProductCategoryMapper());
+        return productCategories;
+    }
+
+
 }

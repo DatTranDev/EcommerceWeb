@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,19 +32,20 @@ public class AddProductToCart extends HttpServlet {
         resp.setContentType("application/json");
 
         //test
-        SiteUser model = FormUtil.toModel(SiteUser.class, req);
-        model = siteUserService.findByUserNameAndPassword("user@gmail.com", "user");
-        if(model!=null) {
-            SessionUtil.getInstance().putValue(req, "SITEUSER", model);
-        }
+//        SiteUser model = FormUtil.toModel(SiteUser.class, req);
+//        model = siteUserService.findByUserNameAndPassword("user@gmail.com", "user");
+//        if(model!=null) {
+//            SessionUtil.getInstance().putValue(req, "SITEUSER", model);
+//        }
 
 
-        SiteUser siteUser = (SiteUser) SessionUtil.getInstance().getValue(req, "SITEUSER");
-
+        SiteUser model = (SiteUser) SessionUtil.getInstance().getValue(req, "SITEUSER");
 
         boolean success=true;
-        if(siteUser==null){
+        boolean isLogin=true;
+        if(model==null){
             success=false;
+            isLogin = false;
         }
 
 
@@ -66,7 +68,7 @@ public class AddProductToCart extends HttpServlet {
                 //chua co trong gio hang
                 if(shoppingCartItemModel.getID()==-1){
 
-                    if(shoppingCartItemService.insertFix(siteUser.getID(),productItemID,quantity)==null){
+                    if(shoppingCartItemService.insertFix(model.getID(),productItemID,quantity)==null){
                         success=false;
                     }
                 }
@@ -90,6 +92,7 @@ public class AddProductToCart extends HttpServlet {
         ObjectMapper mapper=new ObjectMapper();
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("success", success);
+        responseMap.put("isLogin", isLogin);
         responseMap.put("typeAddTocart", typeAddTocart);
         responseMap.put("soluongdangco", soluongdangco);
         mapper.writeValue(resp.getOutputStream(), responseMap);

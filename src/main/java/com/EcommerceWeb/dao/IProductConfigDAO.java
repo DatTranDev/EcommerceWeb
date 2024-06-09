@@ -9,7 +9,10 @@ public interface IProductConfigDAO extends GenericDAO<ProductConfig> {
     List<ProductConfig> getAll();
     List<ProductConfig> getByProductItemID(int id);
     int add(ProductConfig productConfig);
+    void updateVariation(ProductConfig old, int idVariation);
+    void updateDeleted(ProductConfig productConfig);
     void delete(int itemID, int optionID);
     ProductConfig findOne(int itemID, int optionID);
+    ProductConfig find(int itemID, int optionID);
     List<ProductConfig>findByProductItemID(int productItemID);
 }

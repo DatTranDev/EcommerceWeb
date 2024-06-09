@@ -3,9 +3,11 @@ package com.EcommerceWeb.dao.impl;
 import java.util.List;
 
 import com.EcommerceWeb.dao.IProductDAO;
+import com.EcommerceWeb.mapper.ProductCategoryMapper;
 import com.EcommerceWeb.mapper.ProductItemMapper;
 import com.EcommerceWeb.mapper.ProductMapper;
 import com.EcommerceWeb.model.Product;
+import com.EcommerceWeb.model.ProductCategory;
 import com.EcommerceWeb.model.ProductItem;
 
 public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
@@ -78,13 +80,30 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 		List<ProductItem> productItems = query(sql, new ProductItemMapper(), id);
 		return productItems.get(0).getPrice();
 	}
+	public int getTotalQuantityInStock(int id) {
+		String sql="SELECT sum(QuantityInStock) FROM productitem WHERE ProductID = ? and IsDeleted = 0";
+		return count(sql, id);
+	}
+	public ProductCategory getCategory(int id) {
+		String sql="SELECT * FROM productcategory WHERE ID = ? and IsDeleted = 0";
+		List<ProductCategory> productCategories = query(sql, new ProductCategoryMapper(), id);
+		return productCategories.get(0);
+	}
+
+	@Override
+	public List<ProductItem> getProductItems(int id) {
+		String sql = "SELECT * FROM productitem WHERE productid = ? and IsDeleted=0";
+		List<ProductItem> productItems = query(sql, new ProductItemMapper(), id);
+		return productItems;
+	}
+
 	public List<Product> top3saleProduct() {
 		String sql = "SELECT p.*\r\n"
 				+ "FROM product p\r\n"
 				+ "INNER JOIN productitem pi ON p.id = pi.productid\r\n"
-				+ "INNER JOIN orderitem oi ON pi.id = oi.productitemid\r\n"
+				+ "INNER JOIN orderline ol ON pi.id = ol.productitemid\r\n"
 				+ "GROUP BY p.id\r\n"
-				+ "ORDER BY SUM(oi.quantity) DESC\r\n"
+				+ "ORDER BY SUM(ol.quantity) DESC\r\n"
 				+ "LIMIT 3;";
 		return query(sql, new ProductMapper());
 	}
@@ -92,4 +111,20 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 		String sql = "SELECT count(*) FROM product";
 		return count(sql);
 	}
+	public ProductItem findItemByVariation(int id, int color, int size)
+	{
+		String sql="SELECT * FROM productitem pi WHERE ProductID = ? and IsDeleted=0 and " +
+				"(SELECT count(*) FROM productconfig WHERE ProductItemID=pi.ID and (VariationID=? or VariationID=?) and IsDeleted=0)=2";
+		List<ProductItem> productItems = query(sql, new ProductItemMapper(), id,color,size);
+		return productItems.isEmpty() ? null : productItems.get(0);
+	}
+
+	public ProductItem findItemByOneVariation(int id, int size, int color) {
+		String sql="SELECT * FROM productitem pi WHERE ProductID = ? and IsDeleted=0 and  EXISTS " +
+				"(SELECT * FROM productconfig pg WHERE pg.ProductItemID=pi.ID and (pg.VariationID=? or pg.VariationID=?) and pg.IsDeleted=0 and  " +
+				"(SELECT count(*) FROM productconfig pg2 WHERE pg2.ProductItemID=pi.ID and (pg2.VariationID!=pg.VariationID) and pg2.IsDeleted=0)<2)";
+		List<ProductItem> productItems = query(sql, new ProductItemMapper(), id,color,size);
+		return productItems.isEmpty() ? null : productItems.get(0);
+	}
+
 }

@@ -63,5 +63,11 @@ public class ShopOrderDAO extends AbstractDAO<ShopOrderModel> implements IShopOr
         return query(sql,new ShopOrderMapper());
     }
 
+    @Override
+    public List<ShopOrderModel> findAllByOrderStatusID(int orderStatusID) {
+        String sql = "select * from ShopOrder where OrderStatusID = ? and IsDeleted = 0";
+        return query(sql,new ShopOrderMapper(),orderStatusID);
+    }
+
 
 }
