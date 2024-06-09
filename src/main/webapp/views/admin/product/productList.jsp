@@ -15,7 +15,7 @@
 <script>
     // Hàm hiển thị hộp thoại xác nhận
     function confirmDelete(message,url) {
-        if(url!=null)
+        if(url==null)
         {
             return confirm(message);
         }
@@ -62,7 +62,7 @@
                 </div>
                 <!-- table container -->
                 <a  href="${pageContext.request.contextPath}/admin-product/add" class="btn btn-primary btn-block text-uppercase mb-3">THÊM SẢN PHẨM</a>
-                <form id="deleteProduct" action="<c:url value='/admin-product'/>" method="post" onsubmit="submitForm()"
+                <form id="deleteProduct" action="<c:url value='/admin-product'/>" method="post" onsubmit="if (confirm('Bạn có chắc muốn xóa các mục đã chọn hay không ?')) { submitForm(); return true; } else { return false; }"
                       >
                     <input type="hidden" id="delete" name="listId"/>
                     <button class="btn btn-primary btn-block text-uppercase" type="submit">
@@ -83,7 +83,7 @@
                                 <td  onclick="openEditCategoryTab(${item.id})" class="tm-product-name">${item.name}${item.parent}</td>
                                 <td class="text-center">
                                     <a href="${pageContext.request.contextPath}/admin-deleteCategory/${item.id}" class="tm-product-delete-link"
-                                       onclick="confirmDelete('Bạn có chắc muốn xóa mục này không?','${pageContext.request.contextPath}/admin-deleteCategory/${item.id}')">
+                                       onclick="confirmDelete('Các sản phẩm thuộc danh mục này cũng sẽ bị xóa, bạn chắc chứ ?','${pageContext.request.contextPath}/admin-deleteCategory/${item.id}')">
                                         <i class="far fa-trash-alt tm-product-delete-icon"></i>
                                     </a>
                                 </td>
@@ -121,13 +121,10 @@
         }
     }
     function submitForm() {
-        if(confirmDelete("Bạn có chắc muốn xóa những mục đã chọn hay không ?"))
-        {
             var deleteString = listId.join(", ");
             const imageUrlsInput = document.getElementById('delete');
             imageUrlsInput.value = deleteString;
             document.getElementById('deleteProduct').submit();
-        }
 
     }
     function  deleteOne(number){

@@ -12,6 +12,21 @@
     <title>Title</title>
 </head>
 <body>
+<script>
+    // Hàm hiển thị hộp thoại xác nhận
+    function confirmDelete(message,url) {
+        if(url==null)
+        {
+            return confirm(message);
+        }
+        else {
+            if (confirm(message)) {
+                window.location.href = url;
+            }
+        }
+
+    }
+</script>
 <div class="container mt-5" style="margin-left: 20%;">
 
     <div class=" tm-block-col"
@@ -27,7 +42,7 @@
                                 class="tm-product-name">${item.value}
                             </td>
                             <td class="text-center">
-                                <a href="${pageContext.request.contextPath}/admin-deleteSize/${item.ID}"
+                                <a onclick="confirmDelete('Bạn có chắc muốn xóa mục này ?', '${pageContext.request.contextPath}/admin-deleteSize/${item.ID}')"
                                    class="tm-product-delete-link">
                                     <i class="far fa-trash-alt tm-product-delete-icon"></i>
                                 </a>
@@ -52,7 +67,7 @@
                                 class="tm-product-name">${item.value}
                             </td>
                             <td class="text-center">
-                                <a href="${pageContext.request.contextPath}/admin-deleteSize/${item.ID}"
+                                <a onclick="confirmDelete('Bạn có chắc muốn xóa mục này ?', '${pageContext.request.contextPath}/admin-deleteSize/${item.ID}')"
                                    class="tm-product-delete-link">
                                     <i class="far fa-trash-alt tm-product-delete-icon"></i>
                                 </a>

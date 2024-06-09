@@ -15,6 +15,21 @@
     <title>Title</title>
 </head>
 <body>
+<script>
+    // Hàm hiển thị hộp thoại xác nhận
+    function confirmDelete(message,url) {
+        if(url==null)
+        {
+            return confirm(message);
+        }
+        else {
+            if (confirm(message)) {
+                window.location.href = url;
+            }
+        }
+
+    }
+</script>
 
 <div class="container tm-mt-big tm-mb-big">
     <div class="row">
@@ -109,7 +124,7 @@
                                     <td onclick="openEditTab(${item.ID})" style="width:180px; padding-left: 30px "> ${item.quantityInStock} </td>
                                     <td onclick="openEditTab(${item.ID})"> ${item.price}</td>
                                     <td>
-                                        <a href="${pageContext.request.contextPath}/admin-deleteProductItem/${product.ID}/${item.ID}" class="tm-product-delete-link">
+                                        <a onclick="confirmDelete('Bạn có chắc muốn xóa mục này ?','${pageContext.request.contextPath}/admin-deleteProductItem/${product.ID}/${item.ID}')" href="javascript:void(0);" class="tm-product-delete-link">
                                             <i class="far fa-trash-alt tm-product-delete-icon"></i>
                                         </a>
                                     </td>
@@ -123,7 +138,7 @@
                     <div class="col-12 d-flex justify-content-between" >
                         <a  href="${pageContext.request.contextPath}/admin-addProductItem/${product.ID}" class="btn btn-primary btn-block text-uppercase btn-custom" style="max-width: 40%;">
                             THÊM MÃ SẢN PHẨM</a>
-                            <button type="button" onclick="submitFormDelete()" class="btn btn-primary btn-block text-uppercase btn-custom" style="max-width: 40%; margin-top: 0;height: 100%;">
+                            <button type="button" onclick="if(confirmDelete('Bạn có chắc muốn xóa những mục đã chọn hay không ?')){submitFormDelete();}" class="btn btn-primary btn-block text-uppercase btn-custom" style="max-width: 40%; margin-top: 0;height: 100%;">
                                 Xóa mục đã chọn
                             </button>
                     </div>

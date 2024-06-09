@@ -28,8 +28,10 @@ public class ProductCategoryDAO extends AbstractDAO<ProductCategory> implements 
 
     @Override
     public void delete(int id) {
-        String sql = "UPDATE ProductCategory SET IsDeleted = true WHERE ID = ?";
-        update(sql, id);
+        String sql1 = "UPDATE ProductCategory SET IsDeleted = true WHERE ID = ?";
+        String sql2= "UPDATE Product SET IsDeleted = true WHERE CategoryID = ?";
+        update(sql1, id);
+        update(sql2, id);
     }
 
     @Override
