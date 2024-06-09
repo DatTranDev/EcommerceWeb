@@ -11,4 +11,5 @@ public interface IShopOrderService {
     int insertBill(ShopOrderModel shopOrderModel,int[] listShoppingCartItemID);
 
     List<ShopOrderModel> findAllByUserID(int userID);
+    List<ShopOrderModel> findAllByOrderStatusID(int orderStatusID);
 }

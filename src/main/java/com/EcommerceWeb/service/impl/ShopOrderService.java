@@ -33,6 +33,8 @@ public class ShopOrderService implements IShopOrderService {
     private IProductItemService productItemService;
     @Inject
     private IShoppingCartItemService shoppingCartItemService;
+    @Inject
+    private ISiteUserDAO siteUserDAO;
     @Override
     public List<ShopOrderModel> findByUserIdAndOrderStatusID(int userID, int orderStatusID) {
         List<ShopOrderModel> list=shopOrderDAO.findByUserIdAndOrderStatusID(userID,orderStatusID);
@@ -115,6 +117,32 @@ public class ShopOrderService implements IShopOrderService {
 
         }
         return result;
+    }
+
+    @Override
+    public List<ShopOrderModel> findAllByOrderStatusID(int orderStatusID) {
+        List<ShopOrderModel> list = shopOrderDAO.findAllByOrderStatusID(orderStatusID);
+        if(list==null)return null;
+
+        for(ShopOrderModel shopOrderModel:list){
+            SiteUser siteUser = siteUserDAO.findOne((long) shopOrderModel.getUserID());
+
+            if(siteUser==null){return null;}
+
+            if(siteUser.getDisplayName()==null || siteUser.getDisplayName().trim().isEmpty()){
+                siteUser.setDisplayName("Không xác định");
+            }
+            if(siteUser.getEmail()==null || siteUser.getEmail().trim().isEmpty()){
+                siteUser.setEmail("Không có");
+            }
+            if(siteUser.getPhoneNumber()==null || siteUser.getPhoneNumber().trim().isEmpty()){
+                siteUser.setPhoneNumber("Không có");
+            }
+            shopOrderModel.setSiteUser(siteUser);
+
+            System.out.println(shopOrderModel.getOrderDate());
+        }
+        return list;
     }
 
 
