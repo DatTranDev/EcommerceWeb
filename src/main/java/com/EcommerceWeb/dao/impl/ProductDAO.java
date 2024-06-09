@@ -71,7 +71,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 	}
 
 	public double getMinPrice(int id) {
-		String sql = "SELECT * FROM productitem WHERE productid = ? ORDER BY price ASC LIMIT 1;";
+		String sql = "SELECT * FROM productitem WHERE productid = ? ORDER BY price DESC LIMIT 1;";
 		List<ProductItem> productItems = query(sql, new ProductItemMapper(), id);
 		return productItems.get(0).getPrice();
 	}
