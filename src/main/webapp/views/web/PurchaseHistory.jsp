@@ -107,9 +107,9 @@
                         </li>
                     </ul>
                 </div>
-                <div class="card-body">
+                <div class="card-body tab-content">
                     <!-- List đơn hàng: Tất cả -->
-                    <div class="product-list active" id="tat-ca">
+                    <div class="product-list active tab-pane" role="tabpanel" id="tat-ca">
                         <c:forEach var="order" items="${shopOrderModelList}">
                             <div class="order-separator">
                                 <div class="order mb-3">
@@ -148,7 +148,7 @@
                     </div>
 
                     <!-- List đơn hàng: Đang chuẩn bị -->
-                    <div class="product-list" id="dang-chuan-bi">
+                    <div class="product-list tab-pane" role="tabpanel" id="dang-chuan-bi">
                         <c:forEach var="order" items="${shopOrderModelList}">
                             <div class="order-separator">
                                 <div class="order mb-3">

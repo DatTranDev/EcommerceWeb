@@ -28,8 +28,13 @@ public class HomeController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//		List<ShopOrderModel> successShopOrderList = shopOrderService.findAllByOrderStatus();
-//		request.setAttribute("successShopOrderList", successShopOrderList);
+		List<ShopOrderModel> successShopOrderList = shopOrderService.findAllByOrderStatus();
+		float sum = 0;
+		for(ShopOrderModel shopOrderModel : successShopOrderList){
+			sum += shopOrderModel.getOrderTotal();
+		}
+		request.setAttribute("sum", sum);
+		request.setAttribute("successShopOrderList", successShopOrderList);
 
 
 		RequestDispatcher rd =request.getRequestDispatcher("/views/admin/home.jsp");

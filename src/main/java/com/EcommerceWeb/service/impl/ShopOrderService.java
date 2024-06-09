@@ -130,10 +130,9 @@ public class ShopOrderService implements IShopOrderService {
     public List<ShopOrderModel> findAllByOrderStatus() {
         List<ShopOrderModel> result = shopOrderDAO.getAll();
         List<ShopOrderModel> ListOrderSuccess = new ArrayList<>();
-        String s = "Giao hàng thành công";
         if(result==null)return null;
         for(ShopOrderModel shopOrderModel:result){
-            if(shopOrderModel.getOrderStatus().equals(s)){
+            if(shopOrderModel.getOrderStatusID()==3){
                 ListOrderSuccess.add(shopOrderModel);
             }
         }
