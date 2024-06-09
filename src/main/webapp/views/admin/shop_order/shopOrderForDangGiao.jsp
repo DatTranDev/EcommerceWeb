@@ -115,7 +115,7 @@
                 notes,
             };
 
-            fetch(`${pageContext.request.contextPath}/api-admin-shop-order-dang-chuan-bi`, {
+            fetch(`${pageContext.request.contextPath}/api-admin-shop-order`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -149,7 +149,7 @@
                 orderId:id,
             };
 
-            fetch(`${pageContext.request.contextPath}/api-admin-shop-order-dang-chuan-bi`, {
+            fetch(`${pageContext.request.contextPath}/api-admin-shop-order`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

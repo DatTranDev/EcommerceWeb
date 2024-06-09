@@ -1,4 +1,4 @@
-package com.EcommerceWeb.controller.admin.api;
+package com.EcommerceWeb.controller.admin.api.shoporder;
 
 
 import com.EcommerceWeb.dao.IShopOrderDAO;
@@ -17,9 +17,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(urlPatterns = {"/api-admin-shop-order"})
+@WebServlet(urlPatterns = {"/api-admin-shop-order-dang-chuan-bi"})
 
-public class ShopOrderAPI extends HttpServlet {
+public class ShopOrderDangChuanBiAPI extends HttpServlet {
 
 
     @Inject
