@@ -2,6 +2,7 @@ package com.EcommerceWeb.controller.admin.api;
 
 
 import com.EcommerceWeb.dao.IShopOrderDAO;
+import com.EcommerceWeb.model.OrderLineModel;
 import com.EcommerceWeb.model.ShopOrderModel;
 import com.EcommerceWeb.service.IShopOrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -69,6 +70,66 @@ public class ShopOrderAPI extends HttpServlet {
                 else{
                     if(check.getOrderStatusID()!=5){
                         success=false;
+                    }
+                }
+            }
+
+
+
+        }
+        catch (Exception e){
+            success = false;
+        }
+
+        ObjectMapper mapper=new ObjectMapper();
+        Map<String, Boolean> responseMap = new HashMap<>();
+        responseMap.put("success", success);
+        mapper.writeValue(resp.getOutputStream(), responseMap);
+
+    }
+
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+
+        boolean success = true;
+
+        try{
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Object> data = objectMapper.readValue(req.getInputStream(), Map.class);
+            int orderId;
+            if(data.get("orderId") instanceof  String) {
+                orderId = Integer.parseInt((String) data.get("orderId"));
+            }
+            else{
+                orderId =(int)data.get("orderId");
+            }
+            ShopOrderModel shopOrderModel = shopOrderService.findOne(orderId);
+            if(shopOrderModel==null){
+                success = false;
+            }
+            else{
+
+                for(OrderLineModel orderLineModel: shopOrderModel.getListOrderLine()){
+                    if(orderLineModel.getQuantity() > orderLineModel.getProductItem().getQuantityInStock()){
+                        success=false;
+                        break;
+                    }
+                }
+                if(success){
+                    shopOrderModel.setOrderStatusID(2);
+                    shopOrderDAO.update(shopOrderModel);
+
+                    ShopOrderModel check = shopOrderService.findOne(orderId);
+                    if(check==null){
+                        success=false;
+                    }
+                    else{
+                        if(check.getOrderStatusID()!=2){
+                            success=false;
+                        }
                     }
                 }
             }

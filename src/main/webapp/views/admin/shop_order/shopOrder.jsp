@@ -96,7 +96,12 @@
             form.submit();
         }
         else{
-            confirmDelete(id);
+            if(action==="accept"){
+                confirmAccept(id);
+            }
+            else{
+                confirmDelete(id);
+            }
         }
     }
 
@@ -135,6 +140,41 @@
 
         }
     }
+
+    function confirmAccept(id) {
+        if (confirm("Bạn muốn chuyển đơn hàng sang trạng thái đang giao hàng?")) {
+            console.log(id);
+
+            const dataAccept = {
+                orderId:id,
+            };
+
+            fetch(`${pageContext.request.contextPath}/api-admin-shop-order`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataAccept)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.success) {
+                        alert('Chuyển trạng thái đơn hàng thành công!');
+                        let url = `${pageContext.request.contextPath}/admin-shop-order?status=waiting`;
+                        window.location.href = url;
+                    } else {
+                        alert('Chuyển trạng thái đơn hàng thất bại!');
+                    }
+                })
+                .catch(error => {
+                    alert('Chuyển trạng thái đơn hàng thất bại!');
+                });
+
+
+        }
+    }
+
 
     function getContextPath() {
         return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
