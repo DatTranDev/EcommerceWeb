@@ -145,9 +145,40 @@
     });
 
     document.getElementById('placeOrderBtn').addEventListener('click', function() {
-        var orderId = '${shopOrderModel.ID}';
-        var notes = document.getElementById('description').value;
-        alert('Đơn hàng đã được đặt để giao!\nID: ' + orderId + '\nGhi chú: ' + notes);
+        var id = '${shopOrderModel.ID}';
+
+        if (confirm("Bạn muốn chuyển đơn hàng sang trạng thái đang giao hàng?")) {
+            console.log(id);
+
+            const dataAccept = {
+                orderId:id,
+            };
+
+            fetch(`${pageContext.request.contextPath}/api-admin-shop-order`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataAccept)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.success) {
+                        alert('Chuyển trạng thái đơn hàng thành công!');
+                        let url = `${pageContext.request.contextPath}/admin-shop-order?status=waiting`;
+                        window.location.href = url;
+                    } else {
+                        alert('Chuyển trạng thái đơn hàng thất bại!');
+                    }
+                })
+                .catch(error => {
+                    alert('Chuyển trạng thái đơn hàng thất bại!');
+                });
+
+
+        }
+
     });
 </script>
 
