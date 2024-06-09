@@ -6,4 +6,7 @@ import java.util.List;
 
 public interface IUserAddressDAO extends GenericDAO<UserAddress> {
     List<UserAddress> findByUserID(int userID);
+    int insert(UserAddress userAddress);
+
+    UserAddress findOneByAddressID(int id);
 }
