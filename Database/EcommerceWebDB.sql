@@ -508,3 +508,87 @@ VALUES (2, 4, 2);
 
 INSERT INTO ShoppingCartItem (CartID, ProductItemID, Quantity)
 VALUES (2, 5, 6); 
+
+-- Alter the ProductImage column in the Product table
+ALTER TABLE Product
+MODIFY COLUMN ProductImage LONGTEXT;
+
+-- Alter the ProductImage column in the ProductItem table
+ALTER TABLE ProductItem
+MODIFY COLUMN ProductImage LONGTEXT;
+
+DELIMITER $$
+
+            CREATE TRIGGER after_insert_product
+                AFTER INSERT ON Product
+                FOR EACH ROW
+            BEGIN
+                DECLARE size_id INT;
+    DECLARE color_id INT;
+    DECLARE size_value VARCHAR(10);
+    DECLARE color_value VARCHAR(10);
+    DECLARE done_size INT DEFAULT 0;
+    DECLARE done_color INT DEFAULT 0;
+    DECLARE safe_display_name VARCHAR(255);
+    DECLARE productitem_id INT;
+    -- Cursor declarations
+    DECLARE size_cursor CURSOR FOR
+                SELECT ID, Value FROM VariationOption WHERE VariationID = (SELECT ID FROM Variation WHERE DisplayName = 'Size' AND CategoryID = 1) and IsDeleted = 0;
+                DECLARE color_cursor CURSOR FOR
+                SELECT ID, Value FROM VariationOption WHERE VariationID = (SELECT ID FROM Variation WHERE DisplayName = 'Màu' AND CategoryID = 1) and IsDeleted = 0; 
+                -- Handler declarations
+                DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_size = 1;
+
+    -- Function to create a URL-safe SKU from the display name
+    SET safe_display_name = REPLACE(LOWER(REPLACE(NEW.DisplayName, ' ', '-')), 'đ', 'd');
+
+    -- Check if the product belongs to the "Giày dép" category
+    IF (NEW.CategoryID IN (SELECT ID FROM ProductCategory WHERE ParentCategoryID = (SELECT ID FROM ProductCategory WHERE CategoryName = 'Giày dép'))) THEN
+
+        -- Iterate over all size options
+        OPEN size_cursor;
+        size_loop: LOOP
+            FETCH size_cursor INTO size_id, size_value;
+            IF done_size THEN
+                LEAVE size_loop;
+            END IF;
+
+            -- Iterate over all color options
+            BEGIN
+                DECLARE done_color INT DEFAULT 0;
+                DECLARE color_cursor2 CURSOR FOR
+            SELECT ID, Value FROM VariationOption WHERE VariationID = (SELECT ID FROM Variation WHERE DisplayName = 'Màu' AND CategoryID = 1) and IsDeleted = 0;
+            DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_color = 1;
+
+            OPEN color_cursor2;
+            color_loop: LOOP
+                    FETCH color_cursor2 INTO color_id, color_value;
+                    IF done_color THEN
+                        LEAVE color_loop;
+        END IF;
+
+        -- Generate SKU
+        SET @sku = CONCAT(ConvertToNonDiacritic(safe_display_name), '-', size_value, '-', ConvertToNonDiacritic(color_value));
+
+                    -- Insert new ProductItem
+        INSERT INTO ProductItem (ProductID, SKU, QuantityInStock, ProductImage, Price)
+        VALUES (NEW.ID, @sku, 0, NULL, 0);
+
+        SET productitem_id = LAST_INSERT_ID();
+
+                    -- Link the ProductItem with Size and Color
+        INSERT INTO ProductConfig (ProductItemID, VariationID)
+        VALUES (productitem_id, size_id);
+        INSERT INTO ProductConfig (ProductItemID, VariationID)
+        VALUES (productitem_id, color_id);
+
+    END LOOP;
+    CLOSE color_cursor2;
+END;
+
+END LOOP;
+CLOSE size_cursor;
+END IF;
+END$$
+
+DELIMITER ;
