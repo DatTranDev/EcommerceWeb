@@ -516,7 +516,7 @@ MODIFY COLUMN ProductImage LONGTEXT;
 -- Alter the ProductImage column in the ProductItem table
 ALTER TABLE ProductItem
 MODIFY COLUMN ProductImage LONGTEXT;
-
+drop trigger if exists after_insert_product;
 DELIMITER $$
 
             CREATE TRIGGER after_insert_product
