@@ -26,7 +26,7 @@
         }
 
         .order {
-            margin-bottom: 2rem; /* Tạo khoảng cách giữa các đơn hàng */
+            margin-bottom: 2rem;
             padding: 1rem;
             border: 1px solid #ddd;
             border-radius: 5px;
@@ -39,8 +39,8 @@
 
         .order-separator {
             background-color: #f7f7f7;
-            padding: 2rem; /* Adjusted padding for better visibility */
-            margin-bottom: 2rem; /* Margin bottom to separate from next order */
+            padding: 2rem;
+            margin-bottom: 2rem;
             border-radius: 5px;
         }
 
@@ -63,6 +63,17 @@
         .order-actions button {
             margin-left: 10px;
         }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: #555;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #d9534f;
+            border-bottom: 3px solid #d9534f;
+            background-color: white;
+        }
     </style>
 </head>
 <body>
@@ -80,30 +91,25 @@
                 <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs">
                         <li class="nav-item col text-center">
-                            <a class="nav-link active" href="#" data-target="tat-ca">Tất cả</a>
+                            <a class="nav-link active" id="tab-tat-ca" href="#">Tất cả</a>
                         </li>
                         <li class="nav-item col text-center">
-                            <a class="nav-link" href="#" data-target="dang-chuan-bi">Đang chuẩn bị</a>
+                            <a class="nav-link" id="tab-dang-chuan-bi" href="#">Đang chuẩn bị</a>
                         </li>
                         <li class="nav-item col text-center">
-                            <a class="nav-link" href="#" data-target="dang-van-chuyen">Đang vận chuyển</a>
+                            <a class="nav-link" id="tab-dang-van-chuyen" href="#">Đang vận chuyển</a>
                         </li>
                         <li class="nav-item col text-center">
-                            <a class="nav-link" href="#" data-target="giao-hang-thanh-cong">Giao hàng thành công</a>
+                            <a class="nav-link" id="tab-giao-hang-thanh-cong" href="#">Giao hàng thành công</a>
                         </li>
                         <li class="nav-item col text-center">
-                            <a class="nav-link" href="#" data-target="da-huy">Đã hủy</a>
+                            <a class="nav-link" id="tab-da-huy" href="#">Đã hủy</a>
                         </li>
                     </ul>
                 </div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <input type="text" class="form-control w-50"
-                               placeholder="Bạn có thể tìm kiếm theo tên Shop, ID đơn hàng hoặc Tên Sản phẩm">
-                    </div>
-
+                <div class="card-body tab-content">
                     <!-- List đơn hàng: Tất cả -->
-                    <div class="product-list active" id="tat-ca">
+                    <div class="product-list active tab-pane" role="tabpanel" id="tat-ca">
                         <c:forEach var="order" items="${shopOrderModelList}">
                             <div class="order-separator">
                                 <div class="order mb-3">
@@ -140,6 +146,58 @@
                             </div>
                         </c:forEach>
                     </div>
+
+                    <!-- List đơn hàng: Đang chuẩn bị -->
+                    <div class="product-list tab-pane" role="tabpanel" id="dang-chuan-bi">
+                        <c:forEach var="order" items="${shopOrderModelList}">
+                            <div class="order-separator">
+                                <div class="order mb-3">
+                                    <c:forEach var="item" items="${order.listOrderLine}">
+                                        <div class="row align-items-center mb-3" data-id="${item.ID}">
+                                            <div class="col-md-2">
+                                                <img src="${item.getProductItem().getProduct().getProductImage()}"
+                                                     class="img-fluid rounded-circle" alt="Product Image">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5 class="mt-0">${item.getProductItem().getProduct().getDisplayName()}</h5>
+                                                <p>Số lượng: ${item.getQuantity()}</p>
+                                                <p>${utils:formatVariation(item.getProductItem().getListProductConfig())}</p>
+                                            </div>
+                                            <div class="col-md-4 text-right">
+                                                <p class="text-danger">${utils:formatCurrency(item.getProductItem().getPrice())}</p>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                    <div class="row">
+                                        <div class="col-md-12 text-right">
+                                            <p class="order-total">Thành tiền: ${utils:formatCurrency(order.getOrderTotal())}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-right order-actions">
+                                            <button type="button" class="btn btn-primary">Đang chuẩn bị</button>
+                                            <button type="button" class="btn btn-secondary">Xem Chi Tiết Hủy Đơn</button>
+                                            <button type="button" class="btn btn-secondary">Liên Hệ Người Bán</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        </c:forEach>
+                    </div>
+
+                    <!-- Repeat similar blocks for other tabs -->
+                    <div class="product-list" id="dang-van-chuyen">
+                        <!-- Nội dung cho Đang vận chuyển -->
+                    </div>
+
+                    <div class="product-list" id="giao-hang-thanh-cong">
+                        <!-- Nội dung cho Giao hàng thành công -->
+                    </div>
+
+                    <div class="product-list" id="da-huy">
+                        <!-- Nội dung cho Đã hủy -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -147,7 +205,28 @@
 </div>
 <!-- Order Details End -->
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const $ = document.querySelector.bind(document);
+        const $$ = document.querySelectorAll.bind(document);
+
+        const tabs = $$('.nav-link');
+        const tabContents = $$('.product-list');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function (e) {
+                e.preventDefault(); // Loại bỏ sự kiện click mặc định của Bootstrap
+
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                this.classList.add('active');
+                const target = this.id.replace('tab-', '');
+                document.getElementById(target).classList.add('active');
+            });
+        });
+    });
 
 </script>
 </body>
 </html>
+

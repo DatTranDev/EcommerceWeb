@@ -35,22 +35,6 @@ public class PurchaseHistoryController extends HttpServlet {
         }
 
 
-       // String result = request.getParameter("idShopOrder").trim();
-
-//        int idShopOrder;
-//        if (result != null && !result.isEmpty()) {
-//            idShopOrder=Integer.parseInt(result);
-//
-//
-//
-//
-//
-//            RequestDispatcher rd = request.getRequestDispatcher("/views/web/PurchaseHistory.jsp");
-//            rd.forward(request, response);
-//        }
-//        else{
-//            response.sendRedirect(request.getContextPath() + "/error");
-//        }
 
           List<ShopOrderModel> shopOrderModelList = shopOrderService.findAllByUserID(siteUser.getID());
 

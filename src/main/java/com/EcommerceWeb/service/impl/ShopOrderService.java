@@ -120,6 +120,53 @@ public class ShopOrderService implements IShopOrderService {
     }
 
     @Override
+    public List<ShopOrderModel> getAll() {
+        List<ShopOrderModel> result = shopOrderDAO.getAll();
+        if(result==null)return null;
+        return result;
+    }
+
+    @Override
+    public List<ShopOrderModel> findAllByOrderStatus() {
+        List<ShopOrderModel> result = shopOrderDAO.getAll();
+        List<ShopOrderModel> ListOrderSuccess = new ArrayList<>();
+        if(result==null)return null;
+        for(ShopOrderModel shopOrderModel:result){
+            if(shopOrderModel.getOrderStatusID()==3){
+                ListOrderSuccess.add(shopOrderModel);
+            }
+        }
+        if(ListOrderSuccess.size()==0)return null;
+        return ListOrderSuccess;
+    }
+
+//    @Override
+//    public int calculateRevenueByMonth(int month) {
+//        ShopOrderService shopOrder = new ShopOrderService();
+//        int sum =0;
+//        List<ShopOrderModel> list = shopOrder.findAllByOrderStatus();
+//        for(ShopOrderModel shopOrderModel:list){
+//            if (shopOrderModel.getOrderDate().getMonth()==month){
+//                sum+=shopOrderModel.getOrderTotal();
+//            }
+//        }
+//        return sum;
+//    }
+//
+//    @Override
+//    public int calculateRevenueByYear(int year) {
+//        ShopOrderService shopOrder = new ShopOrderService();
+//        int sum =0;
+//        List<ShopOrderModel> list = shopOrder.findAllByOrderStatus();
+//        for(ShopOrderModel shopOrderModel:list){
+//            if (shopOrderModel.getOrderDate().getYear()==year){
+//                sum+=shopOrderModel.getOrderTotal();
+//            }
+//        }
+//        return sum;
+//    }
+
+    @Override
     public List<ShopOrderModel> findAllByOrderStatusID(int orderStatusID) {
         List<ShopOrderModel> list = shopOrderDAO.findAllByOrderStatusID(orderStatusID);
         if(list==null)return null;
