@@ -11,4 +11,6 @@ public interface IUserReviewService {
     void delete(int id);
     List<UserReview> getGoodReview();
     List<UserReview> getReviewByProductID(int productID);
+    boolean checkUserReview(int userID, int orderedProductID);
+    int getOrderLineID(int userID, int productItemID);
 }

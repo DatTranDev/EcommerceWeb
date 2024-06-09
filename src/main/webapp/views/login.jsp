@@ -21,11 +21,11 @@
                                 <form class="user" method="post" action="<c:url value='/dang-nhap'/>" id="formLogin">
                                     <div class="form-group">
                                         <input type="email" class="form-control form-control-user"
-                                               id="email" aria-describedby="email" name="email"
+                                               id="email" aria-describedby="email" name="email" required="required"
                                                placeholder="Email">
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control form-control-user" name="password"
+                                        <input type="password" class="form-control form-control-user" name="password" required="required"
                                                id="password" placeholder="Mật khẩu">
                                     </div>
                                     <input type="hidden" value="login" name="action">

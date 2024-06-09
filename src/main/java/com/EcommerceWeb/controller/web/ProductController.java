@@ -1,10 +1,6 @@
 package com.EcommerceWeb.controller.web;
 
-import com.EcommerceWeb.model.Product;
-import com.EcommerceWeb.model.ProductCategory;
-import com.EcommerceWeb.model.ProductConfig;
-import com.EcommerceWeb.model.ProductItem;
-import com.EcommerceWeb.model.UserReview;
+import com.EcommerceWeb.model.*;
 import com.EcommerceWeb.service.IProductCategoryService;
 import com.EcommerceWeb.service.IProductConfigService;
 import com.EcommerceWeb.service.IProductItemService;
@@ -67,6 +63,17 @@ public class ProductController extends HttpServlet {
                             return;
                         }
                         request.setAttribute("productItemList", productItemList);
+
+                        SiteUser user = (SiteUser) request.getSession().getAttribute("SITEUSER");
+                        if(user == null)
+                        {
+                            request.setAttribute("IsReviewed", true);
+                        }
+                        else{
+                            request.setAttribute("IsReviewed", !userReviewService.checkUserReview(user.getID(), product.getID()));
+                            int orderLineID = userReviewService.getOrderLineID(user.getID(), product.getID());
+                            request.setAttribute("OrderLineID", orderLineID);
+                        }
 
 
                         List<UserReview> userReviews = userReviewService.getReviewByProductID(id);
