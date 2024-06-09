@@ -12,14 +12,9 @@ Welcome to the E-Commerce Website project! This is a comprehensive open-source e
 -  Amin panel for product and order management
 -  Secure payment gateway integration
 ## Tech Stack
-Frontend:
 -  HTML, CSS, JavaScript, Bootstrap
-Backend:
 -  Java, JSP Servlet
-Database:
 -  MySQL
-Other Tools:
--  Maven, Git
 ## Getting Started
 ### Prerequisites
 Before you begin, ensure you have met the following requirements:
@@ -35,8 +30,8 @@ Before you begin, ensure you have met the following requirements:
 -  Run the EcommerceWeb.sql to build and start the backend server:
 
 ### Default admin credentials:
-  Email: neban0444@gmail.com
-  Password: admin
+-  Email: neban0444@gmail.com
+-  Password: admin
 
 ## Contact
 If you have any questions or feedback, please feel free to reach out:
