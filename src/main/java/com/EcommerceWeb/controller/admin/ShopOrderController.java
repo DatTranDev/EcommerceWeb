@@ -79,4 +79,53 @@ public class ShopOrderController extends HttpServlet {
             }
         }
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
+        String id = req.getParameter("id");
+
+        switch (action) {
+            case "detail":
+                showDetail(req, resp, id);
+                break;
+            case "accept":
+                acceptOrder(req, resp, id);
+                break;
+            case "delete":
+                deleteOrder(req, resp, id);
+                break;
+            default:
+                RequestDispatcher rd = req.getRequestDispatcher("/views/admin/error.jsp");
+                rd.forward(req, resp);
+        }
+
+    }
+    private void showDetail(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException {
+
+        boolean sus=true;
+        try {
+            int intShopOrder = Integer.parseInt(id.trim());
+
+            ShopOrderModel shopOrderModel = shopOrderService.findOne(intShopOrder);
+            if(shopOrderModel==null){
+                sus=false;
+            }
+            else {
+
+                request.getRequestDispatcher("/shopOrderDetail.jsp").forward(request, response);
+            }
+        }
+        catch (Exception e){ sus=false;}
+
+
+    }
+
+    private void acceptOrder(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException {
+        response.sendRedirect("successPage.jsp");
+    }
+
+    private void deleteOrder(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException {
+        response.sendRedirect("successPage.jsp");
+    }
 }

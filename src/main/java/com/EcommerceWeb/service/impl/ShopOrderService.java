@@ -145,6 +145,25 @@ public class ShopOrderService implements IShopOrderService {
         return list;
     }
 
+    @Override
+    public ShopOrderModel findOne(int id) {
+        ShopOrderModel shopOrderModel = shopOrderDAO.findOne(id);
+        if(shopOrderModel==null)return null;
+
+        List<OrderLineModel> orderLineModelList = orderLineDAO.findByOrderID(shopOrderModel.getID());
+        if(orderLineModelList==null)return null;
+        shopOrderModel.setListOrderLine(orderLineModelList);
+
+        for(OrderLineModel orderLineModel:shopOrderModel.getListOrderLine()){
+            ProductItem productItem= productItemService.findOne(orderLineModel.getProductItemID());
+            if(productItem==null)return null;
+            orderLineModel.setProductItem(productItem);
+        }
+
+        return shopOrderModel;
+
+    }
+
 
     private static OrderLineModel convertShoppingCartItemModelToOrderLineModel(ShoppingCartItemModel shoppingCartItemModel){
         OrderLineModel orderLineModel = new OrderLineModel();
