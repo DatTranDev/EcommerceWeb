@@ -31,4 +31,21 @@ public class UserAddressDAO extends AbstractDAO<UserAddress> implements IUserAdd
             return null;
         }
     }
+
+    @Override
+    public UserAddress findOneByAddressIDForDelete(int id) {
+        String sql = "select * from UserAddress where AddressID = ? and IsDeleted = 1";
+        try {
+            return query(sql,new UserAddressMapper(),id).get(0);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public void update(UserAddress userAddress) {
+        StringBuilder sql = new StringBuilder("UPDATE UserAddress SET UserID = ?, AddressID = ?, IsDefault = ?, IsDeleted = ?");
+        sql.append(" WHERE AddressID = ?");
+        update(sql.toString(), userAddress.getUserID(),userAddress.getAddressID(),userAddress.isDefault(),userAddress.isDeleted(),userAddress.getAddressID());
+    }
 }

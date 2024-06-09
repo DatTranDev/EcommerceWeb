@@ -9,4 +9,6 @@ public interface IUserAddressService {
     List<UserAddress> findByUserID(int userID);
 
     UserAddress insert(UserAddress userAddress, Address address);
+
+    boolean deleteUserAddress(UserAddress userAddress);
 }

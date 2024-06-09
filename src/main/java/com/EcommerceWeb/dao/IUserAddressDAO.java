@@ -9,4 +9,7 @@ public interface IUserAddressDAO extends GenericDAO<UserAddress> {
     int insert(UserAddress userAddress);
 
     UserAddress findOneByAddressID(int id);
+
+    UserAddress findOneByAddressIDForDelete(int id);//phuc vu phan xoa
+    void update(UserAddress userAddress);
 }

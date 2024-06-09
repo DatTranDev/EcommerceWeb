@@ -72,4 +72,40 @@ public class SiteUserAPI extends HttpServlet {
 
 
     }
+
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+
+        boolean success = true;
+
+
+        try {
+            SiteUser siteUser = (SiteUser) SessionUtil.getInstance().getValue(req, "SITEUSER");
+            if (siteUser == null) {
+                success = false;
+            } else {
+                ObjectMapper objectMapper = new ObjectMapper();
+                Map<String, Object> data = objectMapper.readValue(req.getInputStream(), Map.class);
+                String value = (String) data.get("addressID");
+                int addressID = Integer.parseInt(value.trim());
+                UserAddress userAddress = new UserAddress();
+                userAddress.setAddressID(addressID);
+                userAddress.setUserID(siteUser.getID());
+                if(!userAddressService.deleteUserAddress(userAddress)){
+                    success = false;
+                }
+            }
+        }
+        catch (Exception e){
+            success = false;
+        }
+
+        ObjectMapper mapper=new ObjectMapper();
+        Map<String, Boolean> responseMap = new HashMap<>();
+        responseMap.put("success", success);
+        mapper.writeValue(resp.getOutputStream(), responseMap);
+    }
 }

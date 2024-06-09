@@ -61,6 +61,11 @@
                         </div>
                     </div>
                     <!-- Kết thúc thêm nút và textarea -->
+                    <!-- Thêm nút Xóa địa chỉ -->
+                    <div class="mb-3">
+                        <button class="btn btn-danger" type="button" onclick="deleteAddress()">Xóa địa chỉ đang chọn</button>
+                    </div>
+                    <!-- Kết thúc thêm nút Xóa địa chỉ -->
                 </div>
             </div>
         </div>
@@ -83,7 +88,6 @@
                 newAddress,
             };
 
-
             fetch('${pageContext.request.contextPath}/api-site-user', {
                 method: 'POST',
                 headers: {
@@ -93,7 +97,6 @@
             })
                 .then(response => response.json())
                 .then(data => {
-
                     console.log(data);
                     if (data.success) {
                         alert('Thêm địa chỉ thành công!');
@@ -107,8 +110,6 @@
                     console.error('Error:', error);
                     alert('Thêm địa chỉ thất bại!');
                 });
-
-
         } else {
             alert("Vui lòng nhập địa chỉ.");
         }
@@ -117,6 +118,42 @@
     function cancelAddAddress() {
         document.getElementById("newAddress").value = "";
         $('#addAddress').collapse('hide');
+    }
+
+    function deleteAddress() {
+        var selectedAddress = document.querySelector('input[name="billingAddress"]:checked');
+        if (selectedAddress) {
+            var addressID = selectedAddress.value;
+
+            const valueAddress = {
+                addressID,
+            };
+
+            fetch('${pageContext.request.contextPath}/api-site-user', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(valueAddress)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.success) {
+                        alert('Xóa địa chỉ thành công!');
+                        window.location.reload();
+                    }
+                    else {
+                        alert('Xóa địa chỉ thất bại!');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Xóa địa chỉ thất bại!');
+                });
+        } else {
+            alert("Vui lòng chọn địa chỉ để xóa.");
+        }
     }
 </script>
 </body>

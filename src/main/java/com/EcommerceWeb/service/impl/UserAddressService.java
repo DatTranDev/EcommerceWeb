@@ -55,4 +55,19 @@ public class UserAddressService implements IUserAddressService {
          userAddressDAO.insert(userAddress);
         return userAddressDAO.findOneByAddressID(idAddressInsert);
     }
+
+    @Override
+    public boolean deleteUserAddress(UserAddress userAddress) {
+
+        userAddress.setDefault(false);
+        userAddress.setDeleted(true);
+
+        userAddressDAO.update(userAddress);
+
+        if(userAddressDAO.findOneByAddressIDForDelete(userAddress.getAddressID())==null)
+            return false;
+
+        return true;
+
+    }
 }
