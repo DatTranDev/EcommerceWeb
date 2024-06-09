@@ -10,7 +10,7 @@ public interface IProductCategoryService {
     List<ProductCategory> getByParentCategoryID(int parentCategoryID);
     ProductCategory add(ProductCategory productCategory);
     ProductCategory update(ProductCategory productCategory);
-    void delete(int id);
+    boolean delete(int id);
     ProductCategory findOne(int id);
     List<ProductCategory> getAllParent();
 }

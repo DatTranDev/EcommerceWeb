@@ -34,8 +34,8 @@ public class ProductCategoryService implements IProductCategoryService {
     }
 
     @Override
-    public void delete(int id) {
-        productCategoryDAO.delete(id);
+    public boolean delete(int id) {
+        return productCategoryDAO.delete(id);
     }
 
     @Override
