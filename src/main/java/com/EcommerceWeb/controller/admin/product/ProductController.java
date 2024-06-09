@@ -75,7 +75,12 @@ public class ProductController extends HttpServlet {
                     productService.delete(integer);
                 }
                 response.sendRedirect(request.getContextPath() + "/admin-product");
+                return;
             }
+        }
+        else {
+            response.sendRedirect(request.getContextPath() + "/error");
+            return;
         }
     }
     public static class ProductShow {
