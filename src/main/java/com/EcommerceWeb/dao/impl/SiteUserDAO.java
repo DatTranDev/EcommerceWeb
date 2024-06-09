@@ -35,7 +35,7 @@ public class SiteUserDAO extends AbstractDAO<SiteUser> implements ISiteUserDAO{
 
     @Override
     public void update(SiteUser siteUser) {
-        String sql = "UPDATE SiteUser SET username = ?, password = ?, email = ?, phone = ?, role = ? WHERE id = ?";
+        String sql = "UPDATE SiteUser SET username = ?, password = ?, email = ?, PhoneNumber = ?, role = ? WHERE id = ?";
         update(sql, siteUser.getUserName(), siteUser.getPassword(), siteUser.getEmail(), siteUser.getPhoneNumber(), siteUser.getRole(), siteUser.getID());
     }
 

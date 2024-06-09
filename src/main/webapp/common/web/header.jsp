@@ -88,7 +88,7 @@
 								<div class="dropdown-menu m-0 bg-secondary rounded-0">
 									<div class="dropdown-item">
 										<i class="bi bi-person" style = "color: var(--bs-primary);"></i>
-										<a href="#" class="">Tài khoản</a>
+										<a id="accountButton" href="#" class="">Tài khoản</a>
 									</div>
 									<div class="dropdown-item">
 										<i class="bi bi-clock-history" style = "color: var(--bs-primary);"></i>
@@ -133,3 +133,13 @@
 	</div>
 	<!-- Modal Search End -->
 </div>
+
+<script type="text/javascript">
+	document.addEventListener("DOMContentLoaded", function() {
+		var accountButton = document.getElementById("accountButton");
+		accountButton.addEventListener("click", function(event) {
+			event.preventDefault();
+			window.location.href = 'site-user';
+		});
+	});
+</script>

@@ -15,4 +15,12 @@ public class AddressDAO extends AbstractDAO<Address> implements IAddressDAO {
         List<Address> list = query(sql, new AddressMapper(), addressID);
         return list.isEmpty()?null:list.get(0);
     }
+
+    @Override
+    public int insert(Address address) {
+        StringBuilder sql = new StringBuilder("INSERT INTO Address (Value)");
+        sql.append(" VALUES(?)");
+        return insert(sql.toString(),
+               address.getValue());
+    }
 }
