@@ -516,29 +516,29 @@
                                     .then(response => response.json())
                                     .then(dataForUpdate => {
                                         if (dataForUpdate.success) {
-                                            alert('Đặt hàng thành công!');
+                                            alert('Thêm sản phẩm vào giỏ hàng thành công!');
                                         } else {
-                                            alert('Đặt hàng thất bại!');
+                                            alert('Thêm sản phẩm vào giỏ hàng thất bại!');
                                         }
                                     })
                                     .catch(error => {
-                                        alert('Đặt hàng thất bại!');
+                                        alert('Thêm sản phẩm vào giỏ hàng thất bại!');
                                     });
 
                             }
                         } else {
-                            alert('Đặt hàng thành công!');
+                            alert('Thêm sản phẩm vào giỏ hàng thành công!');
                         }
                     } else {
                         if(!data.isLogin) {
                             alert('Bạn cần đăng nhập để thực hiện chức năng này!');
                         }
                         else
-                            alert('Đặt hàng thất bại!');
+                            alert('Thêm sản phẩm vào giỏ hàng thất bại!');
                     }
                 })
                 .catch(error => {
-                    alert('Đặt hàng thất bại!');
+                    alert('Thêm sản phẩm vào giỏ hàng thất bại!');
                 });
         });
 
