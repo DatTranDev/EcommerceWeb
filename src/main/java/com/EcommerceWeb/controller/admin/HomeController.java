@@ -29,10 +29,11 @@ public class HomeController extends HttpServlet{
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		List<ShopOrderModel> successShopOrderList = shopOrderService.findAllByOrderStatus();
-		float sum = 0;
-		for(ShopOrderModel shopOrderModel : successShopOrderList){
-			sum += shopOrderModel.getOrderTotal();
-		}
+		double sum = 0;
+		if(successShopOrderList != null)
+			for(ShopOrderModel shopOrderModel : successShopOrderList){
+				sum += shopOrderModel.getOrderTotal();
+			}
 		request.setAttribute("sum", sum);
 		request.setAttribute("successShopOrderList", successShopOrderList);
 
