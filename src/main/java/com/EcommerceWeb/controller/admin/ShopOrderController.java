@@ -120,10 +120,23 @@ public class ShopOrderController extends HttpServlet {
             }
             else {
 
+                String view="";
+                if(shopOrderModel.getOrderStatusID()==1){
+                    view="shopOrderDetail";
+                }else if(shopOrderModel.getOrderStatusID()==2){
+                    view="shopOrderDetailForDangGiao";
+                }else if(shopOrderModel.getOrderStatusID()==3){
+                    view="shopOrderDetailForGiaoThanhCong";
+                }else if(shopOrderModel.getOrderStatusID()==4){
+                    view="shopOrderDetailForGiaoThatBai";
+                }else if(shopOrderModel.getOrderStatusID()==5){
+                    view="shopOrderDetailForDaHuy";
+                }
+
 
                 request.setAttribute("shopOrderModel",shopOrderModel);
 
-                request.getRequestDispatcher("/views/admin/shop_order/shopOrderDetailForDangGiao.jsp").forward(request, response);
+                request.getRequestDispatcher("/views/admin/shop_order/"+view+".jsp").forward(request, response);
             }
         }
         catch (Exception e){
