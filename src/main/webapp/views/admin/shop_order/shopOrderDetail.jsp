@@ -165,9 +165,15 @@
                 .then(data => {
                     console.log(data);
                     if (data.success) {
-                        alert('Chuyển trạng thái đơn hàng thành công!');
-                        let url = `${pageContext.request.contextPath}/admin-shop-order?status=waiting`;
-                        window.location.href = url;
+                        if(!data.full){
+                            alert('Chuyển trạng thái đơn hàng thành công!');
+                            let url = `${pageContext.request.contextPath}/admin-shop-order?status=waiting`;
+                            window.location.href = url;
+                        }
+                        else{
+                            alert('Tồn kho không đủ số lượng');
+                        }
+
                     } else {
                         alert('Chuyển trạng thái đơn hàng thất bại!');
                     }

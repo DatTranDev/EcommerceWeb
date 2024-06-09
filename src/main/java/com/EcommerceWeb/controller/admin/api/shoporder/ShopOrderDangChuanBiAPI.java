@@ -34,7 +34,6 @@ public class ShopOrderDangChuanBiAPI extends HttpServlet {
         resp.setContentType("application/json");
 
         boolean success = true;
-
         try{
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, Object> data = objectMapper.readValue(req.getInputStream(), Map.class);
@@ -95,6 +94,7 @@ public class ShopOrderDangChuanBiAPI extends HttpServlet {
         resp.setContentType("application/json");
 
         boolean success = true;
+        boolean full=false;
 
         try{
             ObjectMapper objectMapper = new ObjectMapper();
@@ -114,11 +114,11 @@ public class ShopOrderDangChuanBiAPI extends HttpServlet {
 
                 for(OrderLineModel orderLineModel: shopOrderModel.getListOrderLine()){
                     if(orderLineModel.getQuantity() > orderLineModel.getProductItem().getQuantityInStock()){
-                        success=false;
+                        full=true;
                         break;
                     }
                 }
-                if(success){
+                if(!full){
                     shopOrderModel.setOrderStatusID(2);
                     shopOrderDAO.update(shopOrderModel);
 
@@ -144,6 +144,7 @@ public class ShopOrderDangChuanBiAPI extends HttpServlet {
         ObjectMapper mapper=new ObjectMapper();
         Map<String, Boolean> responseMap = new HashMap<>();
         responseMap.put("success", success);
+        responseMap.put("full", full);
         mapper.writeValue(resp.getOutputStream(), responseMap);
 
     }
