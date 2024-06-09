@@ -516,6 +516,7 @@
                                     .then(response => response.json())
                                     .then(dataForUpdate => {
                                         if (dataForUpdate.success) {
+                                            updateCartItemCount();
                                             alert('Thêm sản phẩm vào giỏ hàng thành công!');
                                         } else {
                                             alert('Thêm sản phẩm vào giỏ hàng thất bại!');
@@ -527,6 +528,7 @@
 
                             }
                         } else {
+                            updateCartItemCount();
                             alert('Thêm sản phẩm vào giỏ hàng thành công!');
                         }
                     } else {

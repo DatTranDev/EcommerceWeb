@@ -211,6 +211,7 @@
                         let id=data.idShopOrderInsert;
 
                         alert('Đặt hàng thành công!');
+                        updateCartItemCount();
                         console.log(id);
                         let url=`${pageContext.request.contextPath}/purchase-history?idShopOrder=`+id
                         window.location.href =url;

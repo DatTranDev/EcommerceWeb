@@ -231,6 +231,7 @@
                     data: JSON.stringify(data),
                     success: function (result) {
                         if (result.success) {
+                            updateCartItemCount();
                             window.location.reload();
                         } else {
                             alert("Có lỗi xảy ra!");
