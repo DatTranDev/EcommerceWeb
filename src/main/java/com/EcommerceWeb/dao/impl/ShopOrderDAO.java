@@ -12,7 +12,7 @@ public class ShopOrderDAO extends AbstractDAO<ShopOrderModel> implements IShopOr
 
     @Override
     public List<ShopOrderModel> findByUserIdAndOrderStatusID(int userID, int orderStatusID) {
-        String sql = "select * from ShoppingCartItem where ShopOrder = ? and OrderStatusID = ? and IsDeleted = 0";
+        String sql = "select * from ShopOrder where UserID = ? and OrderStatusID = ? and IsDeleted = 0";
         return query(sql,new ShopOrderMapper(),userID,orderStatusID);
     }
 
@@ -49,6 +49,18 @@ public class ShopOrderDAO extends AbstractDAO<ShopOrderModel> implements IShopOr
                 shopOrderModel.getDescription(),
                 shopOrderModel.isDeleted(),
                 shopOrderModel.getID());
+    }
+
+    @Override
+    public List<ShopOrderModel> findAllByUserID(int userID) {
+        String sql = "select * from ShopOrder where UserID = ? and IsDeleted = 0";
+        return query(sql,new ShopOrderMapper(),userID);
+    }
+
+    @Override
+    public List<ShopOrderModel> findAllByOrderStatusID(int orderStatusID) {
+        String sql = "select * from ShopOrder where OrderStatusID = ? and IsDeleted = 0";
+        return query(sql,new ShopOrderMapper(),orderStatusID);
     }
 
 

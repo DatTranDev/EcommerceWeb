@@ -1,10 +1,40 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/common/tagLib.jsp"%>
 <!DOCTYPE html>
-<html>
 <head>
     <meta charset="UTF-8">
     <title>${Product.displayName}</title>
+
+
+    <style>
+        .input-group.quantity {
+            display: flex !important;
+            align-items: center !important;
+            flex-wrap: nowrap;
+        }
+
+        .input-group.quantity .form-control {
+            width: 50px !important;
+            flex: 0 1 auto;
+        }
+
+        #totalPriceContainer {
+            margin-left: 10px !important;
+            white-space: nowrap;
+        }
+
+        #totalPrice {
+            margin-left: 10px !important;
+            font-weight: bold !important;
+            white-space: nowrap;
+        }
+
+        #input_QuantityByDTT{
+            width: 1px;
+        }
+
+    </style>
+
 </head>
 <body>
 <!-- Single Page Header start -->
@@ -29,8 +59,8 @@
                     <div class="col-lg-6">
                         <h4 class="fw-bold mb-3">${Product.displayName}</h4>
                         <p class="mb-3">Danh mục: ${Product.category.categoryName}</p>
-                        <fmt:formatNumber value="${Product.minPrice}" pattern="#,##0" var="formattedPrice" />
-                        <h5 class="fw-bold mb-3">${formattedPrice}đ</h5>
+                        <h5 id="productPrice" class="fw-bold mb-3">${formattedPrice}</h5>
+                        <h5 class="fw-bold mb-3">${formattedPrice}</h5>
                         <div class="d-flex mb-4">
                             <i class="fa fa-star text-secondary"></i>
                             <i class="fa fa-star text-secondary"></i>
@@ -88,122 +118,98 @@
                             <label for="quantityInStock">Số lượng tồn:</label>
                             <span id="quantityInStock">${productItemList[0].quantityInStock}</span>
                         </div>
-                        <div class="input-group quantity mt-4" style="width: 100px;">
+                        <div class="input-group quantity mt-4" style="width: auto;">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-sm btn-minus rounded-circle bg-light border quantity-button">
                                     <i class="fa fa-minus"></i>
                                 </button>
                             </div>
-                            <input type="text" class="form-control form-control-sm text-center border-0 item-quantity" value="1" data-max-quantity="${productItemList[0].quantityInStock}" data-price="${Product.minPrice}">
+                            <input style="width: 50px !important;"id="input_QuantityByDTT" type="text" class="text-center border-0 item-quantity" value="1" data-max-quantity="${productItemList[0].quantityInStock}" data-price="${Product.minPrice}">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-sm btn-plus rounded-circle bg-light border quantity-button">
                                     <i class="fa fa-plus"></i>
                                 </button>
                             </div>
+                            <div id="totalPriceContainer" class="d-flex align-items-center ms-3">
+                                <h5 id="totalPrice" class="fw-bold mb-0 ms-2">Tổng tiền: ${formattedPrice}</h5>
+                            </div>
                         </div>
+
                         <a href="#" id="addToCartButton" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary" style="margin-top: 20px;">
                             <i class="fa fa-shopping-bag me-2 text-primary"></i> Thêm vào giỏ hàng
                         </a>
 
                     </div>
-                </div>
-                <div class="col-lg-12">
-                    <nav>
-                        <div class="nav nav-tabs mb-3">
-                            <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
-                                    id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
-                                    aria-controls="nav-about" aria-selected="true">Description</button>
-                            <button class="nav-link border-white border-bottom-0" type="button" role="tab"
-                                    id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
-                                    aria-controls="nav-mission" aria-selected="false">Reviews</button>
-                        </div>
-                    </nav>
-                    <div class="tab-content mb-5">
-                        <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-                            <p>Quý khách vui lòng tham khảo bảng thông số dưới đây để lựa chọn size phù hợp </p>
-                            <img src="${pageContext.request.contextPath}/template/web/img/sizechart.png" class="img-fluid w-100 rounded" alt="">
-                        </div>
-                        <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
-                            <div class="d-flex">
-                                <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
-                                <div class="">
-                                    <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
-                                    <div class="d-flex justify-content-between">
-                                        <h5>Jason Smith</h5>
-                                        <div class="d-flex mb-3">
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star"></i>
+                    <div class="col-lg-12">
+                        <nav>
+                            <div class="nav nav-tabs mb-3">
+                                <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
+                                        id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
+                                        aria-controls="nav-about" aria-selected="true">Mô tả</button>
+                                <button class="nav-link border-white border-bottom-0" type="button" role="tab"
+                                        id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
+                                        aria-controls="nav-mission" aria-selected="false">Đánh giá từ khách hàng </button>
+                            </div>
+                        </nav>
+                        <div class="tab-content mb-5">
+                            <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+                                <p>Quý khách vui lòng tham khảo bảng thông số dưới đây để lựa chọn size phù hợp </p>
+                                <img src="${pageContext.request.contextPath}/template/web/img/sizechart.png" class="img-fluid w-100 rounded" alt="">
+                            </div>
+                            <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
+                                <c:forEach var="item" items="${UserReview}">
+                                    <div class="d-flex">
+                                        <img src="${pageContext.request.contextPath}/template/web/img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+                                        <div class="">
+                                            <div class="d-flex justify-content-between">
+                                                <h5>${item.username}</h5>
+                                                <div class="d-flex mb-3">
+                                                    <c:forEach var="i" begin="1" end="${item.ratingValue}">
+                                                        <i class="fas fa-star text-secondary"></i>
+                                                    </c:forEach>
+                                                    <c:forEach var="i" begin="1" end="${5 - item.ratingValue}">
+                                                        <i class="fas fa-star"></i>
+                                                    </c:forEach>
+                                                </div>
+                                            </div>
+                                           <p>${item.comment}</p>
                                         </div>
                                     </div>
-                                    <p>The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic
-                                        words etc. Susp endisse ultricies nisi vel quam suscipit </p>
-                                </div>
-                            </div>
-                            <div class="d-flex">
-                                <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
-                                <div class="">
-                                    <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
-                                    <div class="d-flex justify-content-between">
-                                        <h5>Sam Peters</h5>
-                                        <div class="d-flex mb-3">
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                    </div>
-                                    <p class="text-dark">The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic
-                                        words etc. Susp endisse ultricies nisi vel quam suscipit </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="nav-vision" role="tabpanel">
-                            <p class="text-dark">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam
-                                amet diam et eos labore. 3</p>
-                            <p class="mb-0">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore.
-                                Clita erat ipsum et lorem et sit</p>
-                        </div>
-                    </div>
-                </div>
-                <form action="#">
-                    <h4 class="mb-5 fw-bold">Leave a Reply</h4>
-                    <div class="row g-4">
-                        <div class="col-lg-6">
-                            <div class="border-bottom rounded">
-                                <input type="text" class="form-control border-0 me-4" placeholder="Your Name *">
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="border-bottom rounded">
-                                <input type="email" class="form-control border-0" placeholder="Your Email *">
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="border-bottom rounded my-4">
-                                <textarea name="" id="" class="form-control border-0" cols="30" rows="8" placeholder="Your Review *" spellcheck="false"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="d-flex justify-content-between py-3 mb-5">
-                                <div class="d-flex align-items-center">
-                                    <p class="mb-0 me-3">Please rate:</p>
-                                    <div class="d-flex align-items-center" style="font-size: 12px;">
-                                        <i class="fa fa-star text-muted"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                                <a href="#" class="btn border border-secondary text-primary rounded-pill px-4 py-3">Post Comment</a>
+                                </c:forEach>
                             </div>
                         </div>
                     </div>
-                </form>
+                    <c:if test="${not IsReviewed}">
+                        <form id="reviewForm" >
+                            <h4 class="mb-5 fw-bold">Để lại đánh giá</h4>
+                            <div class="row g-4">
+                                <div class="col-lg-12">
+                                    <div class="border-bottom rounded my-4">
+                                        <textarea name="comment" id="" class="form-control border-0" cols="30" rows="8" placeholder="Đánh giá *" spellcheck="false"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="d-flex justify-content-between py-3 mb-5">
+                                        <div class="d-flex align-items-center">
+                                            <p class="mb-0 me-3">Rating:</p>
+                                            <div class="d-flex align-items-center" style="font-size: 12px;">
+                                                <i id="star1" class="fa fa-star text-secondary"></i>
+                                                <i id="star2" class="fa fa-star text-secondary"></i>
+                                                <i id="star3" class="fa fa-star text-secondary"></i>
+                                                <i id="star4" class="fa fa-star text-secondary"></i>
+                                                <i id="star5" class="fa fa-star text-secondary"></i>
+                                            </div>
+                                            <input type="hidden" id="ratingValue" name="ratingValue">
+                                            <input type="hidden" id="orderlineid" name="orderedProductID">
+                                        </div>
+                                        <button id="reviewButton" type="button" class="btn border border-secondary text-primary rounded-pill px-4 py-3">Đánh giá</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </c:if>
+
+                </div>
             </div>
             <div class="col-lg-4 col-xl-3">
                 <div class="row g-4 fruite">
@@ -268,6 +274,7 @@
         <c:forEach var="item" items="${productItemList}">
         {
             id: '${item.ID}',
+            price: '${item.price}',
             configs: [
                 <c:forEach var="config" items="${item.listProductConfig}">
                 {
@@ -282,11 +289,9 @@
     ];
     console.log("Product items: ", productItems);
 </script>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var selectedProductItemId = null;
-
 
         function updateQuantity() {
             var sizeSelect = document.getElementById('sizeSelect');
@@ -308,6 +313,13 @@
                     }
                 });
 
+                if (!sizeSelect) {//phong trong truong hop khong co size
+                    hasSize = true;
+                }
+                if (!colorSelect) {//phong trong truong hop khong co mau
+                    hasColor = true;
+                }
+
                 if (hasSize && hasColor) {
                     matchedProductItem = item;
                 }
@@ -316,6 +328,8 @@
             var quantityInStock = document.getElementById('quantityInStock');
             var quantityInput = document.querySelector(".item-quantity");
             var addToCartButton = document.getElementById('addToCartButton');
+            var priceDisplay = document.getElementById('productPrice');
+            var totalPriceDisplay = document.getElementById('totalPrice');
 
             if (matchedProductItem) {
                 var stock = matchedProductItem.configs[0].quantityInStock;
@@ -325,7 +339,10 @@
 
                 selectedProductItemId = matchedProductItem.id;
 
-
+                // cap nhat gia tien tuong ung
+                priceDisplay.textContent = new Intl.NumberFormat('vi-VN').format(matchedProductItem.price) + 'đ';
+                var totalPrice = parseInt(matchedProductItem.price) * parseInt(quantityInput.value);
+                totalPriceDisplay.textContent = 'Tổng tiền: ' + new Intl.NumberFormat('vi-VN').format(totalPrice) + 'đ';
                 // Kiểm tra số lượng tồn kho và cập nhật trạng thái của nút "Thêm vào giỏ hàng"
                 if (stock > 0) {
                     addToCartButton.classList.remove('disabled');
@@ -343,8 +360,28 @@
                 addToCartButton.classList.add('disabled');
                 addToCartButton.classList.remove('text-primary');
             }
+
+            updateTotalPrice();
         }
 
+        function updateTotalPrice() {
+            var quantityInput = document.querySelector(".item-quantity");
+            var quantity = parseInt(quantityInput.value);
+            var priceDisplay = document.getElementById('productPrice');
+            var totalPriceDisplay = document.getElementById('totalPrice');
+
+            var price = parseInt(priceDisplay.textContent.replace(/[^0-9]/g, ''));
+            var totalPrice = price * quantity;
+            totalPriceDisplay.textContent = 'Tổng tiền: ' + new Intl.NumberFormat('vi-VN').format(totalPrice) + 'đ';
+
+            const maxQuantity = parseInt(quantityInput.getAttribute('data-max-quantity'));
+            if(maxQuantity===0){
+                totalPriceDisplay.textContent = '';
+            }
+        }
+
+        // Tự động cập nhật khi trang tải
+        updateQuantity();
 
         if (document.getElementById('sizeSelect')) {
             document.getElementById('sizeSelect').addEventListener('change', updateQuantity);
@@ -363,20 +400,22 @@
                 const maxQuantity = parseInt(quantityInput.getAttribute('data-max-quantity'));
 
                 if (this.classList.contains('btn-minus')) {
-                    value +=1;
+                    value += 1;
                     value = value > 1 ? value - 1 : 1;
                 } else if (this.classList.contains('btn-plus')) {
-                    value-=1;
+                    value -= 1;
                     value = value < maxQuantity ? value + 1 : maxQuantity;
                 }
 
                 quantityInput.value = value;
                 validateQuantity(quantityInput);
+                updateTotalPrice();
             });
         });
 
         quantityInput.addEventListener('input', function() {
             validateQuantity(quantityInput);
+            updateTotalPrice();
         });
 
         function validateQuantity(input) {
@@ -392,7 +431,7 @@
             input.value = value;
         }
 
-        // them vao gio hng
+        // them vao gio hang
         const addToCartButton = document.getElementById('addToCartButton');
         addToCartButton.addEventListener('click', function(event) {
             event.preventDefault();
@@ -405,7 +444,7 @@
                 quantity,
             };
 
-            fetch('${pageContext.request.contextPath}/api-cart', {
+            fetch('${pageContext.request.contextPath}/api-add_product_to_cart', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -414,19 +453,131 @@
             })
                 .then(response => response.json())
                 .then(data => {
+                    if (data.success) {
+                        if (!data.typeAddTocart) {
+                            if (confirm("Sản phẩm đã có trong giỏ hàng với số lượng là " + data.soluongdangco + ",bạn muốn đặt thêm số lượng không?")) {
+                                const maxQuantity = parseInt(quantityInput.getAttribute('data-max-quantity'));
+
+                                let denta = parseInt(maxQuantity) - (parseInt(quantity) + parseInt(data.soluongdangco));
+
+                                console.log(denta);
+                                console.log(maxQuantity);
+                                console.log(quantity);
+                                console.log(data.soluongdangco);
+                                if ( parseInt(denta) < 0) {
+                                    const msg = "Bạn chỉ có thể mua thêm " + ( parseInt(maxQuantity) - data.soluongdangco) +" sản phẩm";
+                                    alert(msg);
+                                    return;
+                                }
+
+                                const dataUpdate = {
+                                    productItemId: selectedProductItemId,
+                                    quantity,
+                                };
 
 
+                                fetch('${pageContext.request.contextPath}/api-add_product_to_cart', {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(dataUpdate)
+                                })
+                                    .then(response => response.json())
+                                    .then(dataForUpdate => {
+                                        if (dataForUpdate.success) {
+                                            alert('Đặt hàng thành công!');
+                                        } else {
+                                            alert('Đặt hàng thất bại!');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        alert('Đặt hàng thất bại!');
+                                    });
 
+                            }
+                        } else {
+                            alert('Đặt hàng thành công!');
+                        }
+                    } else {
+                        if(!data.isLogin) {
+                            alert('Bạn cần đăng nhập để thực hiện chức năng này!');
+                        }
+                        else
+                            alert('Đặt hàng thất bại!');
+                    }
                 })
                 .catch(error => {
-
                     alert('Đặt hàng thất bại!');
                 });
-
-
         });
 
+        //comment
+        const reviewButton = document.getElementById('reviewButton');
+        const reviewForm = document.getElementById('reviewForm');
+
+        reviewButton.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            // Get the review data from the form
+            const formData = {
+                comment: reviewForm.comment.value,
+                ratingValue: reviewForm.ratingValue.value,
+                orderedProductID: reviewForm.orderedProductID.value,
+                userID: '${SITEUSER.ID}'
+
+            };
+            console.log(formData);
+            // Send the review data to the server
+            fetch('${pageContext.request.contextPath}/api-admin/userreview', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status==='success') {
+                        alert('Đánh giá thành công!');
+                        // Reload the page
+                        location.reload();
+                    } else {
+                        alert('Đánh giá thất bại!');
+                    }
+                })
+                .catch(error => {
+                    alert('Đánh giá thất bại!');
+                });
+        });
+
+        //rating
+
+        const stars = [
+            document.getElementById('star1'),
+            document.getElementById('star2'),
+            document.getElementById('star3'),
+            document.getElementById('star4'),
+            document.getElementById('star5')
+        ];
+        const ratingValue = document.getElementById('ratingValue');
+        ratingValue.value = 5;
+        const orderlineid = document.getElementById('orderlineid');
+        orderlineid.value = '${OrderLineID}';
+        stars.forEach((star, index) => {
+            star.addEventListener('click', function() {
+                // Set the rating value
+                ratingValue.value = index + 1;
+
+                // Update the star colors
+                stars.forEach((star, starIndex) => {
+                    star.className = starIndex <= index ? 'fa fa-star text-secondary' : 'fa fa-star';
+                });
+            });
+        });
     });
 </script>
+
+
 </body>
 </html>

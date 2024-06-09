@@ -101,9 +101,9 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 		String sql = "SELECT p.*\r\n"
 				+ "FROM product p\r\n"
 				+ "INNER JOIN productitem pi ON p.id = pi.productid\r\n"
-				+ "INNER JOIN orderitem oi ON pi.id = oi.productitemid\r\n"
+				+ "INNER JOIN orderline ol ON pi.id = ol.productitemid\r\n"
 				+ "GROUP BY p.id\r\n"
-				+ "ORDER BY SUM(oi.quantity) DESC\r\n"
+				+ "ORDER BY SUM(ol.quantity) DESC\r\n"
 				+ "LIMIT 3;";
 		return query(sql, new ProductMapper());
 	}

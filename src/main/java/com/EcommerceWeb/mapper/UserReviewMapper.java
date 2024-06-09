@@ -16,7 +16,7 @@ public class UserReviewMapper implements RowMapper<UserReview> {
             userReview.setRatingValue(resultSet.getInt("RatingValue"));
             userReview.setComment(resultSet.getString("Comment"));
             userReview.setDeleted(resultSet.getBoolean("IsDeleted"));
-            userReview.setUsername(resultSet.getString("DisplayName"));
+            userReview.setUsername(resultSet.getString("UserName"));
             return userReview;
         } catch (SQLException e) {
             return null;

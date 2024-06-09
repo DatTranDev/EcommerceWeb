@@ -12,4 +12,8 @@ public interface IShopOrderDAO extends GenericDAO<ShopOrderModel>{
 
     ShopOrderModel findOne(int id);
     void update(ShopOrderModel shopOrderModel);
+
+    List<ShopOrderModel> findAllByUserID(int userID);
+
+    List<ShopOrderModel> findAllByOrderStatusID(int orderStatusID);
 }

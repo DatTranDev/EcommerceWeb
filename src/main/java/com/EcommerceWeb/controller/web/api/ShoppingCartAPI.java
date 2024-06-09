@@ -33,48 +33,6 @@ public class ShoppingCartAPI extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // super.doPost(req, resp);
-        req.setCharacterEncoding("UTF-8");
-        resp.setContentType("application/json");
-
-        boolean success=true;
-        SiteUser siteUser = (SiteUser) SessionUtil.getInstance().getValue(req, "SITEUSER");
-        if(siteUser==null){
-            success=false;
-        }
-
-
-
-        try{
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> data = objectMapper.readValue(req.getInputStream(), Map.class);
-
-            int productItemID= Integer.parseInt(((String)data.get("productItemId")));
-            int quantity=Integer.parseInt(((String)data.get("quantity")));
-
-            ShoppingCartItemModel shoppingCartItemModel = shoppingCartItemService.findOneByProductItemIdFix(productItemID);
-            if(shoppingCartItemModel==null){
-                success=false;
-            }
-            else{
-                //chua co trong gio hang
-                if(shoppingCartItemModel.getID()==-1){
-
-                    ShoppingCartItemModel shoppingCartItemModel1 = new ShoppingCartItemModel();
-                   if(shoppingCartItemService.insert(shoppingCartItemModel1)==null){
-                       success=false;
-                   }
-                   else{
-
-                   }
-                }
-                else{
-
-                }
-            }
-
-
-        }
-        catch (Exception e){}
 
 
 

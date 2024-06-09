@@ -1,6 +1,7 @@
 package com.EcommerceWeb.controller.web;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,13 +57,27 @@ public class HomeController extends HttpServlet{
 			SessionUtil.getInstance().removeValue(request, "SITEUSER");
 			response.sendRedirect(request.getContextPath()+"/trang-chu");
 		} else if (action!=null&& action.equals("register")) {
+			String message = request.getParameter("message");
+			String alert = request.getParameter("alert");
+			if(message!=null && alert!=null) {
+				request.setAttribute("message", message);
+				request.setAttribute("alert", alert);
+			}
 			RequestDispatcher rd = request.getRequestDispatcher("/views/register.jsp");
 			rd.forward(request, response);
 		} else if (action!=null && action.equals("forgotpassword")){
+			String message = request.getParameter("message");
+			String alert = request.getParameter("alert");
+			if(message!=null && alert!=null) {
+				request.setAttribute("message", message);
+				request.setAttribute("alert", alert);
+			}
 			RequestDispatcher rd = request.getRequestDispatcher("/views/forgotPassword.jsp");
 			rd.forward(request, response);
 		}
 		else {
+			SiteUser firstLoad = (SiteUser) SessionUtil.getInstance().getValue(request, "SITEUSER");;
+
 			List<ProductCategory> productCategory = productCategoryService.getAll();
 			List<Product> product = productService.getAll();
 			for(Product prd : product){
@@ -73,7 +88,7 @@ public class HomeController extends HttpServlet{
 			request.setAttribute("ProductCategory", productCategory);
 			request.setAttribute("ShoesCategory", shoesCategory);
 			request.setAttribute("AccessoriesCategory", accessoriesCategory);
-			//request.setAttribute("Product", product);
+			request.setAttribute("Product", product);
 			List<Product> firstEightProducts = new ArrayList<>();
 			if (product.size() >= 8) {
 				firstEightProducts = product.subList(0, 8);
@@ -104,12 +119,23 @@ public class HomeController extends HttpServlet{
 			List<UserReview> goodReview = userReviewService.getGoodReview();
 			request.setAttribute("GoodReview", goodReview);
 			SessionUtil.getInstance().putValue(request, "ProductCategory", productCategory);
-			//SessionUtil.getInstance().putValue(request, "Product", product);
+			SessionUtil.getInstance().putValue(request, "Product", product);
 			SessionUtil.getInstance().putValue(request, "ShoesCategory", shoesCategory);
 			SessionUtil.getInstance().putValue(request, "AccessoriesCategory", accessoriesCategory);
 
-			RequestDispatcher rd =request.getRequestDispatcher("/views/web/home.jsp");
-			rd.forward(request, response);
+			if(firstLoad!=null) {
+				request.setAttribute("SITEUSER", firstLoad);
+				if(firstLoad.getRole().equals("admin")) {
+					RequestDispatcher rd =request.getRequestDispatcher("/views/admin/home.jsp");
+					rd.forward(request, response);
+				} else if(firstLoad.getRole().equals("Khách hàng")) {
+					RequestDispatcher rd =request.getRequestDispatcher("/views/web/home.jsp");
+					rd.forward(request, response);
+				}
+			}else {
+				RequestDispatcher rd =request.getRequestDispatcher("/views/web/home.jsp");
+				rd.forward(request, response);
+			}
 		}
 	}
 
@@ -128,7 +154,8 @@ public class HomeController extends HttpServlet{
 					response.sendRedirect(request.getContextPath()+"/trang-chu");
 				}
 			} else {
-				response.sendRedirect(request.getContextPath()+"/dang-nhap?action=login&message=Tài khoản hoặc mật khẩu không đúng&alert=danger");
+				String loginUrl = request.getContextPath() + "/dang-nhap?action=login&message=" + URLEncoder.encode("Sai tài khoản hoặc mật khẩu", "UTF-8") + "&alert=danger";
+				response.sendRedirect(loginUrl);
 			}
 		} else if (action!=null&& action.equals("register")) {
 			String username = request.getParameter("DisplayName");
@@ -138,7 +165,8 @@ public class HomeController extends HttpServlet{
 			if(Helper.checkEmail(email)) {
 				SiteUser finded = siteUserService.findByEmail(email);
 				if(finded!=null) {
-					response.sendRedirect(request.getContextPath()+"/dang-nhap?action=register&message=Email already exist&alert=danger");
+					String loginUrl = request.getContextPath() + "/dang-nhap?action=register&message=" + URLEncoder.encode("Email đã tồn tại", "UTF-8") + "&alert=danger";
+					response.sendRedirect(loginUrl);
 					return;
 				}
 				else{
@@ -151,14 +179,17 @@ public class HomeController extends HttpServlet{
 						siteUser.setDeleted(false);
 						int result = siteUserService.register(siteUser);
 						if(result>0) {
-							response.sendRedirect(request.getContextPath()+"/dang-nhap?action=login&message=Register success&alert=success");
-							//RequestDispatcher rd = request.getRequestDispatcher("/views/login.jsp");
-							//rd.forward(request, response);
+							RequestDispatcher rd = request.getRequestDispatcher("/views/login.jsp");
+							request.setAttribute("message", "Đăng ký thành công, vui lòng đăng nhập");
+							request.setAttribute("alert", "success");
+							rd.forward(request, response);
 						} else {
-							response.sendRedirect(request.getContextPath()+"/dang-nhap?action=register&message=Register fail&alert=danger");
+							String loginUrl = request.getContextPath() + "/dang-nhap?action=regíster&message=" + URLEncoder.encode("Lỗi xảy ra, đăng ký thất bại", "UTF-8") + "&alert=danger";
+							response.sendRedirect(loginUrl);
 						}
 					} else {
-						response.sendRedirect(request.getContextPath()+"/dang-nhap?action=register&message=Password not match&alert=danger");
+						String loginUrl = request.getContextPath() + "/dang-nhap?action=register&message=" + URLEncoder.encode("Mật khẩu xác nhận chưa đúng ", "UTF-8") + "&alert=danger";
+						response.sendRedirect(loginUrl);
 					}
 				}
 

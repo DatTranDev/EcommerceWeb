@@ -92,7 +92,7 @@
 									</div>
 									<div class="dropdown-item">
 										<i class="bi bi-clock-history" style = "color: var(--bs-primary);"></i>
-										<a href="#" class="">Lịch sử</a>
+										<a href="${pageContext.request.contextPath}/purchase-history" class="">Lịch sử</a>
 									</div>
 									<div class="dropdown-item">
 										<i class="bi bi-box-arrow-left" style = "color: var(--bs-primary);"></i>

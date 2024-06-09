@@ -1,11 +1,13 @@
 package com.EcommerceWeb.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 public class ShopOrderModel {
     private int ID;
     private int userID;
-    private Date orderDate;
+    private Timestamp orderDate;
     private int paymentMethodID;
     private int shippingAddressID;
     private int shippingMethodID;
@@ -19,6 +21,8 @@ public class ShopOrderModel {
     private Address shippingAddress;
     private ShippingMethod shippingMethod;
     private OrderStatus orderStatus;
+    private List<OrderLineModel> listOrderLine;
+    private SiteUser siteUser;
 
 
 
@@ -38,11 +42,11 @@ public class ShopOrderModel {
         this.userID = userID;
     }
 
-    public Date getOrderDate() {
+    public Timestamp getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(Timestamp orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -132,6 +136,22 @@ public class ShopOrderModel {
 
     public void setShippingMethod(ShippingMethod shippingMethod) {
         this.shippingMethod = shippingMethod;
+    }
+
+    public List<OrderLineModel> getListOrderLine() {
+        return listOrderLine;
+    }
+
+    public void setListOrderLine(List<OrderLineModel> listOrderLine) {
+        this.listOrderLine = listOrderLine;
+    }
+
+    public SiteUser getSiteUser() {
+        return siteUser;
+    }
+
+    public void setSiteUser(SiteUser siteUser) {
+        this.siteUser = siteUser;
     }
 }
 
