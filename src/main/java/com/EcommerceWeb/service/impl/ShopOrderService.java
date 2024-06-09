@@ -150,6 +150,21 @@ public class ShopOrderService implements IShopOrderService {
         ShopOrderModel shopOrderModel = shopOrderDAO.findOne(id);
         if(shopOrderModel==null)return null;
 
+        SiteUser siteUser = siteUserDAO.findOne((long) shopOrderModel.getUserID());
+        shopOrderModel.setSiteUser(siteUser);
+
+        PaymentMethod paymentMethod=paymentMethodDAO.findOneById(shopOrderModel.getPaymentMethodID());
+        Address address = addressDAO.findOne(shopOrderModel.getShippingAddressID());
+        ShippingMethod shippingMethod = shippingMethodDAO.findOneById(shopOrderModel.getShippingMethodID());
+        OrderStatus orderStatus=orderStatusDAO.findOneById(shopOrderModel.getOrderStatusID());
+
+        if(paymentMethod==null || address==null || shippingMethod==null||orderStatus==null)return null;
+
+        shopOrderModel.setPaymentMethod(paymentMethod);
+        shopOrderModel.setShippingAddress(address);
+        shopOrderModel.setShippingMethod(shippingMethod);
+        shopOrderModel.setOrderStatus(orderStatus);
+
         List<OrderLineModel> orderLineModelList = orderLineDAO.findByOrderID(shopOrderModel.getID());
         if(orderLineModelList==null)return null;
         shopOrderModel.setListOrderLine(orderLineModelList);

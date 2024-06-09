@@ -113,11 +113,19 @@ public class ShopOrderController extends HttpServlet {
             }
             else {
 
-                request.getRequestDispatcher("/shopOrderDetail.jsp").forward(request, response);
+
+                request.setAttribute("shopOrderModel",shopOrderModel);
+
+                request.getRequestDispatcher("/views/admin/shop_order/shopOrderDetail.jsp").forward(request, response);
             }
         }
-        catch (Exception e){ sus=false;}
+        catch (Exception e){
+            sus=false;
+        }
 
+        if(!sus){
+            request.getRequestDispatcher("/views/admin/error.jsp").forward(request, response);
+        }
 
     }
 
