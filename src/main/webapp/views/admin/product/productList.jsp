@@ -83,7 +83,7 @@
                                 <td  onclick="openEditCategoryTab(${item.id})" class="tm-product-name">${item.name}${item.parent}</td>
                                 <td class="text-center">
                                     <a href="${pageContext.request.contextPath}/admin-deleteCategory/${item.id}" class="tm-product-delete-link"
-                                       onclick="confirmDelete('Các sản phẩm thuộc danh mục này cũng sẽ bị xóa, bạn chắc chứ ?','${pageContext.request.contextPath}/admin-deleteCategory/${item.id}')">
+                                       onclick="confirmDelete('Bạn muốn xóa danh mục này chứ ?','${pageContext.request.contextPath}/admin-deleteCategory/${item.id}')">
                                         <i class="far fa-trash-alt tm-product-delete-icon"></i>
                                     </a>
                                 </td>

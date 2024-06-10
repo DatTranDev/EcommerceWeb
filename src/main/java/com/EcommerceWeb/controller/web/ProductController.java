@@ -62,6 +62,29 @@ public class ProductController extends HttpServlet {
                             response.sendRedirect(request.getContextPath() + "/error");
                             return;
                         }
+
+
+
+
+                        //test
+                        int count=0;
+                        for(ProductItem productItem: productItemList){
+                            System.out.println("Bat dau: "+count);
+                            System.out.println(productItem.getProduct().getDisplayName() );
+                            System.out.println("So luong: "+productItem.getQuantityInStock() );
+                            for(ProductConfig productConfig: productItem.getListProductConfig()){
+                                    System.out.println(productConfig.getVariationOption().getVariation().getDisplayName()+"-"+productConfig.getVariationOption().getValue());
+                            }
+                            System.out.println("Ket thuc: "+count++ +"---------------------------------------------------------"+"\n");
+
+                        }
+
+
+
+                        //end test
+
+
+
                         request.setAttribute("productItemList", productItemList);
 
                         SiteUser user = (SiteUser) request.getSession().getAttribute("SITEUSER");

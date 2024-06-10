@@ -2,6 +2,8 @@ package com.EcommerceWeb.dao.impl;
 import java.util.List;
 import com.EcommerceWeb.dao.IProductCategoryDAO;
 import com.EcommerceWeb.mapper.ProductCategoryMapper;
+import com.EcommerceWeb.mapper.ProductMapper;
+import com.EcommerceWeb.model.Product;
 import com.EcommerceWeb.model.ProductCategory;
 public class ProductCategoryDAO extends AbstractDAO<ProductCategory> implements IProductCategoryDAO {
 
@@ -27,11 +29,20 @@ public class ProductCategoryDAO extends AbstractDAO<ProductCategory> implements 
     }
 
     @Override
-    public void delete(int id) {
-        String sql1 = "UPDATE ProductCategory SET IsDeleted = true WHERE ID = ?";
-        String sql2= "UPDATE Product SET IsDeleted = true WHERE CategoryID = ?";
-        update(sql1, id);
-        update(sql2, id);
+    public boolean delete(int id) {
+        String sql1 = "SELECT * FROM Product WHERE IsDeleted = 0 and CategoryID = ?";
+        List<Product> list = query(sql1, new ProductMapper(), id);
+        if(list==null || list.isEmpty())
+        {
+            String sql2= "UPDATE ProductCategory SET IsDeleted = true WHERE ID = ?";
+            update(sql2, id);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
     }
 
     @Override

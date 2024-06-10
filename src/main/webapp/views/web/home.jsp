@@ -128,7 +128,7 @@
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <fmt:formatNumber value="${item.minPrice}" pattern="#,##0" var="formattedPrice" />
                                                         <p class="text-dark fs-5 fw-bold mb-0">${formattedPrice}đ</p>
-                                                        <a href="${pageContext.request.contextPath}/products/${item.ID}" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                        <a href="${pageContext.request.contextPath}/products/${item.ID}" class="btn border border-secondary rounded-pill px-3 text-primary">Chi tiết</a>
                                                     </div>
                                                 </div>
                                             </a>
@@ -170,7 +170,7 @@
                                     </div>
                                     <fmt:formatNumber value="${item.minPrice}" pattern="#,##0" var="formattedPrice" />
                                     <h4 class="mb-3">${formattedPrice}đ</h4>
-                                    <a href="${pageContext.request.contextPath}/products/${item.ID}" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                    <a href="${pageContext.request.contextPath}/products/${item.ID}" class="btn border border-secondary rounded-pill px-3 text-primary">Chi tiết</a>
                                 </div>
                             </div>
                         </div>

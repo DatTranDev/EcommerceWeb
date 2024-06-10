@@ -20,8 +20,14 @@ public class DeleteCategory extends HttpServlet {
         String[] pathParts = pathInfo.split("/");
         if (pathParts.length > 1) {
             int id = Integer.parseInt(pathParts[1]);
-            productCategoryService.delete(id);
-            response.sendRedirect(request.getContextPath() + "/admin-product");
+            if(productCategoryService.delete(id))
+            {
+                response.sendRedirect(request.getContextPath() + "/admin-product");
+            }
+            else
+            {
+                response.sendRedirect(request.getContextPath() + "/error");
+            }
         }
         else
         {
