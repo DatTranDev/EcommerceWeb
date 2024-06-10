@@ -136,7 +136,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
-                                            <button type="button" class="btn btn-primary">Mua Lại</button>
+                                            <button type="button" class="btn btn-primary order-status">Mua Lại</button>
                                             <button type="button" class="btn btn-secondary">Xem Chi Tiết Hủy Đơn</button>
                                             <button type="button" class="btn btn-secondary">Liên Hệ Người Bán</button>
                                         </div>
@@ -146,13 +146,12 @@
                             </div>
                         </c:forEach>
                     </div>
-
                     <!-- List đơn hàng: Đang chuẩn bị -->
                     <div class="product-list tab-pane" role="tabpanel" id="dang-chuan-bi">
-                        <c:forEach var="order" items="${shopOrderModelList}">
+                        <c:forEach var="order" items="${prepareShopOrderList}">
                             <div class="order-separator">
                                 <div class="order mb-3">
-                                    <c:forEach var="item" items="${order.listOrderLine}">
+                                    <c:forEach var="item" items="${order.getListOrderLine()}">
                                         <div class="row align-items-center mb-3" data-id="${item.ID}">
                                             <div class="col-md-2">
                                                 <img src="${item.getProductItem().getProduct().getProductImage()}"
@@ -176,6 +175,119 @@
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
                                             <button type="button" class="btn btn-primary">Đang chuẩn bị</button>
+                                            <button type="button" class="btn btn-secondary">Liên hệ người bán</button>
+                                            <button type="button" class="btn btn-secondary">Hủy đơn hàng</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        </c:forEach>
+                    </div>
+
+                    <!-- List đơn hàng: Đang vận chuyển -->
+                    <div class="product-list tab-pane" role="tabpanel" id="dang-van-chuyen">
+                        <c:forEach var="order" items="${deliveryShopOrderList}">
+                            <div class="order-separator">
+                                <div class="order mb-3">
+                                    <c:forEach var="item" items="${order.getListOrderLine()}">
+                                        <div class="row align-items-center mb-3" data-id="${item.ID}">
+                                            <div class="col-md-2">
+                                                <img src="${item.getProductItem().getProduct().getProductImage()}"
+                                                     class="img-fluid rounded-circle" alt="Product Image">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5 class="mt-0">${item.getProductItem().getProduct().getDisplayName()}</h5>
+                                                <p>Số lượng: ${item.getQuantity()}</p>
+                                                <p>${utils:formatVariation(item.getProductItem().getListProductConfig())}</p>
+                                            </div>
+                                            <div class="col-md-4 text-right">
+                                                <p class="text-danger">${utils:formatCurrency(item.getProductItem().getPrice())}</p>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                    <div class="row">
+                                        <div class="col-md-12 text-right">
+                                            <p class="order-total">Thành tiền: ${utils:formatCurrency(order.getOrderTotal())}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-right order-actions">
+                                            <button type="button" class="btn btn-primary">Đang vận chuyển</button>
+                                            <button type="button" class="btn btn-secondary">Liên Hệ Người Bán</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        </c:forEach>
+                    </div>
+                    <!-- List đơn hàng: Giao hàng thành công -->
+                    <div class="product-list tab-pane" role="tabpanel" id="giao-hang-thanh-cong">
+                        <c:forEach var="order" items="${successShopOrderList}">
+                            <div class="order-separator">
+                                <div class="order mb-3">
+                                    <c:forEach var="item" items="${order.getListOrderLine()}">
+                                        <div class="row align-items-center mb-3" data-id="${item.ID}">
+                                            <div class="col-md-2">
+                                                <img src="${item.getProductItem().getProduct().getProductImage()}"
+                                                     class="img-fluid rounded-circle" alt="Product Image">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5 class="mt-0">${item.getProductItem().getProduct().getDisplayName()}</h5>
+                                                <p>Số lượng: ${item.getQuantity()}</p>
+                                                <p>${utils:formatVariation(item.getProductItem().getListProductConfig())}</p>
+                                            </div>
+                                            <div class="col-md-4 text-right">
+                                                <p class="text-danger">${utils:formatCurrency(item.getProductItem().getPrice())}</p>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                    <div class="row">
+                                        <div class="col-md-12 text-right">
+                                            <p class="order-total">Thành tiền: ${utils:formatCurrency(order.getOrderTotal())}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-right order-actions">
+                                            <button type="button" class="btn btn-primary">Mua lại</button>
+                                            <button type="button" class="btn btn-secondary">Liên Hệ Người Bán</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        </c:forEach>
+                    </div>
+                    <!-- List đơn hàng: Đã hủy -->
+                    <div class="product-list tab-pane" role="tabpanel" id="da-huy">
+                        <c:forEach var="order" items="${cancelShopOrderList}">
+                            <div class="order-separator">
+                                <div class="order mb-3">
+                                    <c:forEach var="item" items="${order.getListOrderLine()}">
+                                        <div class="row align-items-center mb-3" data-id="${item.ID}">
+                                            <div class="col-md-2">
+                                                <img src="${item.getProductItem().getProduct().getProductImage()}"
+                                                     class="img-fluid rounded-circle" alt="Product Image">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5 class="mt-0">${item.getProductItem().getProduct().getDisplayName()}</h5>
+                                                <p>Số lượng: ${item.getQuantity()}</p>
+                                                <p>${utils:formatVariation(item.getProductItem().getListProductConfig())}</p>
+                                            </div>
+                                            <div class="col-md-4 text-right">
+                                                <p class="text-danger">${utils:formatCurrency(item.getProductItem().getPrice())}</p>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                    <div class="row">
+                                        <div class="col-md-12 text-right">
+                                            <p class="order-total">Thành tiền: ${utils:formatCurrency(order.getOrderTotal())}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-right order-actions">
+                                            <button type="button" class="btn btn-primary">Mua lại</button>
                                             <button type="button" class="btn btn-secondary">Xem Chi Tiết Hủy Đơn</button>
                                             <button type="button" class="btn btn-secondary">Liên Hệ Người Bán</button>
                                         </div>
@@ -186,18 +298,6 @@
                         </c:forEach>
                     </div>
 
-                    <!-- Repeat similar blocks for other tabs -->
-                    <div class="product-list" id="dang-van-chuyen">
-                        <!-- Nội dung cho Đang vận chuyển -->
-                    </div>
-
-                    <div class="product-list" id="giao-hang-thanh-cong">
-                        <!-- Nội dung cho Giao hàng thành công -->
-                    </div>
-
-                    <div class="product-list" id="da-huy">
-                        <!-- Nội dung cho Đã hủy -->
-                    </div>
                 </div>
             </div>
         </div>
@@ -225,6 +325,27 @@
             });
         });
     });
+
+    <%--// Lấy danh sách đơn hàng từ JSP--%>
+    <%--const shopOrderModelList = ${shopOrderModelList};--%>
+    <%--shopOrderModelList.forEach(order => {--%>
+    <%--    let s;--%>
+    <%--    if(order.orderStatusID === 1){--%>
+    <%--        s = "Đang chuẩn bị";--%>
+    <%--    } else if(order.orderStatusID === 2){--%>
+    <%--        s = "Đang vận chuyển";--%>
+    <%--    } else if(order.orderStatusID === 3){--%>
+    <%--        s = "Giao hàng thành công";--%>
+    <%--    } else if(order.orderStatusID === 5){--%>
+    <%--        s = "Giao hàng thất bại";--%>
+    <%--    }--%>
+
+    <%--    const orderButtons = document.querySelectorAll(`.order[data-id="${order.orderID}"] .order-status`);--%>
+    <%--    orderButtons.forEach(button => {--%>
+    <%--        button.textContent = s;--%>
+    <%--    });--%>
+    <%--});--%>
+
 
 </script>
 </body>

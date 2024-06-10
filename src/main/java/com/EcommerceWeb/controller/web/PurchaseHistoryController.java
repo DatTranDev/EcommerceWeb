@@ -37,32 +37,37 @@ public class PurchaseHistoryController extends HttpServlet {
 
 
           List<ShopOrderModel> shopOrderModelList = shopOrderService.findAllByUserID(siteUser.getID());
+          List<ShopOrderModel> prepareShopOrderList = shopOrderService.findAllShopOderByUserIdAndOrderStatusId(siteUser.getID(),1);
+          List<ShopOrderModel> deliveryShopOrderList = shopOrderService.findAllShopOderByUserIdAndOrderStatusId(siteUser.getID(),2);
+          List<ShopOrderModel> successShopOrderList = shopOrderService.findAllShopOderByUserIdAndOrderStatusId(siteUser.getID(),3);
+          List<ShopOrderModel> failShopOrderList = shopOrderService.findAllShopOderByUserIdAndOrderStatusId(siteUser.getID(),4);
+          List<ShopOrderModel> cancelShopOrderList = shopOrderService.findAllShopOderByUserIdAndOrderStatusId(siteUser.getID(),5);
 
         if (shopOrderModelList == null) {
             response.sendRedirect(request.getContextPath() + "/error");
         }
         else{
 
-
-            for(ShopOrderModel shopOrderModel : shopOrderModelList) {
-                shopOrderModel.getOrderTotal();
-
-                for (OrderLineModel orderLineModel : shopOrderModel.getListOrderLine()){
-
-                    ProductItem productItem = orderLineModel.getProductItem();
-                    orderLineModel.getProductItem().getProduct().getDisplayName();
-                    orderLineModel.getProductItem().getPrice();
-                    orderLineModel.getQuantity();
-                    orderLineModel.getProductItem().getListProductConfig();
-
-
-
-                   System.out.println(productItem.getID()+"===="+productItem.getProduct().getDisplayName());
+            String s="";
+            for(ShopOrderModel shopOrderModel : prepareShopOrderList) {
+                if(shopOrderModel.getOrderStatusID()==1){
+                    s="Đang chuẩn bị";
+                }else if(shopOrderModel.getOrderStatusID()==2){
+                    s="Đang vận chuyển";
+                }else if(shopOrderModel.getOrderStatusID()==3){
+                    s="Giao hàng thành công";
+                }else if(shopOrderModel.getOrderStatusID()==5){
+                    s="Giao hàng thất bại";
                 }
             }
 
 
             request.setAttribute("shopOrderModelList", shopOrderModelList);
+            request.setAttribute("prepareShopOrderList", prepareShopOrderList);
+            request.setAttribute("deliveryShopOrderList", deliveryShopOrderList);
+            request.setAttribute("successShopOrderList", successShopOrderList);
+            request.setAttribute("failShopOrderList", failShopOrderList);
+            request.setAttribute("cancelShopOrderList", cancelShopOrderList);
 
             RequestDispatcher rd = request.getRequestDispatcher("/views/web/PurchaseHistory.jsp");
             rd.forward(request, response);
