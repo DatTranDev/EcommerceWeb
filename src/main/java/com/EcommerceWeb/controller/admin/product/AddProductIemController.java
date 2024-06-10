@@ -35,7 +35,7 @@ public class AddProductIemController extends HttpServlet {
     private Product product;
     @Inject
     ProductCategory parentCategory;
-    private  int type = 0;
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -51,17 +51,12 @@ public class AddProductIemController extends HttpServlet {
                     if (product != null) {
                         product.setCategory(productCategoryService.findOne(product.getCategoryID()));
                         parentCategory = productCategoryService.findOne(product.getCategory().getParentCategoryID());
-                        if (parentCategory != null) {
-                            if (parentCategory.getID() == 2) {
-                                type = 1;
-                            }
-                        }
+
                         List<VariationOption> listSize = variationOptionService.findAllSize();
                         List<VariationOption> listColor = variationOptionService.findAllColor();
                         request.setAttribute("listSize", listSize);
                         request.setAttribute("listColor", listColor);
                         request.setAttribute("product", product);
-                        request.setAttribute("type", type);
                         RequestDispatcher rd = request.getRequestDispatcher("/views/admin/product/addProductItem.jsp");
                         rd.forward(request, response);
                     } else {
@@ -84,32 +79,13 @@ public class AddProductIemController extends HttpServlet {
         int color = Integer.parseInt(request.getParameter("color"));
         int size = Integer.parseInt(request.getParameter("size"));
         if (product != null) {
-
-            if(type==0)
-            {
                 ProductItem check = productService.findItemByVariation(product.getID(), size, color);
-                if (check != null) {
-                    response.sendRedirect(request.getContextPath() + "/error");
-                    return;
-                }
-            }
-            else
-            {
-                ProductItem check = productService.findItemByOneVariation(product.getID(), size, color);
                 if(check!=null)
                 {
                     response.sendRedirect(request.getContextPath() + "/error");
                     return;
                 }
-//                else
-//                {
-//                    check = productService.findItemByVariation(product.getID(), size, color);
-//                    if (check != null) {
-//                        response.sendRedirect(request.getContextPath() + "/error");
-//                        return;
-//                    }
-//                }
-            }
+
                 String name = request.getParameter("name");
                 int quantity = Integer.parseInt(request.getParameter("quantity"));
                 double price = Double.parseDouble(request.getParameter("price"));
