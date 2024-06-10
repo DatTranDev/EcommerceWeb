@@ -147,7 +147,7 @@
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
                                             <button type="button" class="btn btn-primary order-status">${order.getDescribeOrder()}</button>
-                                            <button type="button" class="btn btn-secondary">Chi tiết đơn hàng</button>
+                                            <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Chi tiết đơn hàng</button>
                                         </div>
                                     </div>
                                 </div>
@@ -370,25 +370,11 @@
         });
     });
 
-    <%--// Lấy danh sách đơn hàng từ JSP--%>
-    <%--const shopOrderModelList = ${shopOrderModelList};--%>
-    <%--shopOrderModelList.forEach(order => {--%>
-    <%--    let s;--%>
-    <%--    if(order.orderStatusID === 1){--%>
-    <%--        s = "Đang chuẩn bị";--%>
-    <%--    } else if(order.orderStatusID === 2){--%>
-    <%--        s = "Đang vận chuyển";--%>
-    <%--    } else if(order.orderStatusID === 3){--%>
-    <%--        s = "Giao hàng thành công";--%>
-    <%--    } else if(order.orderStatusID === 5){--%>
-    <%--        s = "Giao hàng thất bại";--%>
-    <%--    }--%>
-
-    <%--    const orderButtons = document.querySelectorAll(`.order[data-id="${order.orderID}"] .order-status`);--%>
-    <%--    orderButtons.forEach(button => {--%>
-    <%--        button.textContent = s;--%>
-    <%--    });--%>
-    <%--});--%>
+    function redirectToOrderDetail(orderId) {
+        // Redirect to order detail page with orderId
+        let url = `${pageContext.request.contextPath}/detail-shop-order?orderId=${orderId}`;
+        window.location.href = url;
+    }
 
 
 </script>
