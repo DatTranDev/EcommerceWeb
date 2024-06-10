@@ -23,9 +23,11 @@
 	<hr class="sidebar-divider my-0">
 
 	<!-- Nav Item - Dashboard -->
-	<li class="nav-item active"><a class="nav-link" href="${pageContext.request.contextPath}/admin-home">
-		<i class="fas fa-fw fa-tachometer-alt"></i> <span>Thống kê</span>
-	</a></li>
+	<div class="nav-item active">
+		<a class="nav-link" href="${pageContext.request.contextPath}/admin-home">
+			<i class="fas fa-fw fa-tachometer-alt"></i> <span>Thống kê</span>
+		</a>
+	</div>
 
 	<!-- Divider -->
 	<hr class="sidebar-divider">

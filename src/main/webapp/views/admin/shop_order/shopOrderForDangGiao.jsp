@@ -171,7 +171,6 @@
                     alert('Chuyển trạng thái đơn hàng thất bại!');
                 });
 
-
         }
     }
 
