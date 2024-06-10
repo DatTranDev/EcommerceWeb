@@ -71,7 +71,7 @@
 						<a href="${pageContext.request.contextPath}/cart" class="position-relative me-4 my-auto">
 							<i class="fa fa-shopping-bag fa-2x"></i>
 							<span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-							style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+								  style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0</span>
 						</a>
 						<c:if test="${empty SITEUSER}">
 							<a href="${pageContext.request.contextPath}/dang-nhap?action=login" class="my-auto">
@@ -143,3 +143,26 @@
 		});
 	});
 </script>
+
+
+<script>
+	function updateCartItemCount() {
+		fetch('${pageContext.request.contextPath}/api-cart', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+				.then(response => response.json())
+				.then(data => {
+					var cartCountElement = document.querySelector('.position-absolute.bg-secondary');
+					cartCountElement.textContent = data.quantityItemInCart;
+				})
+				.catch(error => console.error('Error:', error));
+	}
+	// Sử dụng sự kiện pageshow để cập nhật giỏ hàng khi trang được hiển thị
+	window.addEventListener('pageshow', updateCartItemCount);
+
+	document.addEventListener("DOMContentLoaded", updateCartItemCount);
+</script>
+

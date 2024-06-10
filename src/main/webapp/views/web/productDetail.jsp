@@ -268,6 +268,36 @@
 </div>
 <!-- Single Product End -->
 
+
+
+<!--fix size mau bi trung-->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function removeDuplicateOptions(selectElement) {
+            var options = selectElement.options;
+            var values = new Set();
+            for (var i = options.length - 1; i >= 0; i--) {
+                var optionValue = options[i].text;
+                if (values.has(optionValue)) {
+                    selectElement.remove(i);
+                } else {
+                    values.add(optionValue);
+                }
+            }
+        }
+
+        var sizeSelect = document.getElementById('sizeSelect');
+        if (sizeSelect) {
+            removeDuplicateOptions(sizeSelect);
+        }
+
+        var colorSelect = document.getElementById('colorSelect');
+        if (colorSelect) {
+            removeDuplicateOptions(colorSelect);
+        }
+    });
+</script>
+
 <!--  json -->
 <script>
     var productItems = [
@@ -486,29 +516,31 @@
                                     .then(response => response.json())
                                     .then(dataForUpdate => {
                                         if (dataForUpdate.success) {
-                                            alert('Đặt hàng thành công!');
+                                            updateCartItemCount();
+                                            alert('Thêm sản phẩm vào giỏ hàng thành công!');
                                         } else {
-                                            alert('Đặt hàng thất bại!');
+                                            alert('Thêm sản phẩm vào giỏ hàng thất bại!');
                                         }
                                     })
                                     .catch(error => {
-                                        alert('Đặt hàng thất bại!');
+                                        alert('Thêm sản phẩm vào giỏ hàng thất bại!');
                                     });
 
                             }
                         } else {
-                            alert('Đặt hàng thành công!');
+                            updateCartItemCount();
+                            alert('Thêm sản phẩm vào giỏ hàng thành công!');
                         }
                     } else {
                         if(!data.isLogin) {
                             alert('Bạn cần đăng nhập để thực hiện chức năng này!');
                         }
                         else
-                            alert('Đặt hàng thất bại!');
+                            alert('Thêm sản phẩm vào giỏ hàng thất bại!');
                     }
                 })
                 .catch(error => {
-                    alert('Đặt hàng thất bại!');
+                    alert('Thêm sản phẩm vào giỏ hàng thất bại!');
                 });
         });
 
