@@ -23,6 +23,8 @@ public class ShopOrderModel {
     private OrderStatus orderStatus;
     private List<OrderLineModel> listOrderLine;
     private SiteUser siteUser;
+    private String statusName;
+    private String  describeOrder;
 
 
 
@@ -152,6 +154,22 @@ public class ShopOrderModel {
 
     public void setSiteUser(SiteUser siteUser) {
         this.siteUser = siteUser;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+    }
+
+    public String getDescribeOrder() {
+        return describeOrder;
+    }
+
+    public void setDescribeOrder(String describeOrder) {
+        this.describeOrder = describeOrder;
     }
 }
 

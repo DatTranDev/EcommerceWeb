@@ -48,17 +48,26 @@ public class PurchaseHistoryController extends HttpServlet {
         }
         else{
 
-            String s="";
-            for(ShopOrderModel shopOrderModel : prepareShopOrderList) {
+            String orderStatusName="";
+            String describeOrder="";
+            for(ShopOrderModel shopOrderModel : shopOrderModelList) {
                 if(shopOrderModel.getOrderStatusID()==1){
-                    s="Đang chuẩn bị";
+                    describeOrder="Đang chuẩn bị";
+                    orderStatusName="Đang chuẩn bị";
+
                 }else if(shopOrderModel.getOrderStatusID()==2){
-                    s="Đang vận chuyển";
+                    describeOrder="Đang vận chuyển";
+                    orderStatusName="Đang vận chuyển";
                 }else if(shopOrderModel.getOrderStatusID()==3){
-                    s="Giao hàng thành công";
+                    describeOrder="Mua lại";
+                    orderStatusName="Giao thành công";
                 }else if(shopOrderModel.getOrderStatusID()==5){
-                    s="Giao hàng thất bại";
+                    describeOrder="Mua lại";
+                    orderStatusName="Đã hủy";
                 }
+                shopOrderModel.setStatusName(orderStatusName);
+                shopOrderModel.setDescribeOrder(describeOrder);
+                System.out.println(shopOrderModel.getStatusName()+" "+shopOrderModel.getOrderStatusID());
             }
 
 
