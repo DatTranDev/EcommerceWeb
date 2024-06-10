@@ -64,6 +64,9 @@ public class PurchaseHistoryController extends HttpServlet {
                 }else if(shopOrderModel.getOrderStatusID()==5){
                     describeOrder="Mua lại";
                     orderStatusName="Đã hủy";
+                }else if(shopOrderModel.getOrderStatusID()==4){
+                    describeOrder="Mua lại";
+                    orderStatusName="Giao hàng thất bại";
                 }
                 shopOrderModel.setStatusName(orderStatusName);
                 shopOrderModel.setDescribeOrder(describeOrder);

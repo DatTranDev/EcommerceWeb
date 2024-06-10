@@ -18,11 +18,6 @@
         <c:forEach var="order" items="${shopOrderModelList}">
             <div class="order-separator">
                 <div class="order mb-3">
-                    <div class="row">
-                        <div class="col-md-12 status-right">
-                            <p class="text-danger">${order.getStatusName()}</p>
-                        </div>
-                    </div>
                     <c:forEach var="item" items="${order.listOrderLine}">
                         <div class="row align-items-center mb-3" data-id="${item.ID}">
                             <div class="col-md-2">
@@ -35,21 +30,11 @@
                                 <p>${utils:formatVariation(item.getProductItem().getListProductConfig())}</p>
                                 <p class="text-danger">${utils:formatCurrency(item.getProductItem().getPrice())}</p>
                             </div>
-                                <%--                                            <div class="col-md-4 text-right">--%>
-                                <%--                                                <p class="text-danger">${order.getStatusName()}</p>--%>
-                                <%--                                            </div>--%>
                         </div>
                     </c:forEach>
                     <div class="row">
                         <div class="col-md-12 text-right">
                             <p class="order-total">Thành tiền: ${utils:formatCurrency(order.getOrderTotal())}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 text-right order-actions">
-                            <button type="button" class="btn btn-primary order-status">${order.getDescribeOrder()}</button>
-                            <button type="button" class="btn btn-secondary">Xem Chi Tiết Hủy Đơn</button>
-                            <button type="button" class="btn btn-secondary">Liên Hệ Người Bán</button>
                         </div>
                     </div>
                 </div>
