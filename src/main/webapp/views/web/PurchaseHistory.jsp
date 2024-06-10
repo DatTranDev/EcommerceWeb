@@ -74,10 +74,6 @@
             border-bottom: 3px solid #d9534f;
             background-color: white;
         }
-        .status-right {
-            text-align: right;
-        }
-
     </style>
 </head>
 <body>
@@ -121,8 +117,8 @@
                             <div class="order-separator">
                                 <div class="order mb-3">
                                     <div class="row">
-                                        <div class="col-md-12 status-right">
-                                            <p class="text-danger">${order.getStatusName()}</p>
+                                        <div  class="col-md-12" id="xxx" >
+                                            <p class="text-danger" style="width:100%;text-align: right" >${order.getStatusName()}</p>
                                         </div>
                                     </div>
                                     <c:forEach var="item" items="${order.listOrderLine}">
