@@ -4,6 +4,7 @@ import com.EcommerceWeb.model.Product;
 import com.EcommerceWeb.service.IProductCategoryService;
 import com.EcommerceWeb.service.IProductService;
 import com.EcommerceWeb.utils.SessionUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
@@ -42,6 +43,9 @@ public class ProductCollectionController extends HttpServlet {
             request.setAttribute("Product", prdCate);
             request.setAttribute("ShoesCategory", SessionUtil.getInstance().getValue(request, "ShoesCategory"));
             request.setAttribute("AccessoriesCategory", SessionUtil.getInstance().getValue(request, "AccessoriesCategory"));
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writeValueAsString(prdCate);
+            request.setAttribute("json", json);
             RequestDispatcher rd = request.getRequestDispatcher("/views/web/productCollections.jsp");
             rd.forward(request, response);
         }
@@ -56,9 +60,13 @@ public class ProductCollectionController extends HttpServlet {
             request.setAttribute("Product", productList);
             request.setAttribute("ShoesCategory", SessionUtil.getInstance().getValue(request, "ShoesCategory"));
             request.setAttribute("AccessoriesCategory", SessionUtil.getInstance().getValue(request, "AccessoriesCategory"));
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writeValueAsString(productList);
+            request.setAttribute("json", json);
             RequestDispatcher rd = request.getRequestDispatcher("/views/web/productCollections.jsp");
             rd.forward(request, response);
         }
+
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
