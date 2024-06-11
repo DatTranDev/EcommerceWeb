@@ -12,7 +12,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,16 +34,15 @@ public class EditProductItemController extends HttpServlet {
     private ProductConfigService productConfigService;
     @Inject
     private ProductItem productItem;
-    private int sizeDefault=-1;
-    private int colorDefault=-1;
-    private int type=0;
+    private int sizeDefault = -1;
+    private int colorDefault = -1;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
-        List<String> listImage= new ArrayList<>();
-        type=0;
-        sizeDefault=-1;
-        colorDefault=-1;
+        List<String> listImage = new ArrayList<>();
+        sizeDefault = -1;
+        colorDefault = -1;
         String productId = null;
         if (pathInfo != null) {
             String[] pathParts = pathInfo.split("/");
@@ -49,27 +50,24 @@ public class EditProductItemController extends HttpServlet {
                 productId = pathParts[1];
                 int id = Integer.parseInt(productId);
                 productItem = productItemService.findOne(id);
-                if(productItem != null){
+                if (productItem != null) {
                     request.setAttribute("productItem", productItem);
-                    if(!(productItem.getProductImage()==null) && !productItem.getProductImage().isEmpty()){
-                        listImage= Arrays.stream(productItem.getProductImage().split(", "))
+                    if (!(productItem.getProductImage() == null) && !productItem.getProductImage().isEmpty()) {
+                        listImage = Arrays.stream(productItem.getProductImage().split(", "))
                                 .map(String::trim)
                                 .collect(Collectors.toList());
                     }
                     request.setAttribute("listImage", listImage);
                 }
                 //
-                List<ProductConfig> listVariation= productConfigService.getByProductItemID(productItem.getID());
-                for(ProductConfig productConfig : listVariation){
-                    VariationOption variationOption= variationOptionService.findOne(productConfig.getVariationID());
-                    if(variationOption != null){
-                        if(variationOption.getVariationID()==1)
-                        {
-                            sizeDefault =productConfig.getVariationID();
-                        }
-                        else
-                        {
-                            colorDefault =productConfig.getVariationID();
+                List<ProductConfig> listVariation = productConfigService.getByProductItemID(productItem.getID());
+                for (ProductConfig productConfig : listVariation) {
+                    VariationOption variationOption = variationOptionService.findOne(productConfig.getVariationID());
+                    if (variationOption != null) {
+                        if (variationOption.getVariationID() == 1) {
+                            sizeDefault = productConfig.getVariationID();
+                        } else {
+                            colorDefault = productConfig.getVariationID();
                         }
                     }
                 }
@@ -80,20 +78,13 @@ public class EditProductItemController extends HttpServlet {
                 if (product != null) {
                     product.setCategory(productCategoryService.findOne(product.getCategoryID()));
                     ProductCategory parentCategory = productCategoryService.findOne(product.getCategory().getParentCategoryID());
-                    if (parentCategory != null) {
-                        if (parentCategory.getID() == 2) {
-                            type = 1;
-                        }
-                    }
-                    request.setAttribute("type", type);
                     List<VariationOption> listSize = variationOptionService.findAllSize();
                     List<VariationOption> listColor = variationOptionService.findAllColor();
                     request.setAttribute("listSize", listSize);
                     request.setAttribute("listColor", listColor);
                     RequestDispatcher rd = request.getRequestDispatcher("/views/admin/product/editProductItem.jsp");
                     rd.forward(request, response);
-                }
-                else{
+                } else {
                     response.sendRedirect(request.getContextPath() + "/error");
                 }
             }
@@ -101,59 +92,33 @@ public class EditProductItemController extends HttpServlet {
 //                catch (Exception e) {
 //                    response.sendRedirect(request.getContextPath() + "/error");
 //                }
-            }
+        }
 
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
 
         int color = Integer.parseInt(request.getParameter("color"));
         int size = Integer.parseInt(request.getParameter("size"));
-        if(size==-1 && color==-1)
-        {
+        if (size == -1 && color == -1) {
             response.sendRedirect(request.getContextPath() + "/error");
             return;
         }
-//        if(colorDefault==color && sizeDefault==size){
-//            response.sendRedirect(request.getContextPath() + "/error");
-//        }
-//        if(type==1)
-//        {
-//            if(colorDefault==color || sizeDefault==size)
-//            {
-//                response.sendRedirect(request.getContextPath() + "/error");
-//            }
-//        }
         Product product = productService.findOne(productItem.getProductID());
         if (product != null) {
-            ProductItem check= new ProductItem();
-            check=null;
-            if(type==1)
-            {
-                if(colorDefault!=color || sizeDefault!=size)
-                {
-                    check = productService.findItemByOneVariation(product.getID(), size, color);
-                    if(check!=null && check.getID()!=productItem.getID())
-                    {
-                        response.sendRedirect(request.getContextPath() + "/error");
-                        return;
-                    }
-                    else
-                    {
-                        check = productService.findItemByVariation(product.getID(), size, color);
-                    }
-                }
+            ProductItem check = new ProductItem();
+            check = null;
+            if (colorDefault != color || sizeDefault != size) {
+                check = productService.findItemByVariation(product.getID(), size, color);
             }
-            else
-            {
-                if(colorDefault!=color || sizeDefault!=size)
-                {
-                    check = productService.findItemByVariation(product.getID(), size, color);
-                }
-            }
-            if (check != null ) {
-                response.sendRedirect(request.getContextPath() + "/error");
+            if (check != null) {
+                String successMessage = "Mã sản phẩm đã tồn tại";
+                String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+                HttpSession session = request.getSession();
+                session.setAttribute("alert", encodedMessage);
+                response.sendRedirect(request.getContextPath() + "/admin-editProductItem/"+productItem.getID());
                 return;
             } else {
                 String name = request.getParameter("name");
@@ -177,86 +142,69 @@ public class EditProductItemController extends HttpServlet {
                 newProductItem.setSKU(name);
                 newProductItem.setQuantityInStock(quantity);
                 //
-                try
-                {
+                try {
                     ProductItem test = productItemService.update(newProductItem);
-                    if(sizeDefault!=size)
-                    {
+                    if (sizeDefault != size) {
+                        try {
 
-                        try{
-                            if(size==-1)
-                            {
-                                productConfigService.delete(test.getID(),sizeDefault);
-                            }
-                            else {
-                                if(sizeDefault!=-1)
-                                {
-                                    ProductConfig oldSize= new ProductConfig();
-                                    oldSize.setProductItemID(test.getID());
-                                    oldSize.setVariationID(sizeDefault);
-                                    productConfigService.updateVariation(oldSize,size);
-                                }
-                                else
-                                {
-                                    ProductConfig newSize= new ProductConfig();
-                                    newSize.setProductItemID(test.getID());
-                                    newSize.setVariationID(size);
-                                    productConfigService.add(newSize);
-                                }
+                            ProductConfig oldSize = new ProductConfig();
+                            oldSize.setProductItemID(test.getID());
+                            oldSize.setVariationID(sizeDefault);
+                            productConfigService.updateVariation(oldSize, size);
 
-                            }
-
-                        }
-                        catch (Exception e)
-                        {
-                            response.sendRedirect(request.getContextPath() + "/error");
+                        } catch (Exception e) {
+                            String successMessage = "Sửa thất bại";
+                            String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+                            HttpSession session = request.getSession();
+                            session.setAttribute("alert", encodedMessage);
+                            response.sendRedirect(request.getContextPath() + "/admin-editProductItem/"+productItem.getID());
                             return;
                         }
                     }
-                    if(colorDefault!=color)
-                    {
-
-                        try{
-                            if(color==-1)
-                            {
-                                productConfigService.delete(test.getID(),colorDefault);
-                            }
-                            else {
-                                if(colorDefault!=-1)
-                                {
-                                    ProductConfig oldColor= new ProductConfig();
-                                    oldColor.setProductItemID(test.getID());
-                                    oldColor.setVariationID(colorDefault);
-                                    productConfigService.updateVariation(oldColor,color);
-                                }
-                                else
-                                {
-                                    ProductConfig newColor= new ProductConfig();
-                                    newColor.setProductItemID(test.getID());
-                                    newColor.setVariationID(color);
-                                    productConfigService.add(newColor);
-                                }
-
-
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            response.sendRedirect(request.getContextPath() + "/error");
+                    if (colorDefault != color) {
+                        try {
+                            ProductConfig oldColor = new ProductConfig();
+                            oldColor.setProductItemID(test.getID());
+                            oldColor.setVariationID(colorDefault);
+                            productConfigService.updateVariation(oldColor, color);
+                        } catch (Exception e) {
+                            String successMessage = "Sửa thất bại";
+                            String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+                            HttpSession session = request.getSession();
+                            session.setAttribute("alert", encodedMessage);
+                            response.sendRedirect(request.getContextPath() + "/admin-editProductItem/"+productItem.getID());
                             return;
                         }
                     }
-                }
-                catch (Exception e)
-                {
-                    response.sendRedirect(request.getContextPath() + "/error");
+                } catch (Exception e) {
+                    String successMessage = "Sửa thất bại";
+                    String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+                    HttpSession session = request.getSession();
+                    session.setAttribute("alert", encodedMessage);
+                    response.sendRedirect(request.getContextPath() + "/admin-editProductItem/"+productItem.getID());
                     return;
                 }
             }
+            String successMessage = "Sửa thành công";
+            String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+            HttpSession session = request.getSession();
+            session.setAttribute("alert", encodedMessage);
+            response.sendRedirect(request.getContextPath() + "/admin-editProduct/" + product.getID());
+            return;
         }
-        response.sendRedirect(request.getContextPath() + "/admin-editProduct/"+product.getID());
+        else
+        {
+            String successMessage = "Đã xảy ra lỗi";
+            String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+            HttpSession session = request.getSession();
+            session.setAttribute("alert", encodedMessage);
+            response.sendRedirect(request.getContextPath() + "/admin-product");
+            return;
+        }
+
 
     }
+
     public static class ProductShow {
         private int id;
         private String name;
@@ -295,10 +243,12 @@ public class EditProductItemController extends HttpServlet {
             this.category = category;
         }
     }
+
     public static class CategoryShow {
         private int id;
         private String name;
         private String parent;
+
         public int getId() {
             return id;
         }
@@ -306,6 +256,7 @@ public class EditProductItemController extends HttpServlet {
         public void setId(int id) {
             this.id = id;
         }
+
         public String getName() {
             return name;
         }

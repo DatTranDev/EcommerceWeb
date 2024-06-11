@@ -16,7 +16,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -105,6 +107,21 @@ public class EditProductController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        String pathInfo = request.getPathInfo();
+        String productId = null;
+        if (pathInfo != null) {
+            String[] pathParts = pathInfo.split("/");
+            if (pathParts.length > 1) {
+                productId = pathParts[1];
+
+                int id = Integer.parseInt(productId);
+                Product product = productService.findOne(id);
+                if(product != null){
+                    product.setCategory(productCategoryService.findOne(product.getCategoryID()));
+                    selectedProduct=product;
+                }
+            }
+        }
         String name= request.getParameter("name");
         String description= request.getParameter("description");
         int categoryID= Integer.parseInt(request.getParameter("category"));
@@ -114,7 +131,12 @@ public class EditProductController extends HttpServlet {
         try {
             listImage= objectMapper.readValue(jsonImage, new TypeReference<List<String>>() {});
         } catch (Exception e) {
-            response.sendRedirect(request.getContextPath() + "/error");
+            String successMessage = "Đã xảy ra lỗi";
+            String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+            HttpSession session = request.getSession();
+            session.setAttribute("alert", encodedMessage);
+            response.sendRedirect(request.getContextPath() + "/admin-editProduct/"+selectedProduct.getID());
+            return;
         }
         String image = String.join(", ", listImage);
         if(selectedProduct!=null)
@@ -126,12 +148,31 @@ public class EditProductController extends HttpServlet {
             Product test=productService.update(selectedProduct);
             if(test!=null)
             {
+                String successMessage = "Sửa sản phẩm thành công";
+                String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+                HttpSession session = request.getSession();
+                session.setAttribute("alert", encodedMessage);
                 response.sendRedirect(request.getContextPath() + "/admin-product");
+                return;
+            }
+            else
+            {
+                String successMessage = "Sửa sản phẩm thất bại";
+                String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+                HttpSession session = request.getSession();
+                session.setAttribute("alert", encodedMessage);
+                response.sendRedirect(request.getContextPath() + "/admin-editProduct/"+selectedProduct.getID());
+                return;
             }
         }
         else
         {
-            response.sendRedirect(request.getContextPath() + "/error");
+            String successMessage = "Đã xảy ra lỗi";
+            String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+            HttpSession session = request.getSession();
+            session.setAttribute("alert", encodedMessage);
+            response.sendRedirect(request.getContextPath() + "/admin-product");
+            return;
         }
 
     }

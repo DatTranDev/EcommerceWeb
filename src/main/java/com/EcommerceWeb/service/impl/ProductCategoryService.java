@@ -29,8 +29,16 @@ public class ProductCategoryService implements IProductCategoryService {
     @Override
     public ProductCategory update(ProductCategory productCategory) {
         int id = productCategory.getID();
-        productCategoryDAO.update(productCategory);
-        return productCategoryDAO.findOne(id);
+        try
+        {
+            productCategoryDAO.update(productCategory);
+            return productCategoryDAO.findOne(id);
+        }
+        catch(Exception e)
+        {
+            return null;
+        }
+
     }
 
     @Override

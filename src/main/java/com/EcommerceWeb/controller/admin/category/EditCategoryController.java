@@ -15,7 +15,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,11 +79,29 @@ public class EditCategoryController extends HttpServlet {
             productCategory.setCategoryName(categoryName);
             ProductCategory test=productCategoryService.update(productCategory);
             if(test!=null){
+                String successMessage = "Sửa danh mục thành công";
+                String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+                HttpSession session = request.getSession();
+                session.setAttribute("alert", encodedMessage);
                 response.sendRedirect(request.getContextPath() + "/admin-product");
+                return;
             }
             else {
-                response.sendRedirect(request.getContextPath() + "/error");
+                String successMessage = "Sửa danh mục thất bại";
+                String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+                HttpSession session = request.getSession();
+                session.setAttribute("alert", encodedMessage);
+                response.sendRedirect(request.getContextPath() + "/admin-product");
+                return;
             }
+        }
+        else {
+            String successMessage = "Đã xảy ra lỗi";
+            String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+            HttpSession session = request.getSession();
+            session.setAttribute("alert", encodedMessage);
+            response.sendRedirect(request.getContextPath() + "/admin-product");
+            return;
         }
     }
 }

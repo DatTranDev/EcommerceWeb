@@ -15,7 +15,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,11 +73,19 @@ public class AddProductController extends HttpServlet {
         Product test=productService.add(newProduct);
         if(test!=null)
         {
+            String successMessage = "Thêm sản phẩm thành công";
+            String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+            HttpSession session = request.getSession();
+            session.setAttribute("alert", encodedMessage);
             response.sendRedirect(request.getContextPath() + "/admin-product");
         }
         else
         {
-            response.sendRedirect(request.getContextPath() + "/error");
+            String successMessage = "Thêm sản phẩm thất baị";
+            String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+            HttpSession session = request.getSession();
+            session.setAttribute("alert", encodedMessage);
+            response.sendRedirect(request.getContextPath() + "/admin-product/add");
         }
 
     }

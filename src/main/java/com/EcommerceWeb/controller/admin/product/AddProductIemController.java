@@ -13,7 +13,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -82,7 +84,11 @@ public class AddProductIemController extends HttpServlet {
                 ProductItem check = productService.findItemByVariation(product.getID(), size, color);
                 if(check!=null)
                 {
-                    response.sendRedirect(request.getContextPath() + "/error");
+                    String successMessage = "Mã sản phẩm đã tồn tại";
+                    String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+                    HttpSession session = request.getSession();
+                    session.setAttribute("alert", encodedMessage);
+                    response.sendRedirect(request.getContextPath() + "/admin-editProductItem");
                     return;
                 }
 
@@ -118,20 +124,40 @@ public class AddProductIemController extends HttpServlet {
                         int test2= productConfigService.add(newSize);
                         try {
                             int test3 = productConfigService.add(newColor);
+                            String successMessage = "Thêm thành công";
+                            String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+                            HttpSession session = request.getSession();
+                            session.setAttribute("alert", encodedMessage);
                             response.sendRedirect(request.getContextPath() + "/admin-editProduct/" + product.getID());
                         }
                         catch (Exception e)
                         {
                             productConfigService.delete(test,size);
                             productItemService.delete(test);
+                            String successMessage = "Thêm thất bại";
+                            String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+                            HttpSession session = request.getSession();
+                            session.setAttribute("alert", encodedMessage);
+                            response.sendRedirect(request.getContextPath() + "/admin-editProductItem");
+                            return;
                         }
                     }
                     catch (Exception e)
                     {
                         productItemService.delete(test);
+                        String successMessage = "Thêm thất bại";
+                        String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+                        HttpSession session = request.getSession();
+                        session.setAttribute("alert", encodedMessage);
+                        response.sendRedirect(request.getContextPath() + "/admin-editProductItem");
                     }
                 } else {
-                    response.sendRedirect(request.getContextPath() + "/error");
+                    String successMessage = "Thêm thất bại";
+                    String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+                    HttpSession session = request.getSession();
+                    session.setAttribute("alert", encodedMessage);
+                    response.sendRedirect(request.getContextPath() + "/admin-editProductItem");
+                    return;
                 }
 
         }

@@ -28,18 +28,7 @@ public class ProductConfigService implements IProductConfigService {
 
     @Override
     public int add(ProductConfig productConfig) {
-        ProductConfig check;
-        check= productConfigDAO.find(productConfig.getProductItemID(),productConfig.getVariationID());
-        if(check!=null){
             return productConfigDAO.add(productConfig);
-        }
-        else
-        {
-            productConfigDAO.updateDeleted(productConfig);
-            return 1;
-        }
-
-
     }
 
     @Override

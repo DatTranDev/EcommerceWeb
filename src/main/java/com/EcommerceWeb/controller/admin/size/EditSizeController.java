@@ -11,7 +11,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 
 @WebServlet(urlPatterns = {"/admin-editSize/*"})
@@ -70,22 +72,38 @@ public class EditSizeController extends HttpServlet {
                 }
             }
         }
+        else {
+            String successMessage = "Đã xảy ra lỗi";
+            String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+            HttpSession session = request.getSession();
+            session.setAttribute("alert", encodedMessage);
+            response.sendRedirect(request.getContextPath() + "/admin-size");
+            return;
+        }
         String name = request.getParameter("name");
-
         VariationOption newVariationOption=new VariationOption();
         newVariationOption.setID(id);
         newVariationOption.setValue(name);
         try
         {
             variationOptionService.update(newVariationOption);
+            String successMessage = "Sửa thành công";
+            String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+            HttpSession session = request.getSession();
+            session.setAttribute("alert", encodedMessage);
             response.sendRedirect(request.getContextPath() + "/admin-size");
+            return;
+
         }
         catch (Exception e)
         {
-            response.sendRedirect(request.getContextPath() + "/error");
+            String successMessage = "Sửa thất bại";
+            String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+            HttpSession session = request.getSession();
+            session.setAttribute("alert", encodedMessage);
+            response.sendRedirect(request.getContextPath() + "/admin-size");
+            return;
         }
-
-        return;
 
     }
 }
