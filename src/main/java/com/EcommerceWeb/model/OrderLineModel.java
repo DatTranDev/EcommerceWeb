@@ -8,6 +8,7 @@ public class OrderLineModel {
     private double price;
     private boolean isDeleted;
     private ProductItem productItem;
+    private Product product;
 
     public int getID() {
         return ID;
@@ -63,5 +64,11 @@ public class OrderLineModel {
 
     public void setProductItem(ProductItem productItem) {
         this.productItem = productItem;
+    }
+    public Product getProduct() {
+        return product;
+    }
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

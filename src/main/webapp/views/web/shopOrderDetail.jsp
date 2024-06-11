@@ -30,17 +30,13 @@
                     <tbody>
                     <c:forEach var="item" items="${shoppingCartItemModelList}">
                         <tr>
-                            <td>
-                                <br>
-                                <input type="checkbox" class="delete-item" data-id="${item.ID}">
-                            </td>
                             <th scope="row">
                                 <div class="d-flex align-items-center">
-                                    <img src="${item.productItem.product.productImage}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
+                                    <img src="${item.productItem.productImage}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
                                 </div>
                             </th>
                             <td>
-                                <p class="mb-0 mt-4">${item.productItem.product.displayName}</p>
+                                <p class="mb-0 mt-4">${item.product.displayName}</p>
                             </td>
                             <td>
                                 <p class="mb-0 mt-4">${utils:formatVariation(item.productItem.listProductConfig)}</p>
@@ -64,9 +60,6 @@
                                 </div>
                             </td>
                             <td>
-                                <p class="mb-0 mt-4">${item.productItem.quantityInStock}</p>
-                            </td>
-                            <td>
                                 <p class="mb-0 mt-4 item-total">${utils:formatCurrency(item.productItem.price * item.quantity)}</p>
                             </td>
                         </tr>
@@ -74,8 +67,12 @@
                     </tbody>
                 </table>
             </div>
-            <div class="mt-5 d-flex justify-content-end">
-
+            <div class="mt-5 d-flex justify-content-sm-between">
+                <!-- Time -->
+                <div class="d-flex align-items-center" style="align-self: flex-end">
+                    <h5 class="mb-0">Thời gian: </h5>
+                    <p class="mb-0 ms-2" >${shopOrderModel.orderDate}</p>
+                </div>
                 <!-- Tổng tiền -->
                 <div class="d-flex align-items-center">
                     <h5 class="mb-0">Tổng tiền:</h5>
@@ -92,7 +89,17 @@
     </div>
     <!-- Cart Page End -->
 <script>
+    document.addEventListener('DOMContentLoaded', function (){
+        let itemTotal = document.querySelectorAll('.item-total');
+        let totalAmount = document.getElementById('totalAmount');
+        var total = 0;
+        itemTotal.forEach(function (item){
+            console.log(item.innerText);
+            total += parseInt(item.innerText.replace(/[^0-9]/g, ''));
+        });
+        totalAmount.innerText = total.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
 
+    })
 </script>
 
 </body>
