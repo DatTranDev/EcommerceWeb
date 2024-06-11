@@ -65,9 +65,9 @@
 				<div class="col-lg-3 col-md-6">
 					<div class="d-flex flex-column text-start footer-item">
 						<h4 class="text-light mb-3">Tài khoản</h4>
-						<a class="btn-link" href="">Tài khoản của tôi</a>
-						<a class="btn-link" href="">Giỏ hàng</a>
-						<a class="btn-link" href="">Lịch sử mua hàng</a>
+						<a class="btn-link" href="${pageContext.request.contextPath}/site-user" >Tài khoản của tôi</a>
+						<a class="btn-link" href="${pageContext.request.contextPath}/cart">Giỏ hàng</a>
+						<a class="btn-link" href="${pageContext.request.contextPath}/purchase-history" >Lịch sử mua hàng</a>
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-6">
