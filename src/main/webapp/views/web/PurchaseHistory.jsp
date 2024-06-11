@@ -142,7 +142,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
-                                            <button type="button" class="btn btn-primary order-status">${order.getDescribeOrder()}</button>
+                                            <button type="button" class="btn btn-primary order-status btn-mua-lai">${order.getDescribeOrder()}</button>
                                             <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Chi tiết đơn hàng</button>
                                         </div>
                                     </div>
@@ -364,12 +364,28 @@
                 document.getElementById(target).classList.add('active');
             });
         });
+
+        // Lắng nghe sự kiện click cho các nút "Mua lại"
+        const muaLaiButtons = $$('.btn-mua-lai');
+        muaLaiButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const orderId = this.getAttribute('data-order-id');
+                // Thực hiện công việc bạn muốn khi click vào nút "Mua lại"
+                alert(`Mua lại đơn hàng với ID: ${orderId}`);
+                // Ví dụ: gọi hàm mua lại với orderId
+                // muaLaiOrder(orderId);
+            });
+        });
     });
 
     function redirectToOrderDetail(orderId) {
         // Redirect to order detail page with orderId
         let url = `${pageContext.request.contextPath}/detail-shop-order?orderId=${orderId}`;
         window.location.href = url;
+    }
+    function muaLaiOrder(orderId) {
+        // Thực hiện công việc bạn muốn với orderId, ví dụ gửi AJAX request tới server
+        console.log(`Mua lại đơn hàng với ID: ${orderId}`);
     }
 
 
