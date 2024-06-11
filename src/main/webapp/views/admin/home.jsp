@@ -263,12 +263,12 @@
 
             // Get the new monthly revenues for the selected year
             // Update the data of the line chart
-            myLineChart.data.datasets[0].data = getMonthlyRevenues();
+            const newData = getMonthlyRevenues();
+            myLineChart.data.datasets[0].data = newData;
 
             // Redraw the chart with the new data
             myLineChart.update();
-
-            monthBOX.textContent = getMonthlyRevenues()[parseInt(monthMonth.textContent.slice(10))].toLocaleString() + ' VND';
+            monthBOX.textContent = newData[parseInt(monthMonth.textContent.slice(16))-1].toLocaleString() + ' VND';
             ;
         });
 
@@ -401,7 +401,7 @@
         var myPieChart = new Chart(ctxg, {
             type: 'doughnut',
             data: {
-                labels: ["Direct", "Referral", "Social"],
+                labels: [`${top1.getProduct().getDisplayName()}`, `${top2.getProduct().getDisplayName()}`, `${top3.getProduct().getDisplayName()}`],
                 datasets: [{
                     data: [${top1.getQuantityInStock()},${top2.getQuantityInStock()} , ${top3.getQuantityInStock()}],
                     backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
