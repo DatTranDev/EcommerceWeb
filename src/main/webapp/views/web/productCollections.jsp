@@ -44,7 +44,7 @@
                                         <c:forEach var="item" items="${ProductCategory}">
                                             <li>
                                                 <div class="d-flex justify-content-between fruite-name">
-                                                    <a href="#"><i class="fas fa-link me-2"></i>${item.categoryName}</a>
+                                                    <a href="${pageContext.request.contextPath}/product-collections?categoryID=${item.ID}"><i class="fas fa-link me-2"></i>${item.categoryName}</a>
                                                 </div>
                                             </li>
                                         </c:forEach>
@@ -82,18 +82,6 @@
                                     </a>
                                 </div>
                             </c:forEach>
-                            <div class="col-12">
-                                <div class="pagination d-flex justify-content-center mt-5">
-                                    <a href="#" class="rounded">&laquo;</a>
-                                    <a href="#" class="active rounded">1</a>
-                                    <a href="#" class="rounded">2</a>
-                                    <a href="#" class="rounded">3</a>
-                                    <a href="#" class="rounded">4</a>
-                                    <a href="#" class="rounded">5</a>
-                                    <a href="#" class="rounded">6</a>
-                                    <a href="#" class="rounded">&raquo;</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

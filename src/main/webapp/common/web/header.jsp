@@ -47,7 +47,7 @@
 							   data-bs-toggle="dropdown">Giày dép</a>
 							<div class="dropdown-menu m-0 bg-secondary rounded-0">
 								<c:forEach var="item" items="${ShoesCategory}">
-									<a href="#" class="dropdown-item">${item.categoryName}</a>
+									<a href="${pageContext.request.contextPath}/product-collections?categoryID=${item.ID}" class="dropdown-item">${item.categoryName}</a>
 								</c:forEach>
 							</div>
 						</div>
@@ -56,7 +56,7 @@
 								data-bs-toggle="dropdown">Phụ kiện</a>
 							<div class="dropdown-menu m-0 bg-secondary rounded-0">
 								<c:forEach var="item" items="${AccessoriesCategory}">
-									<a href="#" class="dropdown-item">${item.categoryName}</a>
+									<a href="${pageContext.request.contextPath}/product-collections?categoryID=${item.ID}" class="dropdown-item">${item.categoryName}</a>
 								</c:forEach>
 							</div>
 						</div>
