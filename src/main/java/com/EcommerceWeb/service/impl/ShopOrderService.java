@@ -137,34 +137,20 @@ public class ShopOrderService implements IShopOrderService {
             }
         }
         if(ListOrderSuccess.size()==0)return null;
+        for(ShopOrderModel shopOrderModel:ListOrderSuccess){
+            List<OrderLineModel> orderLineModelList = orderLineDAO.findByOrderID(shopOrderModel.getID());
+            if(orderLineModelList==null) return null;
+            shopOrderModel.setListOrderLine(orderLineModelList);
+
+            for(OrderLineModel orderLineModel:orderLineModelList){
+                ProductItem productItem= productItemService.findOne(orderLineModel.getProductItemID());
+                if(productItem==null) return null;
+                orderLineModel.setProductItem(productItem);
+            }
+        }
         return ListOrderSuccess;
     }
 
-//    @Override
-//    public int calculateRevenueByMonth(int month) {
-//        ShopOrderService shopOrder = new ShopOrderService();
-//        int sum =0;
-//        List<ShopOrderModel> list = shopOrder.findAllByOrderStatus();
-//        for(ShopOrderModel shopOrderModel:list){
-//            if (shopOrderModel.getOrderDate().getMonth()==month){
-//                sum+=shopOrderModel.getOrderTotal();
-//            }
-//        }
-//        return sum;
-//    }
-//
-//    @Override
-//    public int calculateRevenueByYear(int year) {
-//        ShopOrderService shopOrder = new ShopOrderService();
-//        int sum =0;
-//        List<ShopOrderModel> list = shopOrder.findAllByOrderStatus();
-//        for(ShopOrderModel shopOrderModel:list){
-//            if (shopOrderModel.getOrderDate().getYear()==year){
-//                sum+=shopOrderModel.getOrderTotal();
-//            }
-//        }
-//        return sum;
-//    }
 
     @Override
     public List<ShopOrderModel> findAllByOrderStatusID(int orderStatusID) {
@@ -224,6 +210,35 @@ public class ShopOrderService implements IShopOrderService {
 
         return shopOrderModel;
 
+    }
+
+    @Override
+    public List<ShopOrderModel> findAllShopOderByUserIdAndOrderStatusId(int userID, int orderStatusID) {
+        //lay toan bo don hang theo trang thai
+        List<ShopOrderModel> result = shopOrderDAO.findAllByOrderStatusID(orderStatusID);
+        List<ShopOrderModel> list = new ArrayList<>();
+        if(result==null)return null;
+        //lay toan bo don hang theo trang thai va id nguoi dung
+        for(ShopOrderModel shopOrderModel:result){
+            if(shopOrderModel.getUserID()==userID){
+                list.add(shopOrderModel);
+            }
+        }
+
+        if(list==null) return null;
+
+        for(ShopOrderModel shopOrderModel:list){
+            List<OrderLineModel> orderLineModelList = orderLineDAO.findByOrderID(shopOrderModel.getID());
+            if(orderLineModelList==null) return null;
+            shopOrderModel.setListOrderLine(orderLineModelList);
+
+            for(OrderLineModel orderLineModel:orderLineModelList){
+                ProductItem productItem= productItemService.findOne(orderLineModel.getProductItemID());
+                if(productItem==null) return null;
+                orderLineModel.setProductItem(productItem);
+            }
+        }
+        return list;
     }
 
 

@@ -119,7 +119,7 @@
                 <!-- Card Header - Dropdown -->
                 <div
                         class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Nguồn doanh thu</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Top sản phẩm bán chạy</h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button"
                            id="dropdownMenuLinkk" data-toggle="dropdown"
@@ -144,11 +144,11 @@
                     </div>
                     <div class="mt-4 text-center small">
                             <span class="mr-2">
-                                <i class="fas fa-circle text-primary"></i> Trực tiếp
+                                <i class="fas fa-circle text-primary"></i> ${top1.getProduct().getDisplayName()}
                             </span> <span class="mr-2">
-                                <i class="fas fa-circle text-success"></i> Xã hội
+                                <i class="fas fa-circle text-success"></i> ${top2.getProduct().getDisplayName()}
                             </span> <span class="mr-2">
-                                <i class="fas fa-circle text-info"></i> Khác
+                                <i class="fas fa-circle text-info"></i>${top3.getProduct().getDisplayName()}
                             </span>
                     </div>
                 </div>
@@ -403,7 +403,7 @@
             data: {
                 labels: ["Direct", "Referral", "Social"],
                 datasets: [{
-                    data: [55, 30, 15],
+                    data: [${top1.getQuantityInStock()},${top2.getQuantityInStock()} , ${top3.getQuantityInStock()}],
                     backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
                     hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
                     hoverBorderColor: "rgba(234, 236, 244, 1)",

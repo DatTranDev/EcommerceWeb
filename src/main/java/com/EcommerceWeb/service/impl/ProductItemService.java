@@ -28,7 +28,13 @@ public class ProductItemService implements IProductItemService {
 
     @Override
     public List<ProductItem> getAll() {
-        return productItemDAO.getAll()  ;
+        List<ProductItem> result = productItemDAO.getAll();
+        if(result==null) return null;
+        for(ProductItem productItem : result) {
+            Product product=productDAO.findOne(productItem.getProductID());
+            productItem.setProduct(product);
+        }
+        return result;
     }
 
     @Override
