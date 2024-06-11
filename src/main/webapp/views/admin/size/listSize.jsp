@@ -84,6 +84,18 @@
     </div>
 
 </div>
+<%
+    String alertMessage = (String) session.getAttribute("alert");
+    if (alertMessage != null) {
+        alertMessage = java.net.URLDecoder.decode(alertMessage, "UTF-8");
+        session.removeAttribute("alert");
+%>
+<script>
+    alert("<%=alertMessage %>");
+</script>
+<%
+    }
+%>
 <script>
     function openEditCategoryTab(itemId) {
         const editCategoryUrl =`${pageContext.request.contextPath}/admin-editSize/`+itemId;

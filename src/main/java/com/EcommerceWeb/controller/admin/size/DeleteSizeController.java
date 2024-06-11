@@ -9,7 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
 
 @WebServlet(urlPatterns = {"/admin-deleteSize/*"})
 public class DeleteSizeController extends HttpServlet {
@@ -27,12 +29,22 @@ public class DeleteSizeController extends HttpServlet {
             }
             else
             {
-                response.sendRedirect(request.getContextPath() + "/error");
+                String successMessage = "Xóa thất bại";
+                String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+                HttpSession session = request.getSession();
+                session.setAttribute("alert", encodedMessage);
+                response.sendRedirect(request.getContextPath() + "/admin-size");
+                return;
             }
         }
         else
         {
-            response.sendRedirect(request.getContextPath() + "/error");
+            String successMessage = "Đã xảy ra lỗi";
+            String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+            HttpSession session = request.getSession();
+            session.setAttribute("alert", encodedMessage);
+            response.sendRedirect(request.getContextPath() + "/admin-size");
+            return;
         }
     }
 

@@ -13,6 +13,7 @@
     <title>Title</title>
 </head>
 <body>
+
 <div class="container tm-mt-big tm-mb-big">
     <div class="row">
         <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
@@ -139,9 +140,24 @@
         </div>
     </div>
 </div>
+<%
+    String alertMessage = (String) session.getAttribute("alert");
+    if (alertMessage != null) {
+        alertMessage = java.net.URLDecoder.decode(alertMessage, "UTF-8");
+        session.removeAttribute("alert");
+%>
+<script>
+    alert("<%=alertMessage %>");
+</script>
+<%
+    }
+%>
 <script>
     let currentImageIndex = 0;
     let images = [];
+    function showAlert(message) {
+        alert(message);
+    }
 
     function displayImages(event) {
         const files = event.target.files;

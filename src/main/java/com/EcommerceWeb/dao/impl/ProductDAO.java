@@ -63,6 +63,8 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 	public void delete(int id) {
 		String sql = "UPDATE Product SET IsDeleted = true WHERE ID = ?";
 		update(sql, id);
+		String sql2 = "UPDATE ProductItem SET IsDeleted = true WHERE ProductID = ?";
+		update(sql2, id);
 	}
 	@Override
 	public int getTotalItem() {

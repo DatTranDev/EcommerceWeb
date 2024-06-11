@@ -11,7 +11,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 
 @WebServlet(urlPatterns = {"/admin-addSize/*"})
@@ -55,6 +57,14 @@ public class AddSizeController  extends HttpServlet {
                 }
             }
         }
+        else {
+            String successMessage = "Đã xảy ra lỗi";
+            String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+            HttpSession session = request.getSession();
+            session.setAttribute("alert", encodedMessage);
+            response.sendRedirect(request.getContextPath() + "/admin-size");
+            return;
+        }
         String name = request.getParameter("name");
 
             VariationOption newVariationOption=new VariationOption();
@@ -70,12 +80,20 @@ public class AddSizeController  extends HttpServlet {
             int test= variationOptionService.add(newVariationOption);
             if(test!=-1)
             {
+                String successMessage = "Thêm thành công";
+                String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+                HttpSession session = request.getSession();
+                session.setAttribute("alert", encodedMessage);
                 response.sendRedirect(request.getContextPath() + "/admin-size");
+                return;
             }
             else {
-                response.sendRedirect(request.getContextPath() + "/error");
+                String successMessage = "Thêm thất bại";
+                String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+                HttpSession session = request.getSession();
+                session.setAttribute("alert", encodedMessage);
+                response.sendRedirect(request.getContextPath() + "/admin-size");
+                return;
             }
-        return;
-
     }
 }

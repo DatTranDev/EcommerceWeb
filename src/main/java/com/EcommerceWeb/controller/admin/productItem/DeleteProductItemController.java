@@ -9,7 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,17 +27,13 @@ public class DeleteProductItemController extends HttpServlet {
         String pathInfo = request.getPathInfo();
         String url = pathInfo;
         int id=0;
-        // Tách chuỗi thành các phần tử dựa trên dấu phẩy và loại bỏ khoảng trắng
         String[] parts = url.split("/");
         id = Integer.parseInt(parts[1]);
         if (parts.length > 2)
         {
             String[] numbersStr = parts[2].split(",");
-
-            // Khai báo một danh sách để lưu các số nguyên
             List<Integer> integerList = new ArrayList<>();
 
-            // Chuyển đổi mỗi phần tử thành một số nguyên và thêm vào danh sách
             for (String numberStr : numbersStr) {
                 integerList.add(Integer.parseInt(numberStr.trim()));
             }
@@ -49,6 +47,10 @@ public class DeleteProductItemController extends HttpServlet {
             }
         }
         else {
+            String successMessage = "Xóa thất bại";
+            String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
+            HttpSession session = request.getSession();
+            session.setAttribute("alert", encodedMessage);
             response.sendRedirect(request.getContextPath() + "/admin-editProduct/"+id);
         }
 
