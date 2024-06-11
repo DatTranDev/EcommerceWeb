@@ -224,7 +224,7 @@
                                 <c:forEach var="item" items="${ProductCategory}">
                                     <li>
                                         <div class="d-flex justify-content-between fruite-name">
-                                            <a href="#"><i class="fas fa-link me-2"></i>${item.categoryName}</a>
+                                            <a href="${pageContext.request.contextPath}/product-collections?categoryID=${item.ID}"><i class="fas fa-link me-2"></i>${item.categoryName}</a>
                                         </div>
                                     </li>
                                 </c:forEach>
