@@ -47,11 +47,11 @@
 			<div class="bg-white py-2 collapse-inner rounded">
 				<h6 class="collapse-header">Thao tác</h6>
 				<a class="collapse-item" href="${pageContext.request.contextPath}/admin-product">Danh sách sản phẩm</a>
-				<a class="collapse-item" href="${pageContext.request.contextPath}/admin-product">Danh mục sản phẩm</a>
+<%--				<a class="collapse-item" href="${pageContext.request.contextPath}/admin-product">Danh mục sản phẩm</a>--%>
 				<a class="collapse-item" href="${pageContext.request.contextPath}/admin-size">Size</a>
 				<div class="collapse-divider"></div>
-				<h6 class="collapse-header">Khuyến mãi</h6>
-				<a class="collapse-item" href="#">Quản lý khuyến mãi</a>
+<%--				<h6 class="collapse-header">Khuyến mãi</h6>--%>
+<%--				<a class="collapse-item" href="#">Quản lý khuyến mãi</a>--%>
 			</div>
 		</div></li>
 	<!-- Nav Item - Pages Collapse Menu -->
