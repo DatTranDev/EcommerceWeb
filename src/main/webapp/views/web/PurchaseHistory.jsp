@@ -380,7 +380,7 @@
 
     function redirectToOrderDetail(orderId) {
         // Redirect to order detail page with orderId
-        let url = `${pageContext.request.contextPath}/detail-shop-order?orderId=${orderId}`;
+        let url = `${pageContext.request.contextPath}/detail-shop-order?orderId=`+orderId;
         window.location.href = url;
     }
     function muaLaiOrder(orderId) {

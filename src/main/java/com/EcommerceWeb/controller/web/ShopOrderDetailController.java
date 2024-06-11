@@ -2,8 +2,10 @@ package com.EcommerceWeb.controller.web;
 
 import com.EcommerceWeb.model.ShopOrderModel;
 import com.EcommerceWeb.model.SiteUser;
+import com.EcommerceWeb.service.IShopOrderService;
 import com.EcommerceWeb.utils.SessionUtil;
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,9 +17,14 @@ import java.util.List;
 
 @WebServlet(urlPatterns = {"/detail-shop-order"})
 public class ShopOrderDetailController extends HttpServlet {
+    @Inject
+    IShopOrderService iShopOrderService;
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            RequestDispatcher rd = request.getRequestDispatcher("/views/web/shopOrderDetail.jsp");
+
+        String id = request.getParameter("orderId");
+        ShopOrderModel shopOrderModel = iShopOrderService.findOne(Integer.parseInt(id));
+        RequestDispatcher rd = request.getRequestDispatcher("/views/web/shopOrderDetail.jsp");
             rd.forward(request, response);
 
     }
