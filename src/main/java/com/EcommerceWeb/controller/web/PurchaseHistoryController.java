@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 
 
@@ -27,10 +28,16 @@ public class PurchaseHistoryController extends HttpServlet {
             throws ServletException, IOException {
 
 
+
+
+
         SiteUser siteUser = (SiteUser) SessionUtil.getInstance().getValue(request, "SITEUSER");
 
         if(siteUser == null) {
-            response.sendRedirect(request.getContextPath() + "/error");
+
+            String loginUrl = request.getContextPath() + "/dang-nhap?action=login&message=" + URLEncoder.encode("Vui lòng đăng nhập trước", "UTF-8") + "&alert=danger";
+            response.sendRedirect(loginUrl);
+          //  response.sendRedirect(request.getContextPath() + "/error");
             return;
         }
 
