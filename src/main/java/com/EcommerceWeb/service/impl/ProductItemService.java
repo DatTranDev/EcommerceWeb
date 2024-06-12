@@ -77,6 +77,17 @@ public class ProductItemService implements IProductItemService {
 
         return productItem;
     }
+    public ProductItem findOnee(int id) {
+
+        ProductItem productItem = productItemDAO.findOnee(id);
+        if(productItem==null)return null;
+        Product product=productDAO.findOne(productItem.getProductID());
+        productItem.setProduct(product);
+
+        productItem.setListProductConfig(productConfigService.findByProductItemID(productItem.getID()));
+
+        return productItem;
+    }
 
     @Override
     public int getTotalItem() {

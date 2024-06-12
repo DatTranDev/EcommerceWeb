@@ -58,6 +58,11 @@ public class ProductItemDAO extends AbstractDAO<ProductItem> implements IProduct
         List<ProductItem> productItems = query(sql, new ProductItemMapper(), id);
         return productItems.isEmpty() ? null : productItems.get(0);
     }
+    public ProductItem findOnee(int id) {
+        String sql = "SELECT * FROM productitem WHERE ID = ?";
+        List<ProductItem> productItems = query(sql, new ProductItemMapper(), id);
+        return productItems.isEmpty() ? null : productItems.get(0);
+    }
 
     @Override
     public int getTotalItem() {

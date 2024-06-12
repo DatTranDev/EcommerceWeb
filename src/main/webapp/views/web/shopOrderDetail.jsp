@@ -68,11 +68,7 @@
                     <h5 class="mb-0">Chi phí vận chuyển:</h5>
                     <p class="mb-0 ms-2 text-danger" id="chiPhiVanChuyen">${utils:formatCurrency(chiPhiVanChuyen)}</p>
                 </div>
-                <!-- Tổng tiền sản phẩm -->
-                <div class="col-md-6 d-flex align-items-center justify-content-end">
-                    <h5 class="mb-0">Tổng tiền sản phẩm:</h5>
-                    <p class="mb-0 ms-2 text-danger" id="tongTienSP">${utils:formatCurrency(shopOrderModel.getOrderTotal()-chiPhiVanChuyen)}</p>
-                </div>
+
                 <!-- Tổng tiền -->
                 <div class="col-md-6 d-flex align-items-center justify-content-end">
                     <h5 class="mb-0">Thành tiền:</h5>
@@ -84,6 +80,11 @@
                 <div class="d-flex align-items-center">
                     <h5 class="mb-0">Địa chỉ giao hàng:</h5>
                     <p class="mb-0 ms-2" id="Address">${shopOrderModel.getShippingAddress().getValue()}</p>
+                    <!-- Tổng tiền sản phẩm -->
+                    <div class="col-md-6 d-flex align-items-center justify-content-end">
+                        <h5 class="mb-0">Tổng tiền sản phẩm:</h5>
+                        <p class="mb-0 ms-2 text-danger" id="tongTienSP">${utils:formatCurrency(shopOrderModel.getOrderTotal()-chiPhiVanChuyen)}</p>
+                    </div>
                 </div>
             </div>
             <div class="mt-5 d-flex justify-content-start">

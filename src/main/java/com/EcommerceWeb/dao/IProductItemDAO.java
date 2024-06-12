@@ -13,6 +13,7 @@ public interface IProductItemDAO extends  GenericDAO<ProductItem>{
     void updateQuantity(int id, int quantity);
     void delete(int id);
     ProductItem findOne(int id);
+    ProductItem findOnee(int id);
     int getTotalItem();
     int getTotalQuantityOfProduct(int productID);
 }

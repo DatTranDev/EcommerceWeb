@@ -51,7 +51,7 @@ public class PurchaseHistoryController extends HttpServlet {
             String describeOrder="";
             for(ShopOrderModel shopOrderModel : shopOrderModelList) {
                 if(shopOrderModel.getOrderStatusID()==1){
-                    describeOrder="Đang chuẩn bị";
+                    describeOrder="Hủy đơn hàng";
                     orderStatusName="Đang chuẩn bị";
 
                 }else if(shopOrderModel.getOrderStatusID()==2){

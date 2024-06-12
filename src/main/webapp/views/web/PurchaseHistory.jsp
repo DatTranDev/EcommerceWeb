@@ -142,7 +142,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
-                                            <button type="button" class="btn btn-primary order-status btn-mua-lai">${order.getDescribeOrder()}</button>
+                                            <button type="button" class="btn btn-primary order-status btn-mua-lai" onclick="redirectToCart(${order.ID},'${order.getDescribeOrder()}')">${order.getDescribeOrder()}</button>
                                             <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Chi tiết đơn hàng</button>
                                         </div>
                                     </div>
@@ -179,7 +179,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
-                                            <button type="button" class="btn btn-primary">Đang chuẩn bị</button>
+                                            <button type="button" class="btn btn-primary">Hủy đơn hàng</button>
                                             <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Chi tiết đơn hàng</button>
                                         </div>
                                     </div>
@@ -365,17 +365,17 @@
             });
         });
 
-        // Lắng nghe sự kiện click cho các nút "Mua lại"
-        const muaLaiButtons = $$('.btn-mua-lai');
-        muaLaiButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const orderId = this.getAttribute('data-order-id');
-                // Thực hiện công việc bạn muốn khi click vào nút "Mua lại"
-                alert(`Mua lại đơn hàng với ID: ${orderId}`);
-                // Ví dụ: gọi hàm mua lại với orderId
-                // muaLaiOrder(orderId);
-            });
-        });
+        // // Lắng nghe sự kiện click cho các nút "Mua lại"
+        // const muaLaiButtons = $$('.btn-mua-lai');
+        // muaLaiButtons.forEach(button => {
+        //     button.addEventListener('click', function () {
+        //         const orderId = this.getAttribute('data-order-id');
+        //         // Thực hiện công việc bạn muốn khi click vào nút "Mua lại"
+        //         alert(`Mua lại đơn hàng với ID:`+orderId);
+        //         // Ví dụ: gọi hàm mua lại với orderId
+        //         // muaLaiOrder(orderId);
+        //     });
+        // });
     });
 
     function redirectToOrderDetail(orderId) {
@@ -383,9 +383,15 @@
         let url = "${pageContext.request.contextPath}/detail-shop-order?orderId="+orderId;
         window.location.href = url;
     }
-    function muaLaiOrder(orderId) {
-        // Thực hiện công việc bạn muốn với orderId, ví dụ gửi AJAX request tới server
-        console.log(`Mua lại đơn hàng với ID: ${orderId}`);
+    function redirectToCart(orderId,Text) {
+        let string2 = "Mua lại";
+        let string3 = "Hủy đơn hàng";
+        if(Text.trim() === string2.trim()){
+            let url = "${pageContext.request.contextPath}/cart?orderId="+orderId;
+            window.location.href = url;
+        }else if(Text.trim() === string2.trim()){
+
+        }
     }
 
 

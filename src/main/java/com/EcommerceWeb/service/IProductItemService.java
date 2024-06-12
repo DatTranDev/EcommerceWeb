@@ -12,6 +12,7 @@ public interface IProductItemService {
     ProductItem updateQuantity(int id, int quantity);
     void delete(int id);
     ProductItem findOne(int id);
+    ProductItem findOnee(int id);
     int getTotalItem();
     int getTotalQuantityOfProduct(int productID);
 
