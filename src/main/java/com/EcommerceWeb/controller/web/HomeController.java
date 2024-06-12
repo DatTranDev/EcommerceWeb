@@ -56,7 +56,8 @@ public class HomeController extends HttpServlet{
 		} else if (action!=null&& action.equals("logout")) {
 			SessionUtil.getInstance().removeValue(request, "SITEUSER");
 			response.sendRedirect(request.getContextPath()+"/trang-chu");
-		} else if (action!=null&& action.equals("register")) {
+		} else
+			if (action!=null&& action.equals("register")) {
 			String message = request.getParameter("message");
 			String alert = request.getParameter("alert");
 			if(message!=null && alert!=null) {
@@ -65,7 +66,8 @@ public class HomeController extends HttpServlet{
 			}
 			RequestDispatcher rd = request.getRequestDispatcher("/views/register.jsp");
 			rd.forward(request, response);
-		} else if (action!=null && action.equals("forgotpassword")){
+		} else
+			if (action!=null && action.equals("forgotpassword")){
 			String message = request.getParameter("message");
 			String alert = request.getParameter("alert");
 			if(message!=null && alert!=null) {
@@ -75,6 +77,21 @@ public class HomeController extends HttpServlet{
 			RequestDispatcher rd = request.getRequestDispatcher("/views/forgotPassword.jsp");
 			rd.forward(request, response);
 		}
+			else
+				if(action!=null && action.equals("resetpassword")) {
+				String code = request.getParameter("code");
+				SiteUser finded = (SiteUser) SessionUtil.getInstance().getValue(request, "finded");
+				String message = request.getParameter("message");
+				String alert = request.getParameter("alert");
+				if(message!=null && alert!=null) {
+					request.setAttribute("message", message);
+					request.setAttribute("alert", alert);
+				}
+				request.setAttribute("code", code);
+				request.setAttribute("finded", finded);
+				RequestDispatcher rd = request.getRequestDispatcher("/views/resetPassword.jsp");
+				rd.forward(request, response);
+			}
 		else {
 			SiteUser firstLoad = (SiteUser) SessionUtil.getInstance().getValue(request, "SITEUSER");;
 
@@ -157,7 +174,9 @@ public class HomeController extends HttpServlet{
 				String loginUrl = request.getContextPath() + "/dang-nhap?action=login&message=" + URLEncoder.encode("Sai tài khoản hoặc mật khẩu", "UTF-8") + "&alert=danger";
 				response.sendRedirect(loginUrl);
 			}
-		} else if (action!=null&& action.equals("register")) {
+		}
+		else
+			if (action!=null&& action.equals("register")) {
 			String username = request.getParameter("DisplayName");
 			String password = request.getParameter("Password");
 			String email = request.getParameter("Email");
@@ -199,5 +218,42 @@ public class HomeController extends HttpServlet{
 				rd.forward(request, response);
 			}
 		}
+		else if (action!=null&& action.equals("forgotpassword")) {
+			String email = request.getParameter("email");
+			SiteUser finded = siteUserService.findByEmail(email);
+			if(finded!=null) {
+				String code = Helper.sendEmail(email);
+				SessionUtil.getInstance().putValue(request, "code", code);
+				SessionUtil.getInstance().putValue(request, "finded", finded);
+				response.sendRedirect(request.getContextPath()+"/dang-nhap?action=resetpassword&message=" + URLEncoder.encode("Mã xác nhận đã được gửi đến email của bạn", "UTF-8") + "&alert=success");
+			} else {
+				String loginUrl = request.getContextPath() + "/dang-nhap?action=forgotpassword&message=" + URLEncoder.encode("Email không tồn tại", "UTF-8") + "&alert=danger";
+				response.sendRedirect(loginUrl);
+			}
+		}
+		else if (action!=null && action.equals("resetpassword")){
+				String checkcode = (String) SessionUtil.getInstance().getValue(request, "code");
+				String code = request.getParameter("codeverify");
+				String password = request.getParameter("Password");
+				String repeatPassword = request.getParameter("RepeatPassword");
+				SiteUser finded = (SiteUser) SessionUtil.getInstance().getValue(request, "finded");
+				if(password.equals(repeatPassword)){
+					if(checkcode.equals(code)) {
+						finded.setPassword(Helper.toMd5(password));
+						siteUserService.update(finded);
+						SessionUtil.getInstance().removeValue(request, "finded");
+						SessionUtil.getInstance().removeValue(request, "code");
+						String loginUrl = request.getContextPath() + "/dang-nhap?action=login&message=" + URLEncoder.encode("Đổi mật khẩu thành công", "UTF-8") + "&alert=success";
+						response.sendRedirect(loginUrl);
+
+					} else {
+						String loginUrl = request.getContextPath() + "/dang-nhap?action=resetpassword&message=" + URLEncoder.encode("Mã xác nhận không đúng", "UTF-8") + "&alert=danger";
+						response.sendRedirect(loginUrl);
+					}
+				}else {
+					String loginUrl = request.getContextPath() + "/dang-nhap?action=resetpassword&message=" + URLEncoder.encode("Mật khẩu xác nhận chưa đúng", "UTF-8") + "&alert=danger";
+					response.sendRedirect(loginUrl);
+				}
+			}
 	}
 }
