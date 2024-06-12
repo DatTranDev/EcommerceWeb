@@ -100,7 +100,7 @@
                             <tr  style="cursor: pointer;">
                                 <td  onclick="openEditCategoryTab(${item.id})" class="tm-product-name">${item.name}${item.parent}</td>
                                 <td class="text-center">
-                                    <a href="${pageContext.request.contextPath}/admin-deleteCategory/${item.id}" class="tm-product-delete-link"
+                                    <a href="javascript:void(0);" class="tm-product-delete-link"
                                        onclick="confirmDelete('Bạn muốn xóa danh mục này chứ ?','${pageContext.request.contextPath}/admin-deleteCategory/${item.id}')">
                                         <i class="far fa-trash-alt tm-product-delete-icon"></i>
                                     </a>

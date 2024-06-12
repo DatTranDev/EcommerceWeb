@@ -63,11 +63,15 @@ public class HomeController extends HttpServlet{
 		//xu ly bieu do tron
 		List<ProductItem> productItemList = new ArrayList<>();
 		Map<Integer, Integer> productItemCountMap = new HashMap<>();
-		for(ShopOrderModel shopOrderModel : successShopOrderList2){
-			for(OrderLineModel orderLineModel : shopOrderModel.getListOrderLine()){
-				productItemCountMap.merge(orderLineModel.getProductItem().getID(), orderLineModel.getQuantity(), Integer::sum);
+		if(successShopOrderList2 != null)
+		{
+			for(ShopOrderModel shopOrderModel : successShopOrderList2){
+				for(OrderLineModel orderLineModel : shopOrderModel.getListOrderLine()){
+					productItemCountMap.merge(orderLineModel.getProductItem().getID(), orderLineModel.getQuantity(), Integer::sum);
+				}
 			}
 		}
+
 
 		// Sắp xếp map theo giá trị tăng dần và lấy ra 3 giá trị lớn nhất
 		List<Map.Entry<Integer, Integer>> sortedEntries = new ArrayList<>(productItemCountMap.entrySet());
