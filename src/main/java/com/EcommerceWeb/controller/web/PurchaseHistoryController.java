@@ -47,7 +47,6 @@ public class PurchaseHistoryController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/error");
         }
         else{
-
             String orderStatusName="";
             String describeOrder="";
             for(ShopOrderModel shopOrderModel : shopOrderModelList) {

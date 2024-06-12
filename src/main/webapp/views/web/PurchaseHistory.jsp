@@ -180,7 +180,7 @@
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
                                             <button type="button" class="btn btn-primary">Đang chuẩn bị</button>
-                                            <button type="button" class="btn btn-secondary">Chi tiết đơn hàng</button>
+                                            <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Chi tiết đơn hàng</button>
                                         </div>
                                     </div>
                                 </div>
@@ -218,7 +218,7 @@
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
                                             <button type="button" class="btn btn-primary">Đang vận chuyển</button>
-                                            <button type="button" class="btn btn-secondary">Chi tiết đơn hàng</button>
+                                            <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Chi tiết đơn hàng</button>
                                         </div>
                                     </div>
                                 </div>
@@ -255,7 +255,7 @@
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
                                             <button type="button" class="btn btn-primary">Mua lại</button>
-                                            <button type="button" class="btn btn-secondary">Chi tiết đơn hàng</button>
+                                            <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Chi tiết đơn hàng</button>
                                         </div>
                                     </div>
                                 </div>
@@ -292,7 +292,7 @@
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
                                             <button type="button" class="btn btn-primary">Mua lại</button>
-                                            <button type="button" class="btn btn-secondary">Xem chi tiết đơn hàng</button>
+                                            <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Xem chi tiết đơn hàng</button>
                                         </div>
                                     </div>
                                 </div>
@@ -329,7 +329,7 @@
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
                                             <button type="button" class="btn btn-primary">Mua lại</button>
-                                            <button type="button" class="btn btn-secondary">Xem chi tiết đơn hàng</button>
+                                            <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Xem chi tiết đơn hàng</button>
                                         </div>
                                     </div>
                                 </div>
@@ -380,7 +380,7 @@
 
     function redirectToOrderDetail(orderId) {
         // Redirect to order detail page with orderId
-        let url = `${pageContext.request.contextPath}/detail-shop-order?orderId=${orderId}`;
+        let url = "${pageContext.request.contextPath}/detail-shop-order?orderId="+orderId;
         window.location.href = url;
     }
     function muaLaiOrder(orderId) {
