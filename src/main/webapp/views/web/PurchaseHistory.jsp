@@ -179,8 +179,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
-                                            <button type="button" class="btn btn-primary">Đang chuẩn bị</button>
-                                            <button type="button" class="btn btn-secondary">Chi tiết đơn hàng</button>
+                                            <button type="button" class="btn btn-primary order-status btn-mua-lai">${order.getDescribeOrder()}</button>
+                                            <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Chi tiết đơn hàng</button>
                                         </div>
                                     </div>
                                 </div>
@@ -217,8 +217,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
-                                            <button type="button" class="btn btn-primary">Đang vận chuyển</button>
-                                            <button type="button" class="btn btn-secondary">Chi tiết đơn hàng</button>
+                                            <button type="button" class="btn btn-primary order-status btn-mua-lai">${order.getDescribeOrder()}</button>
+                                            <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Chi tiết đơn hàng</button>
                                         </div>
                                     </div>
                                 </div>
@@ -254,8 +254,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
-                                            <button type="button" class="btn btn-primary">Mua lại</button>
-                                            <button type="button" class="btn btn-secondary">Chi tiết đơn hàng</button>
+                                            <button type="button" class="btn btn-primary order-status btn-mua-lai">${order.getDescribeOrder()}</button>
+                                            <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Chi tiết đơn hàng</button>
                                         </div>
                                     </div>
                                 </div>
@@ -291,8 +291,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
-                                            <button type="button" class="btn btn-primary">Mua lại</button>
-                                            <button type="button" class="btn btn-secondary">Xem chi tiết đơn hàng</button>
+                                            <button type="button" class="btn btn-primary order-status btn-mua-lai">${order.getDescribeOrder()}</button>
+                                            <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Chi tiết đơn hàng</button>
                                         </div>
                                     </div>
                                 </div>
@@ -328,8 +328,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
-                                            <button type="button" class="btn btn-primary">Mua lại</button>
-                                            <button type="button" class="btn btn-secondary">Xem chi tiết đơn hàng</button>
+                                            <button type="button" class="btn btn-primary order-status btn-mua-lai">${order.getDescribeOrder()}</button>
+                                            <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Chi tiết đơn hàng</button>
                                         </div>
                                     </div>
                                 </div>

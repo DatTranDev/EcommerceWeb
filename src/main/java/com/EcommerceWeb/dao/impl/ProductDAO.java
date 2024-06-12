@@ -110,7 +110,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 		return query(sql, new ProductMapper());
 	}
 	public int count() {
-		String sql = "SELECT count(*) FROM product";
+		String sql = "SELECT count(*) FROM product where IsDeleted=0";
 		return count(sql);
 	}
 	public ProductItem findItemByVariation(int id, int color, int size)
