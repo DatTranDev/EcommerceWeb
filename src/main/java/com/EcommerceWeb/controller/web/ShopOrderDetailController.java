@@ -26,7 +26,7 @@ public class ShopOrderDetailController extends HttpServlet {
         //lay id cua don hang tu request
         String id = request.getParameter("orderId");
         //tim danh sach san pham co trong don hang
-        ShopOrderModel shopOrderModel = shopOrderService.findOne(Integer.parseInt(id));
+        ShopOrderModel shopOrderModel = shopOrderService.findOnee(Integer.parseInt(id));
         //tinh chi phi van chuyen
         double chiPhiVanChuyen = 0;
         if(shopOrderModel.getShippingMethod().getID()==1){

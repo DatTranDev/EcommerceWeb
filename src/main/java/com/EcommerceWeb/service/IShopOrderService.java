@@ -18,5 +18,6 @@ public interface IShopOrderService {
 
     List<ShopOrderModel> findAllByOrderStatusID(int orderStatusID);
     ShopOrderModel findOne(int id);
+    ShopOrderModel findOnee(int id);
     List<ShopOrderModel> findAllShopOderByUserIdAndOrderStatusId(int userID, int orderStatusID);
 }
