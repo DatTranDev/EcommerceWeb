@@ -38,6 +38,17 @@ public class ProductItemService implements IProductItemService {
     }
 
     @Override
+    public List<ProductItem> getAllisDelete() {
+        List<ProductItem> result = productItemDAO.getAllisDelete();
+        if(result==null) return null;
+        for(ProductItem productItem : result) {
+            Product product=productDAO.findOne(productItem.getProductID());
+            productItem.setProduct(product);
+        }
+        return result;
+    }
+
+    @Override
     public List<ProductItem> getProductItemByProductID(int id) {
         return productItemDAO.getProductItemByProductID(id);
     }
@@ -69,6 +80,17 @@ public class ProductItemService implements IProductItemService {
     public ProductItem findOne(int id) {
 
         ProductItem productItem = productItemDAO.findOne(id);
+        if(productItem==null)return null;
+        Product product=productDAO.findOne(productItem.getProductID());
+        productItem.setProduct(product);
+
+        productItem.setListProductConfig(productConfigService.findByProductItemID(productItem.getID()));
+
+        return productItem;
+    }
+    public ProductItem findOnee(int id) {
+
+        ProductItem productItem = productItemDAO.findOnee(id);
         if(productItem==null)return null;
         Product product=productDAO.findOne(productItem.getProductID());
         productItem.setProduct(product);

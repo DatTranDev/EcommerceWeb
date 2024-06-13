@@ -70,6 +70,14 @@ public class ShoppingCartItemService implements IShoppingCartItemService {
     }
 
     @Override
+    public ShoppingCartItemModel findOneByProductItem(int productItemId, int cardID) {
+        ShoppingCartItemModel shoppingCartModel = shoppingCartItemDAO.findOneByProductItem(productItemId,cardID);
+        if(shoppingCartModel==null)return null;
+        return shoppingCartModel;
+    }
+
+
+    @Override
     public ShoppingCartItemModel insert(ShoppingCartItemModel shoppingCartItemModel) {
 
         int iDInsert= shoppingCartItemDAO.insert(shoppingCartItemModel);

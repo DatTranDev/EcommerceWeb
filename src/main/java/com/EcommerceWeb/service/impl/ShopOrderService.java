@@ -110,7 +110,7 @@ public class ShopOrderService implements IShopOrderService {
             shopOrderModel.setListOrderLine(orderLineModelList);
 
             for(OrderLineModel orderLineModel:orderLineModelList){
-                ProductItem productItem= productItemService.findOne(orderLineModel.getProductItemID());
+                ProductItem productItem= productItemService.findOnee(orderLineModel.getProductItemID());
                 if(productItem==null)return null;
                 orderLineModel.setProductItem(productItem);
             }
@@ -143,12 +143,19 @@ public class ShopOrderService implements IShopOrderService {
             shopOrderModel.setListOrderLine(orderLineModelList);
 
             for(OrderLineModel orderLineModel:orderLineModelList){
-                ProductItem productItem= productItemService.findOne(orderLineModel.getProductItemID());
+                ProductItem productItem= productItemService.findOnee(orderLineModel.getProductItemID());
                 if(productItem==null) return null;
                 orderLineModel.setProductItem(productItem);
             }
         }
         return ListOrderSuccess;
+    }
+
+    @Override
+    public void update(ShopOrderModel shopOrderModel) {
+        if(shopOrderModel!=null){
+            shopOrderDAO.update(shopOrderModel);
+        }
     }
 
 
@@ -214,6 +221,39 @@ public class ShopOrderService implements IShopOrderService {
     }
 
     @Override
+    public ShopOrderModel findOnee(int id) {
+        ShopOrderModel shopOrderModel = shopOrderDAO.findOne(id);
+        if(shopOrderModel==null)return null;
+
+        SiteUser siteUser = siteUserDAO.findOne((long) shopOrderModel.getUserID());
+        shopOrderModel.setSiteUser(siteUser);
+
+        PaymentMethod paymentMethod=paymentMethodDAO.findOneById(shopOrderModel.getPaymentMethodID());
+        Address address = addressDAO.findOne(shopOrderModel.getShippingAddressID());
+        ShippingMethod shippingMethod = shippingMethodDAO.findOneById(shopOrderModel.getShippingMethodID());
+        OrderStatus orderStatus=orderStatusDAO.findOneById(shopOrderModel.getOrderStatusID());
+
+        if(paymentMethod==null || address==null || shippingMethod==null||orderStatus==null)return null;
+
+        shopOrderModel.setPaymentMethod(paymentMethod);
+        shopOrderModel.setShippingAddress(address);
+        shopOrderModel.setShippingMethod(shippingMethod);
+        shopOrderModel.setOrderStatus(orderStatus);
+
+        List<OrderLineModel> orderLineModelList = orderLineDAO.findByOrderID(shopOrderModel.getID());
+        if(orderLineModelList==null)return null;
+        shopOrderModel.setListOrderLine(orderLineModelList);
+
+        for(OrderLineModel orderLineModel:shopOrderModel.getListOrderLine()){
+            ProductItem productItem= productItemService.findOnee(orderLineModel.getProductItemID());
+            if(productItem==null)return null;
+            orderLineModel.setProductItem(productItem);
+        }
+
+        return shopOrderModel;
+    }
+
+    @Override
     public List<ShopOrderModel> findAllShopOderByUserIdAndOrderStatusId(int userID, int orderStatusID) {
         //lay toan bo don hang theo trang thai
         List<ShopOrderModel> result = shopOrderDAO.findAllByOrderStatusID(orderStatusID);
@@ -234,7 +274,7 @@ public class ShopOrderService implements IShopOrderService {
             shopOrderModel.setListOrderLine(orderLineModelList);
 
             for(OrderLineModel orderLineModel:orderLineModelList){
-                ProductItem productItem= productItemService.findOne(orderLineModel.getProductItemID());
+                ProductItem productItem= productItemService.findOnee(orderLineModel.getProductItemID());
                 if(productItem==null) return null;
                 orderLineModel.setProductItem(productItem);
             }

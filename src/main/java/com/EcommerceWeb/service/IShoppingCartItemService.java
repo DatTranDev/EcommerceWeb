@@ -8,6 +8,7 @@ public interface IShoppingCartItemService {
     List<ShoppingCartItemModel> findByCartID(int cardID);
     List<ShoppingCartItemModel> findAllByUserID(int userID);
     ShoppingCartItemModel findOne(int shoppingCartItemId);
+    ShoppingCartItemModel findOneByProductItem(int productItemId,int cardID);
     ShoppingCartItemModel insert(ShoppingCartItemModel shoppingCartItemModel);
     ShoppingCartItemModel update(ShoppingCartItemModel shoppingCartItemModel);
     boolean updateIsDeleteTrue(int shoppingCartItemID);

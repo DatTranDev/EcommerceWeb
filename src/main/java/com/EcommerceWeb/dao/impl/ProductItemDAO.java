@@ -16,6 +16,12 @@ public class ProductItemDAO extends AbstractDAO<ProductItem> implements IProduct
     }
 
     @Override
+    public List<ProductItem> getAllisDelete() {
+        String sql = "SELECT * FROM ProductItem";
+        return query(sql, new ProductItemMapper());
+    }
+
+    @Override
     public List<ProductItem> getProductItemByProductID(int id) {
         String sql = "SELECT * FROM ProductItem WHERE ProductID = ? and IsDeleted = 0";
         return query(sql, new ProductItemMapper(),id);
@@ -55,6 +61,11 @@ public class ProductItemDAO extends AbstractDAO<ProductItem> implements IProduct
     @Override
     public ProductItem findOne(int id) {
         String sql = "SELECT * FROM productitem WHERE ID = ? and IsDeleted = 0";
+        List<ProductItem> productItems = query(sql, new ProductItemMapper(), id);
+        return productItems.isEmpty() ? null : productItems.get(0);
+    }
+    public ProductItem findOnee(int id) {
+        String sql = "SELECT * FROM productitem WHERE ID = ?";
         List<ProductItem> productItems = query(sql, new ProductItemMapper(), id);
         return productItems.isEmpty() ? null : productItems.get(0);
     }
