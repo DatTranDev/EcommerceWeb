@@ -60,6 +60,13 @@ public class ProductItemDAO extends AbstractDAO<ProductItem> implements IProduct
     }
 
     @Override
+    public ProductItem findOneNotWhereIsDeleted(int id) {
+        String sql = "SELECT * FROM productitem WHERE ID = ?";
+        List<ProductItem> productItems = query(sql, new ProductItemMapper(), id);
+        return productItems.isEmpty() ? null : productItems.get(0);
+    }
+
+    @Override
     public int getTotalItem() {
         String sql = "SELECT count(*) FROM ProductItem";
         return count(sql);

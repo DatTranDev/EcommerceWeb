@@ -78,6 +78,9 @@ public class ProductItemService implements IProductItemService {
         return productItem;
     }
 
+
+
+
     @Override
     public int getTotalItem() {
         return productItemDAO.getTotalItem();
@@ -86,6 +89,18 @@ public class ProductItemService implements IProductItemService {
     @Override
     public int getTotalQuantityOfProduct(int productID) {
         return productItemDAO.getTotalQuantityOfProduct(productID);
+    }
+
+    @Override
+    public ProductItem findOneNotWhereIsDeleted(int id) {
+        ProductItem productItem = productItemDAO.findOneNotWhereIsDeleted(id);
+        if(productItem==null)return null;
+        Product product=productDAO.findOne(productItem.getProductID());
+        productItem.setProduct(product);
+
+        productItem.setListProductConfig(productConfigService.findByProductItemID(productItem.getID()));
+
+        return productItem;
     }
 
     @Override

@@ -15,6 +15,7 @@ public interface IProductItemService {
     int getTotalItem();
     int getTotalQuantityOfProduct(int productID);
 
+    ProductItem findOneNotWhereIsDeleted(int id);
 
     //phuc vu phan chi tiet san pham de chon size mau
     List<ProductItem> getProductItemByProductIDForProductDetail(int productID);

@@ -203,7 +203,8 @@ public class ShopOrderService implements IShopOrderService {
         shopOrderModel.setListOrderLine(orderLineModelList);
 
         for(OrderLineModel orderLineModel:shopOrderModel.getListOrderLine()){
-            ProductItem productItem= productItemService.findOne(orderLineModel.getProductItemID());
+          //  ProductItem productItem= productItemService.findOne(orderLineModel.getProductItemID());
+            ProductItem productItem= productItemService.findOneNotWhereIsDeleted(orderLineModel.getProductItemID());
             if(productItem==null)return null;
             orderLineModel.setProductItem(productItem);
         }
