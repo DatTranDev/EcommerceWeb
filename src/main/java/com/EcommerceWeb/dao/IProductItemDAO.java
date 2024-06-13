@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface IProductItemDAO extends  GenericDAO<ProductItem>{
     List<ProductItem> getAll();
+    List<ProductItem> getAllisDelete();
     List<ProductItem> getProductItemByProductID(int id);
     int add(ProductItem productItem);
     void update(ProductItem productItem);

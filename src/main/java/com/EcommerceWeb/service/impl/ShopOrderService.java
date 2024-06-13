@@ -143,7 +143,7 @@ public class ShopOrderService implements IShopOrderService {
             shopOrderModel.setListOrderLine(orderLineModelList);
 
             for(OrderLineModel orderLineModel:orderLineModelList){
-                ProductItem productItem= productItemService.findOne(orderLineModel.getProductItemID());
+                ProductItem productItem= productItemService.findOnee(orderLineModel.getProductItemID());
                 if(productItem==null) return null;
                 orderLineModel.setProductItem(productItem);
             }
