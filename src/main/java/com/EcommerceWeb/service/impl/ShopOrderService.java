@@ -151,6 +151,13 @@ public class ShopOrderService implements IShopOrderService {
         return ListOrderSuccess;
     }
 
+    @Override
+    public void update(ShopOrderModel shopOrderModel) {
+        if(shopOrderModel!=null){
+            shopOrderDAO.update(shopOrderModel);
+        }
+    }
+
 
     @Override
     public List<ShopOrderModel> findAllByOrderStatusID(int orderStatusID) {

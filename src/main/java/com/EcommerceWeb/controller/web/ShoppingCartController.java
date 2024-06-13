@@ -70,7 +70,7 @@ public class ShoppingCartController extends HttpServlet {
         String id = request.getParameter("orderId");
         if (id != null) {
             //lay don hang muon mua lai theo id
-            ShopOrderModel shopOrderModel = shopOrderService.findOne(Integer.parseInt(id));
+            ShopOrderModel shopOrderModel = shopOrderService.findOnee(Integer.parseInt(id));
             for (OrderLineModel orderLineModel : shopOrderModel.getListOrderLine()) {
                 ShoppingCartItemModel shoppingCartItemModel = new ShoppingCartItemModel();
                 shoppingCartItemModel.setCartID(cardID);

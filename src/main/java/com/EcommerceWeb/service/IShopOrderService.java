@@ -15,7 +15,7 @@ public interface IShopOrderService {
     List<ShopOrderModel> findAllByOrderStatus();
 //    int calculateRevenueByMonth(int month);
 //    int calculateRevenueByYear(int year);
-
+    void update(ShopOrderModel shopOrderModel);
     List<ShopOrderModel> findAllByOrderStatusID(int orderStatusID);
     ShopOrderModel findOne(int id);
     ShopOrderModel findOnee(int id);

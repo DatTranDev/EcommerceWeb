@@ -179,7 +179,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
-                                            <button type="button" class="btn btn-primary">Hủy đơn hàng</button>
+                                            <button type="button" class="btn btn-primary" onclick="redirectToCart(${order.ID},'Hủy đơn hàng')">Hủy đơn hàng</button>
                                             <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Chi tiết đơn hàng</button>
                                         </div>
                                     </div>
@@ -217,7 +217,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
-                                            <button type="button" class="btn btn-primary">Đang vận chuyển</button>
+                                            <button type="button" class="btn btn-primary" onclick="redirectToCart(${order.ID},'Đang vận chuyển')">Đang vận chuyển</button>
                                             <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Chi tiết đơn hàng</button>
                                         </div>
                                     </div>
@@ -254,7 +254,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
-                                            <button type="button" class="btn btn-primary">Mua lại</button>
+                                            <button type="button" class="btn btn-primary" onclick="redirectToCart(${order.ID},'Mua lại')">Mua lại</button>
                                             <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Chi tiết đơn hàng</button>
                                         </div>
                                     </div>
@@ -291,7 +291,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
-                                            <button type="button" class="btn btn-primary">Mua lại</button>
+                                            <button type="button" class="btn btn-primary" onclick="redirectToCart(${order.ID},'Mua lại')">Mua lại</button>
                                             <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Xem chi tiết đơn hàng</button>
                                         </div>
                                     </div>
@@ -328,7 +328,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 text-right order-actions">
-                                            <button type="button" class="btn btn-primary">Mua lại</button>
+                                            <button type="button" class="btn btn-primary" onclick="redirectToCart(${order.ID},'Mua lại')">Mua lại</button>
                                             <button type="button" class="btn btn-secondary" onclick="redirectToOrderDetail(${order.ID})" >Xem chi tiết đơn hàng</button>
                                         </div>
                                     </div>
@@ -389,8 +389,9 @@
         if(Text.trim() === string2.trim()){
             let url = "${pageContext.request.contextPath}/cart?orderId="+orderId;
             window.location.href = url;
-        }else if(Text.trim() === string2.trim()){
-
+        }else if(Text.trim() === string3.trim()){
+            let url = "${pageContext.request.contextPath}/purchase-history?orderId="+orderId;
+            window.location.href = url;
         }
     }
 
