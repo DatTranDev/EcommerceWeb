@@ -88,7 +88,7 @@ public class AddProductIemController extends HttpServlet {
                     String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
                     HttpSession session = request.getSession();
                     session.setAttribute("alert", encodedMessage);
-                    response.sendRedirect(request.getContextPath() + "/admin-editProductItem");
+                    response.sendRedirect(request.getContextPath() + "/admin-addProductItem/"+product.getID());
                     return;
                 }
 
@@ -138,7 +138,7 @@ public class AddProductIemController extends HttpServlet {
                             String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
                             HttpSession session = request.getSession();
                             session.setAttribute("alert", encodedMessage);
-                            response.sendRedirect(request.getContextPath() + "/admin-editProductItem");
+                            response.sendRedirect(request.getContextPath() + "/admin-editProduct/" + product.getID());
                             return;
                         }
                     }
@@ -149,14 +149,14 @@ public class AddProductIemController extends HttpServlet {
                         String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
                         HttpSession session = request.getSession();
                         session.setAttribute("alert", encodedMessage);
-                        response.sendRedirect(request.getContextPath() + "/admin-editProductItem");
+                        response.sendRedirect(request.getContextPath() + "/admin-editProduct/" + product.getID());
                     }
                 } else {
                     String successMessage = "Thêm thất bại";
                     String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
                     HttpSession session = request.getSession();
                     session.setAttribute("alert", encodedMessage);
-                    response.sendRedirect(request.getContextPath() + "/admin-editProductItem");
+                    response.sendRedirect(request.getContextPath() + "/admin-editProduct/" + product.getID());
                     return;
                 }
 

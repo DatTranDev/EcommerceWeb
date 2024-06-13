@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -80,6 +81,13 @@ public class PurchaseHistoryController extends HttpServlet {
                 System.out.println(shopOrderModel.getStatusName()+" "+shopOrderModel.getOrderStatusID());
             }
 
+
+            Collections.reverse(shopOrderModelList);
+            Collections.reverse(prepareShopOrderList);
+            Collections.reverse(deliveryShopOrderList);
+            Collections.reverse(successShopOrderList);
+            Collections.reverse(failShopOrderList);
+            Collections.reverse(cancelShopOrderList);
 
             request.setAttribute("shopOrderModelList", shopOrderModelList);
             request.setAttribute("prepareShopOrderList", prepareShopOrderList);

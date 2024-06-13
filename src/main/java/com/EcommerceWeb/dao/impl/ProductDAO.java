@@ -75,11 +75,13 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 	public double getMinPrice(int id) {
 		String sql = "SELECT * FROM productitem WHERE productid = ? ORDER BY price DESC LIMIT 1;";
 		List<ProductItem> productItems = query(sql, new ProductItemMapper(), id);
+		if(productItems.isEmpty()) return 0;
 		return productItems.get(0).getPrice();
 	}
 	public double getMaxPrice(int id) {
 		String sql = "SELECT * FROM productitem WHERE productid = ? ORDER BY price DESC LIMIT 1;";
 		List<ProductItem> productItems = query(sql, new ProductItemMapper(), id);
+		if(productItems.isEmpty()) return 0;
 		return productItems.get(0).getPrice();
 	}
 	public int getTotalQuantityInStock(int id) {
@@ -110,7 +112,7 @@ public class ProductDAO extends AbstractDAO<Product> implements IProductDAO {
 		return query(sql, new ProductMapper());
 	}
 	public int count() {
-		String sql = "SELECT count(*) FROM product";
+		String sql = "SELECT count(*) FROM product where IsDeleted=0";
 		return count(sql);
 	}
 	public ProductItem findItemByVariation(int id, int color, int size)
