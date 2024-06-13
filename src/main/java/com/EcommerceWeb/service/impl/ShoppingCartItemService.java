@@ -31,11 +31,22 @@ public class ShoppingCartItemService implements IShoppingCartItemService {
         if(list==null){
             return null;
         }
+        List<ShoppingCartItemModel> listDeleted = shoppingCartItemDAO.findByCartID(cardID);
 
         for(ShoppingCartItemModel item : list){
             ProductItem productItem= productItemService.findOne(item.getProductItemID());
+
             item.setProductItem(productItem);
+
+            if(productItem==null){
+                listDeleted.add(item);
+            }
             //item.getProductItem().setQuantityInStock(item.getQuantity());
+        }
+
+
+        for(ShoppingCartItemModel item : listDeleted){
+            list.remove(item);
         }
 
         return list;
