@@ -28,15 +28,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="item" items="${shoppingCartItemModelList}">
+                    <c:forEach var="item" items="${shopOrderModel.getListOrderLine()}">
                         <tr>
                             <th scope="row">
                                 <div class="d-flex align-items-center">
-                                    <img src="${item.productItem.productImage}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
+                                    <img src="${item.productItem.product.productImage}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
                                 </div>
                             </th>
                             <td>
-                                <p class="mb-0 mt-4">${item.product.displayName}</p>
+                                <p class="mb-0 mt-4">${item.productItem.product.displayName}</p>
                             </td>
                             <td>
                                 <p class="mb-0 mt-4">${utils:formatVariation(item.productItem.listProductConfig)}</p>
@@ -46,17 +46,7 @@
                             </td>
                             <td>
                                 <div class="input-group quantity mt-4" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-sm btn-minus rounded-circle bg-light border quantity-button">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
                                     <input type="text" class="form-control form-control-sm text-center border-0 item-quantity" value="${item.quantity}" data-original-value="${item.quantity}" data-max-quantity="${item.productItem.quantityInStock}" data-price="${item.productItem.price}">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-sm btn-plus rounded-circle bg-light border quantity-button">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
                                 </div>
                             </td>
                             <td>
@@ -67,16 +57,59 @@
                     </tbody>
                 </table>
             </div>
-            <div class="mt-5 d-flex justify-content-sm-between">
-                <!-- Time -->
-                <div class="d-flex align-items-center" style="align-self: flex-end">
-                    <h5 class="mb-0">Thời gian: </h5>
-                    <p class="mb-0 ms-2" >${shopOrderModel.orderDate}</p>
+            <div class="mt-5 row">
+                <!-- Phương thức thanh toán -->
+                <div class="col-md-6 d-flex align-items-center justify-content-start">
+                    <h5 class="mb-0">Phương thức thanh toán:</h5>
+                    <p class="mb-0 ms-2" id="payMethod">${shopOrderModel.getPaymentMethod().getDisplayName()}</p>
                 </div>
+                <!-- Chi phí vận chuyển -->
+                <div class="col-md-6 d-flex align-items-center justify-content-end">
+                    <h5 class="mb-0">Chi phí vận chuyển:</h5>
+                    <p class="mb-0 ms-2 text-danger" id="chiPhiVanChuyen">${utils:formatCurrency(chiPhiVanChuyen)}</p>
+                </div>
+
                 <!-- Tổng tiền -->
+                <div class="col-md-6 d-flex align-items-center justify-content-end">
+                    <h5 class="mb-0">Thành tiền:</h5>
+                    <p class="mb-0 ms-2 text-danger" id="totalAmount">${utils:formatCurrency(shopOrderModel.getOrderTotal())}</p>
+                </div>
+            </div>
+<%--            <div class="mt-5 row">--%>
+<%--                <!-- Phương thức thanh toán -->--%>
+<%--                <div class="col-md-6 d-flex align-items-center justify-content-start">--%>
+<%--                    <h5 class="mb-0">Phương thức thanh toán:</h5>--%>
+<%--                    <p class="mb-0 ms-2" id="payMethod">${shopOrderModel.getPaymentMethod().getDisplayName()}</p>--%>
+<%--                </div>--%>
+<%--                <!-- Chi phí vận chuyển -->--%>
+<%--                <div class="col-md-6 d-flex align-items-center justify-content-end">--%>
+<%--                    <h5 class="mb-0">Chi phí vận chuyển:</h5>--%>
+<%--                    <p class="mb-0 ms-2 text-danger" id="chiPhiVanChuyen">${utils:formatCurrency(chiPhiVanChuyen)}</p>--%>
+<%--                </div>--%>
+
+<%--                <!-- Tổng tiền -->--%>
+<%--                <div class="col-md-6 d-flex align-items-center justify-content-end">--%>
+<%--                    <h5 class="mb-0">Thành tiền:</h5>--%>
+<%--                    <p class="mb-0 ms-2 text-danger" id="totalAmount">${utils:formatCurrency(shopOrderModel.getOrderTotal())}</p>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+            <div class="mt-5 d-flex justify-content-start">
+                <!-- Địa chỉ giao hàng -->
                 <div class="d-flex align-items-center">
-                    <h5 class="mb-0">Tổng tiền:</h5>
-                    <p class="mb-0 ms-2" id="totalAmount">${utils:formatCurrency(0)}</p>
+                    <h5 class="mb-0">Địa chỉ giao hàng:</h5>
+                    <p class="mb-0 ms-2" id="Address">${shopOrderModel.getShippingAddress().getValue()}</p>
+                </div>
+                <!-- Tổng tiền sản phẩm -->
+                <div class="col-md-6 d-flex align-items-center justify-content-end">
+                    <h5 class="mb-0">Tổng tiền sản phẩm:</h5>
+                    <p class="mb-0 ms-2 text-danger" id="tongTienSP">${utils:formatCurrency(shopOrderModel.getOrderTotal()-chiPhiVanChuyen)}</p>
+                </div>
+            </div>
+            <div class="mt-5 d-flex justify-content-start">
+                <!-- Phương thức vận chuyển -->
+                <div class="d-flex align-items-center">
+                    <h5 class="mb-0">Phương thức vận chuyển:</h5>
+                    <p class="mb-0 ms-2" id="deliveryMethod">${shopOrderModel.getShippingMethod().getDisplayName()}</p>
                 </div>
             </div>
             <div class="mt-5">
@@ -89,17 +122,7 @@
     </div>
     <!-- Cart Page End -->
 <script>
-    document.addEventListener('DOMContentLoaded', function (){
-        let itemTotal = document.querySelectorAll('.item-total');
-        let totalAmount = document.getElementById('totalAmount');
-        var total = 0;
-        itemTotal.forEach(function (item){
-            console.log(item.innerText);
-            total += parseInt(item.innerText.replace(/[^0-9]/g, ''));
-        });
-        totalAmount.innerText = total.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
 
-    })
 </script>
 
 </body>

@@ -3,10 +3,8 @@ package com.EcommerceWeb.controller.web;
 import com.EcommerceWeb.model.OrderLineModel;
 import com.EcommerceWeb.model.ShopOrderModel;
 import com.EcommerceWeb.model.SiteUser;
-import com.EcommerceWeb.service.IOrderLineService;
-import com.EcommerceWeb.service.IProductItemService;
-import com.EcommerceWeb.service.IProductService;
-import com.EcommerceWeb.service.IShopOrderService;
+import com.EcommerceWeb.service.impl.OrderLineService;
+import com.EcommerceWeb.service.impl.ShopOrderService;
 import com.EcommerceWeb.utils.SessionUtil;
 
 import javax.inject.Inject;
@@ -22,27 +20,28 @@ import java.util.List;
 @WebServlet(urlPatterns = {"/detail-shop-order"})
 public class ShopOrderDetailController extends HttpServlet {
     @Inject
-    IProductService iProductService;
-    @Inject
-    IShopOrderService iShopOrderService;
-    @Inject
-    IProductItemService iProductItemService;
-    @Inject
-    IOrderLineService iOrderLineService;
+    private ShopOrderService shopOrderService;
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        //lay id cua don hang tu request
         String id = request.getParameter("orderId");
-        ShopOrderModel shopOrderModel = iShopOrderService.findOne(Integer.parseInt(id));
-        List<OrderLineModel> orderLineModelList = iOrderLineService.findByOrderID(Integer.parseInt(id));
-        for(OrderLineModel orderLineModel : orderLineModelList){
-            orderLineModel.setProductItem(iProductItemService.findOne(orderLineModel.getProductItemID()));
-            orderLineModel.setProduct(iProductService.findOne(orderLineModel.getProductItem().getProductID()));
+        //tim danh sach san pham co trong don hang
+        ShopOrderModel shopOrderModel = shopOrderService.findOnee(Integer.parseInt(id));
+        //tinh chi phi van chuyen
+        double chiPhiVanChuyen = 0;
+        if(shopOrderModel.getShippingMethod().getID()==1){
+            chiPhiVanChuyen = 50000;
+        }else if(shopOrderModel.getShippingMethod().getID()==2){
+            chiPhiVanChuyen = 30000;
+        }else if(shopOrderModel.getShippingMethod().getID()==3){
+            chiPhiVanChuyen = 80000;
         }
-        request.setAttribute("shoppingCartItemModelList", orderLineModelList);
+        //truyen don hang qua jsp
         request.setAttribute("shopOrderModel", shopOrderModel);
+        request.setAttribute("chiPhiVanChuyen", chiPhiVanChuyen);
+
         RequestDispatcher rd = request.getRequestDispatcher("/views/web/shopOrderDetail.jsp");
-            rd.forward(request, response);
+        rd.forward(request, response);
 
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

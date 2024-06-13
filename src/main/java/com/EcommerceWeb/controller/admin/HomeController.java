@@ -95,7 +95,7 @@ public class HomeController extends HttpServlet{
 			}
 		}
 		//5,7,1
-		List<ProductItem> listProductItem = productItemService.getAll();
+		List<ProductItem> listProductItem = productItemService.getAllisDelete();
 		for(ProductItem productItem : listProductItem){
 			if(productItem.getID() == productItem1.getProductID()){
 				productItem1.setProduct(productItem.getProduct());

@@ -55,12 +55,23 @@ public class PurchaseHistoryController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/error");
         }
         else{
+            //lay id cua don muon huy
+            String idShopOrder = request.getParameter("orderId");
+            if (idShopOrder != null) {
+                //tim don hang muon huy
+                ShopOrderModel donHuy = shopOrderService.findOnee(Integer.parseInt(idShopOrder));
+                //cap nhat trang thai don hang
+                donHuy.setOrderStatusID(5);
+                shopOrderService.update(donHuy);
+                response.sendRedirect(request.getContextPath() + "/purchase-history");
+                return;
+            }
 
             String orderStatusName="";
             String describeOrder="";
             for(ShopOrderModel shopOrderModel : shopOrderModelList) {
                 if(shopOrderModel.getOrderStatusID()==1){
-                    describeOrder="Đang chuẩn bị";
+                    describeOrder="Hủy đơn hàng";
                     orderStatusName="Đang chuẩn bị";
 
                 }else if(shopOrderModel.getOrderStatusID()==2){
@@ -103,8 +114,6 @@ public class PurchaseHistoryController extends HttpServlet {
 
 
         }
-
-
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
