@@ -62,11 +62,13 @@
                         <h5 id="productPrice" class="fw-bold mb-3">${formattedPrice}</h5>
                         <h5 class="fw-bold mb-3">${formattedPrice}</h5>
                         <div class="d-flex mb-4">
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star"></i>
+                            <c:forEach var="i" begin="1" end="${RoundAvg}">
+                                <i class="fas fa-star text-secondary" style="margin-top: 4px"></i>
+                            </c:forEach>
+                            <c:forEach var="i" begin="1" end="${5 - RoundAvg}">
+                                <i class="fas fa-star" style="margin-top: 4px"></i>
+                            </c:forEach>
+                            <p style="margin-left: 12px">(${AvgRating})</p>
                         </div>
                         <p class="mb-4">${Product.description}</p>
 
@@ -148,7 +150,7 @@
                                         aria-controls="nav-about" aria-selected="true">Mô tả</button>
                                 <button class="nav-link border-white border-bottom-0" type="button" role="tab"
                                         id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
-                                        aria-controls="nav-mission" aria-selected="false">Đánh giá từ khách hàng </button>
+                                        aria-controls="nav-mission" aria-selected="false">Đánh giá từ khách hàng (${CountRating}) </button>
                             </div>
                         </nav>
                         <div class="tab-content mb-5">
@@ -160,15 +162,15 @@
                                 <c:forEach var="item" items="${UserReview}">
                                     <div class="d-flex">
                                         <img src="${pageContext.request.contextPath}/template/web/img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
-                                        <div class="">
-                                            <div class="d-flex justify-content-between">
-                                                <h5>${item.username}</h5>
+                                        <div style="display: flex;flex-direction: column;justify-content: center">
+                                            <div class="d-flex">
+                                                <h5 style="margin-right: 8px">${item.username}</h5>
                                                 <div class="d-flex mb-3">
                                                     <c:forEach var="i" begin="1" end="${item.ratingValue}">
-                                                        <i class="fas fa-star text-secondary"></i>
+                                                        <i class="fas fa-star text-secondary" style="margin-top: 4px"></i>
                                                     </c:forEach>
                                                     <c:forEach var="i" begin="1" end="${5 - item.ratingValue}">
-                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star" style="margin-top: 4px"></i>
                                                     </c:forEach>
                                                 </div>
                                             </div>

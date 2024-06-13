@@ -101,7 +101,29 @@ public class ProductController extends HttpServlet {
 
                         List<UserReview> userReviews = userReviewService.getReviewByProductID(id);
                         request.setAttribute("UserReview", userReviews);
+                        float avgRating = 0;
+                        if(userReviews!=null) {
 
+                            for (int i = 0; i < userReviews.size(); i++) {
+                                avgRating += userReviews.get(i).getRatingValue();
+                            }
+                            avgRating = avgRating / userReviews.size();
+
+                            avgRating = Math.round(avgRating * 10) / 10.0f;
+
+                            int roundAvg = Math.round(avgRating);
+
+
+
+                            request.setAttribute("AvgRating", avgRating);
+                            request.setAttribute("CountRating", userReviews.size());
+                            request.setAttribute("RoundAvg", roundAvg);
+                        }
+                        else{
+                            request.setAttribute("AvgRating", 0);
+                            request.setAttribute("CountRating", 0);
+                            request.setAttribute("RoundAvg", 0);
+                        }
                         RequestDispatcher rd = request.getRequestDispatcher("/views/web/productDetail.jsp");
                         rd.forward(request, response);
                     } else {
