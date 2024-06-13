@@ -48,6 +48,8 @@
                                         id="quantity"
                                         name="quantity"
                                         type="number"
+                                        min="0"
+                                        step="1"
                                         class="form-control validate"
                                         required
                                 />
@@ -62,6 +64,8 @@
                                         name="price"
                                         type="number"
                                         class="form-control validate"
+                                        min="0"
+                                        step="any"
                                         required
                                 />
                             </div>

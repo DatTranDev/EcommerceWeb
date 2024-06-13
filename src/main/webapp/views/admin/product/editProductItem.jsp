@@ -57,6 +57,8 @@
                                         name="quantity"
                                         type="number"
                                         class="form-control validate"
+                                        min="0"
+                                        step="1"
                                         value="${productItem.quantityInStock}"
                                         required
                                 />
@@ -72,6 +74,8 @@
                                         type="number"
                                         class="form-control validate"
                                         value="${productItem.price}"
+                                        min="0"
+                                        step="any"
                                         required
                                 />
                             </div>
