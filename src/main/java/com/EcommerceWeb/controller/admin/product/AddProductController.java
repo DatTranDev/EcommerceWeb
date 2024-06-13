@@ -81,7 +81,7 @@ public class AddProductController extends HttpServlet {
         }
         else
         {
-            String successMessage = "Thêm sản phẩm thất baị";
+            String successMessage = "Thêm sản phẩm thất bại";
             String encodedMessage = URLEncoder.encode(successMessage, "UTF-8");
             HttpSession session = request.getSession();
             session.setAttribute("alert", encodedMessage);
