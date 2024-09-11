@@ -24,7 +24,7 @@ Before you begin, ensure you have met the following requirements:
 -  MySQL
 
 ### Installation
--  Clone the repository: `https://github.com/yourusername/ecommerce-website.git`
+-  Clone the repository: `https://github.com/DatTranDev/EcommerceWeb`
 -  Configure the database connection in src/main/resources/db.properties.
 -  Create the MySQL database:
 -  Run the EcommerceWeb.sql to build and start the backend server:
